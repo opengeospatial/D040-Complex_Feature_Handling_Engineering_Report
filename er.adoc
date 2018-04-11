@@ -45,7 +45,7 @@
 // https://portal.opengeospatial.org/?m=public&subtab=request&tab=1.
 // *****************************************************************************
 
-:docReference: OGC XX-XXX
+:docReference: OGC 18-021
 
 // *****************************************************************************
 // Date posted to OGC Portal>Pending Documents, with format: yyyy-mm-dd.
@@ -57,13 +57,13 @@
 // Names of all editors, comma-separated (e.g., John Doe, Sue Smith)
 // *****************************************************************************
 
-:editor: Name(s)
+:editor: Clemens Portele
 
 // *****************************************************************************
 // Proposed working group for review (e.g. Architecture DWG, WCS SWG)
 // *****************************************************************************
 
-:workingGroup: SWG/DWG for Review: Name(s)
+:workingGroup: SWG/DWG for Review: WFS/FES SWG
 
 // *****************************************************************************
 // End of Editor's front-matter elements.
