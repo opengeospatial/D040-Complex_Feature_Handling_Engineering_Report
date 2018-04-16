@@ -1,37 +1,105 @@
 == Summary
-(( A The following is, as all texts in double square brackets, a helper text. Please remove this and all other helper texts once done. ))
 
-(( The Summary clause shall define without ambiguity the subject of this document and the aspect(s) covered. It shall be succinct so that it can be used as a text for bibliographic purposes. Briefly, it shall contain the key results of the work described in the ER. ))
+link:https://github.com/opengeospatial/WFS_FES[WFS 3.0] is a revision of the
+link:http://www.opengeospatial.org/standards/wfs[OGC Web Feature Service standard] that proposes a
+modernized service architecture, that follows the current Web architecture, has
+a focus on the developer experience, supports the link:https://www.openapis.org/[OpenAPI specification], and
+modularizes WFS into building blocks for fine-grained access to spatial data
+that can be used in data APIs.
 
-(( The summary shall further contain a business value statement that should describe the value of this Engineering Report to improve interoperability, advance location-based technologies or realize innovations. ))
+This document reviews the work on this next generation of OGC web services
+("NextGen services") from the perspective of supporting complex 3D data or
+complex data schemas. The goal is to identify the best service solution for
+these particular needs, whether the result are WFS 3.0 extensions or other
+approaches. In this context the approach that the NextGen services are not
+monolithic web services, but API building blocks, is important. The same API
+should be able to support requirements that currently require separate OGC
+web services, e.g. a WFS and a 3DPS server.
 
-(( The summary shall contain the key findings in a concise form. A more detailed description of the findings should be in the body of the report. ))
+The report will eventually propose how to extend the NextGen service architecture
+with API building blocks for complex data, complex queries and 3D portrayal.
+WFS 3.0, Part 1, is used as the starting point for the NextGen service architecture.
+The proposals will be based on existing requirements and use cases. They should
+be developer-friendly.
 
-(( This section shall be between 2-3 paragraphs and not longer than 507 words.))
+NOTE: TODO +
+Add key results later in the testbed in a concise form.
 
 === Requirements & Research Motivation
-(( A precise descriptions of the requirements that have been addressed by the work documented in this Engineering Report; together with the research motivation that answers the fundamental question: What motivated us to address this topic in this report? ))
+
+The current work on WFS 3.0 has focused on simple features and interaction,
+interrogation and extraction of these. However there are more complex use
+cases that require 3D data and/or more complex data schemas to achieve a
+users desired outcome.
+
+This report will document real-world use cases and requirements that feature
+servers will have to support in the future, besides the essential capabilities
+specified in Part 1 of the WFS 3.0 series. These will include the following:
+
+* Querying / filtering features based on properties of related or nested objects
+or structured data types, including cases where more that one level of
+relationships/nesting is used;
+* Querying / filtering features based on expressions build from complex predicates
+consisting of predicate groups and combinations of logical operators;
+* Querying feature data and returning only parts of the features (selected
+properties, a single property only, etc.);
+* Access to and query of solid geometries and other geometries in a 3D CRS;
+* Use of responses for display in a web browser;
+* Accessing different versions (including historic representations) of features.
+
+The use cases will cover aspects like CityGML, CityGML ADEs, 3DPS, and WFS 2.0
+interactions, but use other complex data schemas as background, too.
+
+Based on the identified requirements, this report will address the following
+aspects:
+
+* Assessment of what use cases, especially those that utilise 3D or more
+complex data schemas, would require more complex interactions than the
+current WFS 3.0, Part 1, draft would provide;
+* Assessment of current OGC standards and community standards on the basis
+of both supporting the uses cases captured and alignment to NextGen service
+approaches, including a review around the interaction between 3DPS and WFS 2.0.
+* Recommendations for the most appropriate way to support these use cases
+within the NextGen service architecture;
+
+Developer requirements will be taken into account in the design. That is, the
+implementation of the proposed design should be as simple as possible (given the
+advanced, complex requirements). This includes research for available libraries
+that support implementations. The OGC community is not the only one implementing
+rich queries on complex data.
 
 === Prior-After Comparison
-(( This section shall provide a prior-after comparison. It describes the situation/status of discussion in the OGC working groups being most relevant for the addressed topic. This part is reviewed in close detail by the appropriate SWG/DWG to ensure that the latest developments have been considered. The section will be complemented at the end of the initiative by comparing the results documented in the ER with the original situation. ))
+
+The current work on WFS 3.0 in the WFS/FES SWG has focused on simple features and interaction, interrogation and extraction of these. However there are more complex use cases that require 3D data and/or more complex data schemas to achieve a users desired outcome.
+
+This work will propose extensions to the NextGen service architecture to support such use cases.
+
+Initial discussions about related topics are:
+
+* Placeholder issue in the WFS 3.0 repository for richer query capabilities: link:https://github.com/opengeospatial/WFS_FES/issues/79[WFS 3.0 Search extension]
+* REST binding in the WFS 2.x and FES 2.x draft specifications: link:https://portal.opengeospatial.org/index.php?m=projects&a=view&project_id=390&tab=2&artifact_id=56200[Document folder in the OGC portal (only accessible to OGC WFS/FES SWG members)]
+
+Like the work in the WFS/FES SWG on WFS 3.0, the work on this report will be open to the public from the beginning in order to get feedback from developers as early as possible.
+
+The formal review of the draft report before it will be submitted to the OGC Technical Committee for consideration and publication as an OGC Engineering Report will be by the WFS/FES SWG.
 
 === Recommendations for Future Work
-(( This section should answer the question: What does this ER mean for the Working Group and OGC in general? What aspects shall be addressed next? In any specific order? What actions are necessary? ))
 
-(( This is a write up for why this ER should be important to the working group and OGC. This paragraph provides recommendations on how to further proceed with the achievements documented in this ER. ))
+NOTE: TODO +
+This section will be added later and discuss what aspects should be addressed next and which actions are necessary.
 
 ===	Document contributor contact points
 
-All questions regarding this document should be directed to the editor or the contributors:
+All questions regarding this document should be directed to the editor or the
+contributors:
 
 *Contacts*
 [width="80%",options="header",caption=""]
 |====================
 |Name |Organization
-|Clemens Portele | interactive instruments
-|Volker Coors | Hochschule für Technik Stuttgart
+|Clemens Portele _(editor)_ |interactive instruments GmbH
+|Volker Coors |Hochschule für Technik Stuttgart
 |====================
-
 
 // *****************************************************************************
 // Editors please do not change the Foreword.
