@@ -1,3 +1,12 @@
+# This Repository is public.
+Although the progress achieved within this repository will result in an Engineering Report that is to be submitted to the Open Geospatial Consortium's Technical Committee for approval, OGC Testbed 14 has agreed to allow the development of this Engineering Report to be open to the public.  There are three rules:
+
+* Comments may be provided using the GitHub "Issues" tool.
+* The contributor understands and accepts that all copyright and other intellectual property rights for any contributions incorporated from submitted Issues will be vested to the OGC.
+* Issues will be responded to on a best-effort basis, and some might not be responded to at all.
+
+The reminder of this file is the original text of the Readme as instructions to the editor(s).
+
 # er_template
 This is a template proposed for Testbed-14 Engineering Reports.  The objective is for editors to check this out (Clone a version) and begin editing it with a tool such as e.g. Atom editor and Asciidoctor conversion tool.
 
