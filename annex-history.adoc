@@ -7,5 +7,5 @@
 |====================
 |Date |Editor |Release |Primary clauses modified |Descriptions
 |April 11, 2018 |C. Portele |0.1 |1 |initial version
-|May 8, 2018 |C. Portele |0.2 |2-8 |add document structure
+|May 8, 2018 |C. Portele |0.2 |2-8 |add document structure, initial use case template
 |====================

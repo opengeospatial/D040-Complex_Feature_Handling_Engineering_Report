@@ -1,17 +1,17 @@
 [[overview]]
 == Overview
 
-Section 5 documents real-world use cases and requirements that more advanced feature
+<<use_cases,Section 5>> documents real-world use cases and requirements that more advanced feature
 servers will have to support in the future, besides the essential capabilities
 specified in Part 1 of the WFS 3.0 series.
 
-Section 6 analyses the use cases and identifies the requirements that would
+<<analysis,Section 6>> analyses the use cases and identifies the requirements that would
 require more complex interactions than those supported by the current draft
 of WFS 3.0, Part 1.
 
-Section 7 assesses current OGC standards and community standards with respect
+<<standards,Section 7>> assesses current OGC standards and community standards with respect
 to the use cases and the approach to a next generation of OGC services ("NextGen
 services") based on the approach taken by WFS 3.0.
 
-Section 8 provides recommendations for the most appropriate way to support the
+<<recommendations,Section 8>> provides recommendations for the most appropriate way to support the
 use cases within the NextGen service architecture.

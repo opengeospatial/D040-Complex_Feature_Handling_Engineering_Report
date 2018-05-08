@@ -1,0 +1,28 @@
+=== _Name of the use case_
+
+_A paragraph of text describing the scope of the use case._
+
+==== Categories
+
+The following aspects are covered by this use case:
+
+_Check all categories that apply_
+
+* [x] Querying features based on properties of related or nested objects or structured data types (one level)
+* [ ] Querying features based on properties of related or nested objects or structured data types (several levels)
+* [ ] Querying features based on expressions built from complex predicates consisting of predicate groups and combinations of logical operators
+* [ ] Querying feature data and returning only parts of the features (selected properties, a single property only, etc.)
+* [x] Querying feature data and returning additional features linked to the selected features
+* [ ] Access to and query of solid geometries and other geometries in a 3D CRS
+* [ ] Use of responses for display in a web browser
+* [ ] Accessing different versions (including historic representations) of features
+
+NOTE: Do we need more categories? Or another categorisation?
+
+==== Data
+
+_Description of the dataset, including information about / links to the schema; if available, a link to the GML application schema. Highlight specific aspects about "complexity" that make this relevant for this document._
+
+==== Queries
+
+_Description of the queries and expected responses. Include WFS 2.0 Filter Encoding expressions and sample responses, if available. If other technologies are used, include sample requests and responses using those technologies. Highlight specific aspects about "complexity" that make this relevant for this document. If multiple related queries are described, use sub-sections for each query._

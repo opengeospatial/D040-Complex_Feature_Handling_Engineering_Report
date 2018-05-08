@@ -3,5 +3,5 @@
 
 The following normative documents are referenced in this document.
 
-* [[WFS30]] OGC: https://portal.opengeospatial.org/files/?artifact_id=79027&version=1[17-069, OGC Web Feature Service 3.0: Part 1 - Core, Version 3.0.0-draft.1]
+* [[wfs30]] OGC: https://cdn.rawgit.com/opengeospatial/WFS_FES/3.0.0-draft.1/docs/17-069.html[OGC Web Feature Service 3.0: Part 1 - Core, Version 3.0.0-draft.1 (OGC 17-069)]
 * [[OpenAPI]] Open API Initiative: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md[OpenAPI Specification 3.0.1]

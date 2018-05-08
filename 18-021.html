@@ -827,7 +827,18 @@ To obtain additional rights of use, visit <a href="http://www.opengeospatial.org
 </ul>
 </li>
 <li><a href="#overview">4. Overview</a></li>
-<li><a href="#use_cases">5. Use Cases</a></li>
+<li><a href="#use_cases">5. Use cases</a>
+<ul class="sectlevel2">
+<li><a href="#_introduction">5.1. Introduction</a></li>
+<li><a href="#_em_name_of_the_use_case_em">5.2. <em>Name of the use case</em></a>
+<ul class="sectlevel3">
+<li><a href="#_categories">5.2.1. Categories</a></li>
+<li><a href="#_data">5.2.2. Data</a></li>
+<li><a href="#_queries">5.2.3. Queries</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a href="#analysis">6. Requirements analysis</a></li>
 <li><a href="#standards">7. Assessment of OGC and community standards</a></li>
 <li><a href="#recommendations">8. Recommendations</a></li>
@@ -1047,7 +1058,7 @@ contributors:</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a id="WFS30"></a> OGC: <a href="https://portal.opengeospatial.org/files/?artifact_id=79027&amp;version=1">17-069, OGC Web Feature Service 3.0: Part 1 - Core, Version 3.0.0-draft.1</a></p>
+<p><a id="wfs30"></a> OGC: <a href="https://cdn.rawgit.com/opengeospatial/WFS_FES/3.0.0-draft.1/docs/17-069.html">OGC Web Feature Service 3.0: Part 1 - Core, Version 3.0.0-draft.1 (OGC 17-069)</a></p>
 </li>
 <li>
 <p><a id="OpenAPI"></a> Open API Initiative: <a href="https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md">OpenAPI Specification 3.0.1</a></p>
@@ -1099,29 +1110,86 @@ contributors:</p>
 <h2 id="overview"><a class="anchor" href="#overview"></a>4. Overview</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Section 5 documents real-world use cases and requirements that more advanced feature
+<p><a href="#use_cases">Section 5</a> documents real-world use cases and requirements that more advanced feature
 servers will have to support in the future, besides the essential capabilities
 specified in Part 1 of the WFS 3.0 series.</p>
 </div>
 <div class="paragraph">
-<p>Section 6 analyses the use cases and identifies the requirements that would
+<p><a href="#analysis">Section 6</a> analyses the use cases and identifies the requirements that would
 require more complex interactions than those supported by the current draft
 of WFS 3.0, Part 1.</p>
 </div>
 <div class="paragraph">
-<p>Section 7 assesses current OGC standards and community standards with respect
+<p><a href="#standards">Section 7</a> assesses current OGC standards and community standards with respect
 to the use cases and the approach to a next generation of OGC services ("NextGen
 services") based on the approach taken by WFS 3.0.</p>
 </div>
 <div class="paragraph">
-<p>Section 8 provides recommendations for the most appropriate way to support the
+<p><a href="#recommendations">Section 8</a> provides recommendations for the most appropriate way to support the
 use cases within the NextGen service architecture.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="use_cases"><a class="anchor" href="#use_cases"></a>5. Use Cases</h2>
+<h2 id="use_cases"><a class="anchor" href="#use_cases"></a>5. Use cases</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_introduction"><a class="anchor" href="#_introduction"></a>5.1. Introduction</h3>
+<div class="paragraph">
+<p>This section will document real-world use cases and requirements that more advanced feature
+servers will have to support in the future, besides the essential capabilities
+specified in Part 1 of the WFS 3.0 series.</p>
+</div>
+<div class="paragraph">
+<p>The use cases will cover aspects like CityGML, CityGML ADEs, 3DPS, and WFS 2.0
+interactions, but use other complex data schemas as background, too.</p>
+</div>
+<div class="paragraph">
+<p>The following section is a use case template for discussion (text
+in <em>italics</em> has to be replaced).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_em_name_of_the_use_case_em"><a class="anchor" href="#_em_name_of_the_use_case_em"></a>5.2. <em>Name of the use case</em></h3>
+<div class="paragraph">
+<p><em>A paragraph of text describing the scope of the use case.</em></p>
+</div>
+<div class="sect3">
+<h4 id="_categories"><a class="anchor" href="#_categories"></a>5.2.1. Categories</h4>
+<div class="paragraph">
+<p>The following aspects are covered by this use case:</p>
+</div>
+<div class="paragraph">
+<p><em>Check all categories that apply</em></p>
+</div>
+<div class="ulist checklist">
+<ul class="checklist">
+<li>
+<p>&#10003; Querying features based on properties of related or nested objects or structured data types (one level)</p>
+</li>
+<li>
+<p>&#10063; Querying features based on properties of related or nested objects or structured data types (several levels)</p>
+</li>
+<li>
+<p>&#10063; Querying features based on expressions built from complex predicates consisting of predicate groups and combinations of logical operators</p>
+</li>
+<li>
+<p>&#10063; Querying feature data and returning only parts of the features (selected properties, a single property only, etc.)</p>
+</li>
+<li>
+<p>&#10003; Querying feature data and returning additional features linked to the selected features</p>
+</li>
+<li>
+<p>&#10063; Access to and query of solid geometries and other geometries in a 3D CRS</p>
+</li>
+<li>
+<p>&#10063; Use of responses for display in a web browser</p>
+</li>
+<li>
+<p>&#10063; Accessing different versions (including historic representations) of features</p>
+</li>
+</ul>
+</div>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -1129,13 +1197,24 @@ use cases within the NextGen service architecture.</p>
 <div class="title">Note</div>
 </td>
 <td class="content">
-TODO<br>
-This section will document real-world use cases and requirements that more advanced feature
-servers will have to support in the future, besides the essential capabilities
-specified in Part 1 of the WFS 3.0 series.
+Do we need more categories? Or another categorisation?
 </td>
 </tr>
 </table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_data"><a class="anchor" href="#_data"></a>5.2.2. Data</h4>
+<div class="paragraph">
+<p><em>Description of the dataset, including information about / links to the schema; if available, a link to the GML application schema. Highlight specific aspects about "complexity" that make this relevant for this document.</em></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_queries"><a class="anchor" href="#_queries"></a>5.2.3. Queries</h4>
+<div class="paragraph">
+<p><em>Description of the queries and expected responses. Include WFS 2.0 Filter Encoding expressions and sample responses, if available. If other technologies are used, include sample requests and responses using those technologies. Highlight specific aspects about "complexity" that make this relevant for this document. If multiple related queries are described, use sub-sections for each query.</em></p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1232,7 +1311,7 @@ use cases within the NextGen service architecture.
 <td class="tableblock halign-left valign-top"><p class="tableblock">C. Portele</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0.2</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2-8</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">add document structure</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">add document structure, initial use case template</p></td>
 </tr>
 </tbody>
 </table>
