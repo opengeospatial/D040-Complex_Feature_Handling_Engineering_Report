@@ -17,7 +17,7 @@ Although the progress achieved within this repository will result in an Engineer
 * The contributor understands and accepts that all copyright and other intellectual property rights for any contributions incorporated from submitted Issues will be vested to the OGC.
 * Issues will be responded to on a best-effort basis, and some might not be responded to at all.
 
-In addition to the issues on GitHub, we have also set up a [![Gitter chat at https://gitter.im/opengeospatial/T14-ComplexFeatureHandling](https://badges.gitter.im/T14-ComplexFeatureHandling.svg)](https://gitter.im/opengeospatial/T14-ComplexFeatureHandling?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge).
+In addition to the issues on GitHub, we have also set up a Gitter chat [![Gitter chat at https://gitter.im/opengeospatial/T14-ComplexFeatureHandling](https://badges.gitter.im/T14-ComplexFeatureHandling.svg)](https://gitter.im/opengeospatial/T14-ComplexFeatureHandling?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge).
 
 # Status
 
