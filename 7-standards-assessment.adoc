@@ -1,0 +1,7 @@
+[[standards]]
+== Assessment of OGC and community standards
+
+NOTE: TODO +
+This section will assesses current OGC standards and community standards with respect
+to the use cases and the approach to a next generation of OGC services ("NextGen
+services") based on the approach taken by WFS 3.0.

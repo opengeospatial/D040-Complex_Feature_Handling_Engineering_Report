@@ -1,0 +1,6 @@
+[[recommendations]]
+== Recommendations
+
+NOTE: TODO +
+This section will provide recommendations for the most appropriate way to support the
+use cases within the NextGen service architecture.

@@ -1,0 +1,7 @@
+[[analysis]]
+== Requirements analysis
+
+NOTE: TODO +
+This section will analyse the use cases and identifies the requirements that would
+require more complex interactions than those supported by the current draft
+of WFS 3.0, Part 1.

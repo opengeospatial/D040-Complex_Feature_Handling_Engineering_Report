@@ -1,0 +1,7 @@
+[[use_cases]]
+== Use Cases
+
+NOTE: TODO +
+This section will document real-world use cases and requirements that more advanced feature
+servers will have to support in the future, besides the essential capabilities
+specified in Part 1 of the WFS 3.0 series.

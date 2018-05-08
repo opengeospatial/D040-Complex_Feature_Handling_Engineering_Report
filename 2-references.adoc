@@ -3,6 +3,5 @@
 
 The following normative documents are referenced in this document.
 
-.NOTE: 	Only normative standards are referenced here, e.g. OGC, ISO or other SDO standards. All other references are listed in the bibliography. Example:
-
-* https://portal.opengeospatial.org/files/?artifact_id=38867&version=2[OGC 06-121r9, OGC® Web Services Common Standard]
+* [[WFS30]] OGC: https://portal.opengeospatial.org/files/?artifact_id=79027&version=1[17-069, OGC Web Feature Service 3.0: Part 1 - Core, Version 3.0.0-draft.1]
+* [[OpenAPI]] Open API Initiative: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md[OpenAPI Specification 3.0.1]
