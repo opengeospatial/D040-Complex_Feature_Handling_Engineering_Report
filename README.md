@@ -13,9 +13,11 @@ The files in this repository use the [AsciiDoc template used by the Open Geospat
 
 Although the progress achieved within this repository will result in an Engineering Report that is to be submitted to the Open Geospatial Consortium's Technical Committee for approval, OGC Testbed 14 has agreed to allow the development of this Engineering Report to be open to the public. There are three rules:
 
-* Comments may be provided using the GitHub "Issues" tool.
+* Comments may be provided using [GitHub issues](https://github.com/opengeospatial/D040-Complex_Feature_Handling_Engineering_Report/issues).
 * The contributor understands and accepts that all copyright and other intellectual property rights for any contributions incorporated from submitted Issues will be vested to the OGC.
 * Issues will be responded to on a best-effort basis, and some might not be responded to at all.
+
+In addition to the issues on GitHub, we have also set up a [![Gitter chat at https://gitter.im/opengeospatial/T14-ComplexFeatureHandling](https://badges.gitter.im/T14-ComplexFeatureHandling.svg)](https://gitter.im/opengeospatial/T14-ComplexFeatureHandling?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge).
 
 # Status
 
