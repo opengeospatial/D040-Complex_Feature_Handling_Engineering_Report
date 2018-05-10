@@ -19,6 +19,14 @@ Although the progress achieved within this repository will result in an Engineer
 
 In addition to the issues on GitHub, we have also set up a Gitter chat [![Gitter chat at https://gitter.im/opengeospatial/T14-ComplexFeatureHandling](https://badges.gitter.im/T14-ComplexFeatureHandling.svg)](https://gitter.im/opengeospatial/T14-ComplexFeatureHandling?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge).
 
+# Intellectual Property Rights
+
+The content of this document is copyrighted by the Open Geospatial Consortium (OGC) and may be [licensed](https://github.com/opengeospatial/D040-Complex_Feature_Handling_Engineering_Report/blob/master/LICENSE) for designated purposes.
+
+Attention is drawn to the possibility that some of the elements of this document may be the subject of patent rights. The Open Geospatial Consortium shall not be held responsible for identifying any or all such patent rights.
+
+Recipients of this document are requested to submit, with their comments, notification of any relevant patent claims or other intellectual property rights of which they may be aware that might be infringed by any implementation of the standard set forth in this document, and to provide supporting documentation.
+
 # Status
 
 The work on the Engineering Report is just starting. Most of the contents are still the original chapters from the template. Currently only chapter 1 ("Summary") has been updated.
