@@ -23,9 +23,7 @@ In addition to the issues on GitHub, we have also set up a Gitter chat [![Gitter
 
 The content of this document is copyrighted by the Open Geospatial Consortium (OGC) and may be [licensed](https://github.com/opengeospatial/D040-Complex_Feature_Handling_Engineering_Report/blob/master/LICENSE) for designated purposes.
 
-=============
-NOTE: The language below should already be included in the `1-summary.adoc` source file. It is replicated here for convenience.
-=============
+> NOTE: The language below should already be included in the `1-summary.adoc` source file. It is replicated here for convenience.
 
 Attention is drawn to the possibility that some of the elements of this document may be the subject of patent rights. The Open Geospatial Consortium shall not be held responsible for identifying any or all such patent rights.
 
