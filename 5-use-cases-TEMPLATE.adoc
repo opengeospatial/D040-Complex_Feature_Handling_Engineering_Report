@@ -1,8 +1,8 @@
 === _Name of the use case_
 
-_A paragraph of text describing the scope of the use case._
+==== Description
 
-==== Categories
+_A paragraph of text describing the scope of the use case._
 
 The following aspects are covered by this use case:
 

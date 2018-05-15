@@ -1,0 +1,110 @@
+[[uc-select-associations]]
+=== Select features based on related features (multiple associations)
+
+==== Description
+
+This example is similar to the <<uc-select-association,previous one>>,
+but uses value references along multiple associations.
+
+The following aspects are covered by this use case:
+
+* Querying features based on properties of related or nested objects or structured data types (several levels)
+
+==== Data
+
+The dataset is the same as in the <<uc-select-association,previous use case>>.
+
+The example query use the following feature types. This is simplified, the actual
+schema and data is much more complex and reflects the legal requirements of the
+German land register.
+
+CadastralParcel (AX_Flurstueck)::
+  A cadastral parcel.
+
+Record (multiple feature types)::
+  An entry in the land register.
+
+Person (AX_Person)::
+  A person that has some rights or responsibilities related to one or more parcels.
+
+[#img_CP,reftext='{figure-caption} {counter:figure-num}']
+.UML class diagram for features in use case "Select features based on related features (multiple associations)"
+[plantuml, images/Person, png, align="center"]
+....
+@startuml
+hide methods
+class CadastralParcel <<featureType>> {
+  +parcelId : CharacterString
+  +position : GM_MultiSurface
+}
+class Record <<featureType>> {
+  +recordId : CharacterString
+  +right: RightType
+}
+class Person <<featureType>> {
+  +firstName : CharacterString
+  +lastName : CharacterString
+}
+
+Record "1..*" -- "1..*" CadastralParcel : relatedTo >
+Record "0..*" -- "0..*" Record : related >
+Person "0..*" -- "0..*" Record : partOf >
+@enduml
+....
+
+==== Query
+
+The following WFS query selects all Person (AX_Person) features, that are
+related to cadastral parcels in a bounding box, e.g. own the parcel or
+have some rights. The filter uses a value reference along
+multiple associations: `partOf/Record/relatedTo/CadastralParcel/position`
+(the first value reference) or
+`partOf/Record/related/Record/relatedTo/CadastralParcel/position`
+(the second value reference).
+
+```
+https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?
+  service=WFS&
+  version=2.0.0&
+  request=GetFeature&
+  namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&
+  typenames=adv:AX_Person&
+  filter=
+  <fes:Filter
+    xmlns:adv="http://www.adv-online.de/namespaces/adv/gid/6.0"
+    xmlns:gml="http://www.opengis.net/gml/3.2"
+    xmlns:fes="http://www.opengis.net/fes/2.0">
+    <fes:Or>
+      <fes:Intersects>
+        <fes:ValueReference>
+          adv:weistAuf/adv:AX_Namensnummer/adv:istBestandteilVon/
+          adv:AX_Buchungsblatt/adv:bestehtAus/adv:AX_Buchungsstelle/
+          adv:grundstueckBestehtAus/adv:AX_Flurstueck/adv:position
+        </fes:ValueReference>
+        <gml:Envelope
+          srsName="http://www.opengis.net/def/crs/epsg/0/25832">
+          <gml:lowerCorner>361000 5610000</gml:lowerCorner>
+          <gml:upperCorner>362000 5620000</gml:upperCorner>
+        </gml:Envelope>
+      </fes:Intersects>
+      <fes:Intersects>
+        <fes:ValueReference>
+          adv:weistAuf/adv:AX_Namensnummer/adv:istBestandteilVon/
+          adv:AX_Buchungsblatt/adv:bestehtAus/adv:AX_Buchungsstelle/
+          adv:an/adv:AX_Buchungsstelle/adv:grundstueckBestehtAus/
+          adv:AX_Flurstueck/adv:position
+        </fes:ValueReference>
+        <gml:Envelope
+          srsName="http://www.opengis.net/def/crs/epsg/0/25832">
+          <gml:lowerCorner>361000 5610000</gml:lowerCorner>
+          <gml:upperCorner>362000 5620000</gml:upperCorner>
+        </gml:Envelope>
+      </fes:Intersects>
+    </fes:Or>
+  </fes:Filter>
+```
+
+The result is a feature collection with the person features matching the query.
+
+Due to privacy regulations, the land register data is not open data and no
+live query link can be provided.

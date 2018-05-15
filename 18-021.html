@@ -830,11 +830,25 @@ To obtain additional rights of use, visit <a href="http://www.opengeospatial.org
 <li><a href="#use_cases">5. Use cases</a>
 <ul class="sectlevel2">
 <li><a href="#_introduction">5.1. Introduction</a></li>
-<li><a href="#_em_name_of_the_use_case_em">5.2. <em>Name of the use case</em></a>
+<li><a href="#uc-select-association">5.2. Select features based on related features (one association)</a>
 <ul class="sectlevel3">
-<li><a href="#_categories">5.2.1. Categories</a></li>
+<li><a href="#_description">5.2.1. Description</a></li>
 <li><a href="#_data">5.2.2. Data</a></li>
 <li><a href="#_queries">5.2.3. Queries</a></li>
+</ul>
+</li>
+<li><a href="#uc-select-associations">5.3. Select features based on related features (multiple associations)</a>
+<ul class="sectlevel3">
+<li><a href="#_description_2">5.3.1. Description</a></li>
+<li><a href="#_data_2">5.3.2. Data</a></li>
+<li><a href="#_query">5.3.3. Query</a></li>
+</ul>
+</li>
+<li><a href="#_em_name_of_the_use_case_em">5.4. <em>Name of the use case</em></a>
+<ul class="sectlevel3">
+<li><a href="#_description_3">5.4.1. Description</a></li>
+<li><a href="#_data_3">5.4.2. Data</a></li>
+<li><a href="#_queries_2">5.4.3. Queries</a></li>
 </ul>
 </li>
 </ul>
@@ -1141,21 +1155,322 @@ servers will have to support in the future, besides the essential capabilities
 specified in Part 1 of the WFS 3.0 series.</p>
 </div>
 <div class="paragraph">
+<p>All query examples are used in practice, either as queries submitted by a client, in
+stored queries of a WFS or in SLD/SE documents defining layers based on feature data.</p>
+</div>
+<div class="paragraph">
 <p>The use cases will cover aspects like CityGML, CityGML ADEs, 3DPS, and WFS 2.0
 interactions, but use other complex data schemas as background, too.</p>
 </div>
 <div class="paragraph">
-<p>The following section is a use case template for discussion (text
-in <em>italics</em> has to be replaced).</p>
+<p>For each use case example, the aspects are identified why the example has been
+included in this report. There is at least one example for each of the following
+aspects:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Querying features based on properties of related or nested objects or structured data types (one level)</p>
+</li>
+<li>
+<p>Querying features based on properties of related or nested objects or structured data types (several levels)</p>
+</li>
+<li>
+<p>Querying features based on expressions built from complex predicates consisting of predicate groups and combinations of logical operators</p>
+</li>
+<li>
+<p>Querying feature data and returning only parts of the features (selected properties, a single property only, etc.)</p>
+</li>
+<li>
+<p>Querying feature data and returning additional features linked to the selected features</p>
+</li>
+<li>
+<p>Access to and query of solid geometries and other geometries in a 3D CRS</p>
+</li>
+<li>
+<p>Use of responses for display in a web browser</p>
+</li>
+<li>
+<p>Accessing different versions (including historic representations) of features</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_em_name_of_the_use_case_em"><a class="anchor" href="#_em_name_of_the_use_case_em"></a>5.2. <em>Name of the use case</em></h3>
+<h3 id="uc-select-association"><a class="anchor" href="#uc-select-association"></a>5.2. Select features based on related features (one association)</h3>
+<div class="sect3">
+<h4 id="_description"><a class="anchor" href="#_description"></a>5.2.1. Description</h4>
+<div class="paragraph">
+<p>This is a relatively simple use case where features are selected based on
+properties of related features, i.e. features that are the value of an
+association role property.</p>
+</div>
+<div class="paragraph">
+<p>The following aspects are covered by this use case:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Querying features based on properties of related or nested objects or structured data types (one level)</p>
+</li>
+<li>
+<p>Querying feature data and returning additional features linked to the selected features</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_data"><a class="anchor" href="#_data"></a>5.2.2. Data</h4>
+<div class="paragraph">
+<p>The dataset used in this use case example is about cadastral parcels and
+related information. It is using the
+<a href="http://www.adv-online.de/AAA-Modell/">AFIS-ALKIS-ATKIS application schema</a>
+of the
+<a href="http://www.adv-online.de/">Surveying Authorities in Germany</a>.
+The GML application schema is the
+<a href="http://repository.gdi-de.org/schemas/adv/nas/6.0/aaa.xsd">NAS</a>.</p>
+</div>
+<div class="paragraph">
+<p>The application schema is optimised for maintaining the data by the Surveying
+Authorities and reflects the legal requirements. As a result, the application
+schema contains many relationships between feature types.</p>
+</div>
+<div class="paragraph">
+<p>As the application schema is used in Germany, it uses German terms. For better
+readability we show a simplified schema using English translation below.
+The queries use the following feature types:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">ProtectedSite_Water (AX_SchutzgebietNachWasserrecht)</dt>
+<dd>
+<p>A protected site based on laws pertaining to water and waterways. It consists
+of one or more zones.</p>
+</dd>
+<dt class="hdlist1">ProtectedZone (AX_Schutzzone)</dt>
+<dd>
+<p>An area in a protected site with a homogeneous classification.</p>
+</dd>
+</dl>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="data:image/png;base64,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" alt="ProtectedSite" width="162" height="228">
+</div>
+<div class="title">Figure 1. UML class diagram for features in use case "Select features based on related features (one association)"</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_queries"><a class="anchor" href="#_queries"></a>5.2.3. Queries</h4>
+<div class="sect4">
+<h5 id="_query_1_select_just_the_protected_site_features"><a class="anchor" href="#_query_1_select_just_the_protected_site_features"></a>Query 1: Select just the protected site features</h5>
+<div class="paragraph">
+<p>The following WFS query selects all ProtectedSite_Water (AX_SchutzgebietNachWasserrecht)
+features that have a protected zone in a given bounding box using a value reference
+<code>contains/ProtectedZone/position</code> (<code>adv:bestehtAus/adv:AX_Schutzzone/adv:position</code>).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?
+  service=WFS&amp;
+  version=2.0.0&amp;
+  request=GetFeature&amp;
+  namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&amp;
+  typenames=adv:AX_SchutzgebietNachWasserrecht&amp;
+  filter=
+  &lt;fes:Filter
+    xmlns:adv="http://www.adv-online.de/namespaces/adv/gid/6.0"
+    xmlns:gml="http://www.opengis.net/gml/3.2"
+    xmlns:fes="http://www.opengis.net/fes/2.0"&gt;
+    &lt;fes:Intersects&gt;
+      &lt;fes:ValueReference&gt;
+        adv:bestehtAus/adv:AX_Schutzzone/adv:position
+      &lt;/fes:ValueReference&gt;
+      &lt;gml:Envelope
+        srsName="http://www.opengis.net/def/crs/epsg/0/25832"&gt;
+        &lt;gml:lowerCorner&gt;360000 5600000&lt;/gml:lowerCorner&gt;
+        &lt;gml:upperCorner&gt;370000 5700000&lt;/gml:upperCorner&gt;
+      &lt;/gml:Envelope&gt;
+    &lt;/fes:Intersects&gt;
+  &lt;/fes:Filter&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result is a feature collection with four ProtectedSite_Water
+(AX_SchutzgebietNachWasserrecht) features.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?service=WFS&amp;version=2.0.0&amp;request=GetFeature&amp;namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&amp;typenames=adv:AX_SchutzgebietNachWasserrecht&amp;filter=%3Cfes%3AFilter%20xmlns%3D%22http%3A%2F%2Fwww.adv-online.de%2Fnamespaces%2Fadv%2Fgid%2F6.0%22%20xmlns%3Agml%3D%22http%3A%2F%2Fwww.opengis.net%2Fgml%2F3.2%22%20xmlns%3Afes%3D%22http%3A%2F%2Fwww.opengis.net%2Ffes%2F2.0%22%3E%0A%20%20%3Cfes%3AIntersects%3E%0A%20%20%20%20%3Cfes%3AValueReference%3Eadv%3AbestehtAus%2Fadv%3AAX_Schutzzone%2Fadv%3Aposition%3C%2Ffes%3AValueReference%3E%0A%20%20%20%20%3Cgml%3AEnvelope%20srsName%3D%22http%3A%2F%2Fwww.opengis.net%2Fdef%2Fcrs%2Fepsg%2F0%2F25832%22%3E%0A%20%20%20%20%3Cgml%3AlowerCorner%3E360000%205600000%3C%2Fgml%3AlowerCorner%3E%0A%20%20%20%20%3Cgml%3AupperCorner%3E370000%205700000%3C%2Fgml%3AupperCorner%3E%0A%20%20%20%20%3C%2Fgml%3AEnvelope%3E%0A%20%20%3C%2Ffes%3AIntersects%3E%0A%3C%2Ffes%3AFilter%3E">Live link to invoke the query on a WFS&#8230;&#8203;</a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_query_2_select_also_the_related_protected_zone_features"><a class="anchor" href="#_query_2_select_also_the_related_protected_zone_features"></a>Query 2: Select also the related protected zone features</h5>
+<div class="paragraph">
+<p>The following WFS query selects not only the ProtectedSite_Water (AX_SchutzgebietNachWasserrecht)
+features that have a protected zone in a given bounding box, but uses the
+WFS <code>resolve</code> and <code>resolvedepth</code> parameters to retrieve all the zone features in the same query.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?
+  service=WFS&amp;
+  version=2.0.0&amp;
+  request=GetFeature&amp;
+  namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&amp;
+  typenames=adv:AX_SchutzgebietNachWasserrecht&amp;
+  resolve=local&amp;
+  resolvedepth=1&amp;
+  filter=
+  &lt;fes:Filter
+    xmlns:adv="http://www.adv-online.de/namespaces/adv/gid/6.0"
+    xmlns:gml="http://www.opengis.net/gml/3.2"
+    xmlns:fes="http://www.opengis.net/fes/2.0"&gt;
+    &lt;fes:Intersects&gt;
+      &lt;fes:ValueReference&gt;
+        adv:bestehtAus/adv:AX_Schutzzone/adv:position
+      &lt;/fes:ValueReference&gt;
+      &lt;gml:Envelope
+        srsName="http://www.opengis.net/def/crs/epsg/0/25832"&gt;
+        &lt;gml:lowerCorner&gt;360000 5600000&lt;/gml:lowerCorner&gt;
+        &lt;gml:upperCorner&gt;370000 5700000&lt;/gml:upperCorner&gt;
+      &lt;/gml:Envelope&gt;
+    &lt;/fes:Intersects&gt;
+  &lt;/fes:Filter&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result is a feature collection with four ProtectedSite_Water
+(AX_SchutzgebietNachWasserrecht) features and one ProtectedZone
+(AX_Schutzzone) feature in each site.</p>
+</div>
+<div class="paragraph">
+<p><a href="https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?service=WFS&amp;version=2.0.0&amp;request=GetFeature&amp;namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&amp;typenames=adv:AX_SchutzgebietNachWasserrecht&amp;resolve=local&amp;resolvedepth=1&amp;filter=%3Cfes%3AFilter%20xmlns%3D%22http%3A%2F%2Fwww.adv-online.de%2Fnamespaces%2Fadv%2Fgid%2F6.0%22%20xmlns%3Agml%3D%22http%3A%2F%2Fwww.opengis.net%2Fgml%2F3.2%22%20xmlns%3Afes%3D%22http%3A%2F%2Fwww.opengis.net%2Ffes%2F2.0%22%3E%0A%20%20%3Cfes%3AIntersects%3E%0A%20%20%20%20%3Cfes%3AValueReference%3Eadv%3AbestehtAus%2Fadv%3AAX_Schutzzone%2Fadv%3Aposition%3C%2Ffes%3AValueReference%3E%0A%20%20%20%20%3Cgml%3AEnvelope%20srsName%3D%22http%3A%2F%2Fwww.opengis.net%2Fdef%2Fcrs%2Fepsg%2F0%2F25832%22%3E%0A%20%20%20%20%3Cgml%3AlowerCorner%3E360000%205600000%3C%2Fgml%3AlowerCorner%3E%0A%20%20%20%20%3Cgml%3AupperCorner%3E370000%205700000%3C%2Fgml%3AupperCorner%3E%0A%20%20%20%20%3C%2Fgml%3AEnvelope%3E%0A%20%20%3C%2Ffes%3AIntersects%3E%0A%3C%2Ffes%3AFilter%3E">Live link to invoke the query on a WFS&#8230;&#8203;</a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="uc-select-associations"><a class="anchor" href="#uc-select-associations"></a>5.3. Select features based on related features (multiple associations)</h3>
+<div class="sect3">
+<h4 id="_description_2"><a class="anchor" href="#_description_2"></a>5.3.1. Description</h4>
+<div class="paragraph">
+<p>This example is similar to the <a href="#uc-select-association">previous one</a>,
+but uses value references along multiple associations.</p>
+</div>
+<div class="paragraph">
+<p>The following aspects are covered by this use case:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Querying features based on properties of related or nested objects or structured data types (several levels)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_data_2"><a class="anchor" href="#_data_2"></a>5.3.2. Data</h4>
+<div class="paragraph">
+<p>The dataset is the same as in the <a href="#uc-select-association">previous use case</a>.</p>
+</div>
+<div class="paragraph">
+<p>The example query use the following feature types. This is simplified, the actual
+schema and data is much more complex and reflects the legal requirements of the
+German land register.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">CadastralParcel (AX_Flurstueck)</dt>
+<dd>
+<p>A cadastral parcel.</p>
+</dd>
+<dt class="hdlist1">Record (multiple feature types)</dt>
+<dd>
+<p>An entry in the land register.</p>
+</dd>
+<dt class="hdlist1">Person (AX_Person)</dt>
+<dd>
+<p>A person that has some rights or responsibilities related to one or more parcels.</p>
+</dd>
+</dl>
+</div>
+<div class="imageblock" style="text-align: center">
+<div class="content">
+<img src="data:image/png;base64,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" alt="Person" width="283" height="390">
+</div>
+<div class="title">Figure 2. UML class diagram for features in use case "Select features based on related features (multiple associations)"</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_query"><a class="anchor" href="#_query"></a>5.3.3. Query</h4>
+<div class="paragraph">
+<p>The following WFS query selects all Person (AX_Person) features, that are
+related to cadastral parcels in a bounding box, e.g. own the parcel or
+have some rights. The filter uses a value reference along
+multiple associations: <code>partOf/Record/relatedTo/CadastralParcel/position</code>
+(the first value reference) or
+<code>partOf/Record/related/Record/relatedTo/CadastralParcel/position</code>
+(the second value reference).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?
+  service=WFS&amp;
+  version=2.0.0&amp;
+  request=GetFeature&amp;
+  namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&amp;
+  typenames=adv:AX_Person&amp;
+  filter=
+  &lt;fes:Filter
+    xmlns:adv="http://www.adv-online.de/namespaces/adv/gid/6.0"
+    xmlns:gml="http://www.opengis.net/gml/3.2"
+    xmlns:fes="http://www.opengis.net/fes/2.0"&gt;
+    &lt;fes:Or&gt;
+      &lt;fes:Intersects&gt;
+        &lt;fes:ValueReference&gt;
+          adv:weistAuf/adv:AX_Namensnummer/adv:istBestandteilVon/
+          adv:AX_Buchungsblatt/adv:bestehtAus/adv:AX_Buchungsstelle/
+          adv:grundstueckBestehtAus/adv:AX_Flurstueck/adv:position
+        &lt;/fes:ValueReference&gt;
+        &lt;gml:Envelope
+          srsName="http://www.opengis.net/def/crs/epsg/0/25832"&gt;
+          &lt;gml:lowerCorner&gt;361000 5610000&lt;/gml:lowerCorner&gt;
+          &lt;gml:upperCorner&gt;362000 5620000&lt;/gml:upperCorner&gt;
+        &lt;/gml:Envelope&gt;
+      &lt;/fes:Intersects&gt;
+      &lt;fes:Intersects&gt;
+        &lt;fes:ValueReference&gt;
+          adv:weistAuf/adv:AX_Namensnummer/adv:istBestandteilVon/
+          adv:AX_Buchungsblatt/adv:bestehtAus/adv:AX_Buchungsstelle/
+          adv:an/adv:AX_Buchungsstelle/adv:grundstueckBestehtAus/
+          adv:AX_Flurstueck/adv:position
+        &lt;/fes:ValueReference&gt;
+        &lt;gml:Envelope
+          srsName="http://www.opengis.net/def/crs/epsg/0/25832"&gt;
+          &lt;gml:lowerCorner&gt;361000 5610000&lt;/gml:lowerCorner&gt;
+          &lt;gml:upperCorner&gt;362000 5620000&lt;/gml:upperCorner&gt;
+        &lt;/gml:Envelope&gt;
+      &lt;/fes:Intersects&gt;
+    &lt;/fes:Or&gt;
+  &lt;/fes:Filter&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result is a feature collection with the person features matching the query.</p>
+</div>
+<div class="paragraph">
+<p>Due to privacy regulations, the land register data is not open data and no
+live query link can be provided.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_em_name_of_the_use_case_em"><a class="anchor" href="#_em_name_of_the_use_case_em"></a>5.4. <em>Name of the use case</em></h3>
+<div class="sect3">
+<h4 id="_description_3"><a class="anchor" href="#_description_3"></a>5.4.1. Description</h4>
 <div class="paragraph">
 <p><em>A paragraph of text describing the scope of the use case.</em></p>
 </div>
-<div class="sect3">
-<h4 id="_categories"><a class="anchor" href="#_categories"></a>5.2.1. Categories</h4>
 <div class="paragraph">
 <p>The following aspects are covered by this use case:</p>
 </div>
@@ -1204,13 +1519,13 @@ Do we need more categories? Or another categorisation?
 </div>
 </div>
 <div class="sect3">
-<h4 id="_data"><a class="anchor" href="#_data"></a>5.2.2. Data</h4>
+<h4 id="_data_3"><a class="anchor" href="#_data_3"></a>5.4.2. Data</h4>
 <div class="paragraph">
 <p><em>Description of the dataset, including information about / links to the schema; if available, a link to the GML application schema. Highlight specific aspects about "complexity" that make this relevant for this document.</em></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_queries"><a class="anchor" href="#_queries"></a>5.2.3. Queries</h4>
+<h4 id="_queries_2"><a class="anchor" href="#_queries_2"></a>5.4.3. Queries</h4>
 <div class="paragraph">
 <p><em>Description of the queries and expected responses. Include WFS 2.0 Filter Encoding expressions and sample responses, if available. If other technologies are used, include sample requests and responses using those technologies. Highlight specific aspects about "complexity" that make this relevant for this document. If multiple related queries are described, use sub-sections for each query.</em></p>
 </div>
@@ -1320,7 +1635,7 @@ use cases within the NextGen service architecture.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-05-08 16:07:38 CEST
+Last updated 2018-05-14 10:53:48 CEST
 </div>
 </div>
 </body>

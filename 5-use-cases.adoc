@@ -7,15 +7,32 @@ This section will document real-world use cases and requirements that more advan
 servers will have to support in the future, besides the essential capabilities
 specified in Part 1 of the WFS 3.0 series.
 
+All query examples are used in practice, either as queries submitted by a client, in
+stored queries of a WFS or in SLD/SE documents defining layers based on feature data.
+
 The use cases will cover aspects like CityGML, CityGML ADEs, 3DPS, and WFS 2.0
 interactions, but use other complex data schemas as background, too.
 
-The following section is a use case template for discussion (text
-in _italics_ has to be replaced).
+For each use case example, the aspects are identified why the example has been
+included in this report. There is at least one example for each of the following
+aspects:
+
+* Querying features based on properties of related or nested objects or structured data types (one level)
+* Querying features based on properties of related or nested objects or structured data types (several levels)
+* Querying features based on expressions built from complex predicates consisting of predicate groups and combinations of logical operators
+* Querying feature data and returning only parts of the features (selected properties, a single property only, etc.)
+* Querying feature data and returning additional features linked to the selected features
+* Access to and query of solid geometries and other geometries in a 3D CRS
+* Use of responses for display in a web browser
+* Accessing different versions (including historic representations) of features
 
 ////
 To add a use case, copy `5-use-cases-TEMPLATE.adoc` and replace `TEMPLATE` by
 a mnemonic id for the use case. Add an include statement.
 ////
+
+include::5-use-cases-select-association.adoc[]
+
+include::5-use-cases-select-associations.adoc[]
 
 include::5-use-cases-TEMPLATE.adoc[]

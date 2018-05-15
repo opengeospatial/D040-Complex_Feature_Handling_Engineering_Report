@@ -1,0 +1,133 @@
+[[uc-select-association]]
+=== Select features based on related features (one association)
+
+==== Description
+
+This is a relatively simple use case where features are selected based on
+properties of related features, i.e. features that are the value of an
+association role property.
+
+The following aspects are covered by this use case:
+
+* Querying features based on properties of related or nested objects or structured data types (one level)
+* Querying feature data and returning additional features linked to the selected features
+
+==== Data
+
+The dataset used in this use case example is about cadastral parcels and
+related information. It is using the
+link:http://www.adv-online.de/AAA-Modell/[AFIS-ALKIS-ATKIS application schema]
+of the
+link:http://www.adv-online.de/[Surveying Authorities in Germany].
+The GML application schema is the
+link:http://repository.gdi-de.org/schemas/adv/nas/6.0/aaa.xsd[NAS].
+
+The application schema is optimised for maintaining the data by the Surveying
+Authorities and reflects the legal requirements. As a result, the application
+schema contains many relationships between feature types.
+
+As the application schema is used in Germany, it uses German terms. For better
+readability we show a simplified schema using English translation below.
+The queries use the following feature types:
+
+ProtectedSite_Water (AX_SchutzgebietNachWasserrecht)::
+  A protected site based on laws pertaining to water and waterways. It consists
+  of one or more zones.
+
+ProtectedZone (AX_Schutzzone)::
+  An area in a protected site with a homogeneous classification.
+
+[#img_PS,reftext='{figure-caption} {counter:figure-num}']
+.UML class diagram for features in use case "Select features based on related features (one association)"
+[plantuml, images/ProtectedSite, png, align="center"]
+....
+@startuml
+hide methods
+class ProtectedSite_Water <<featureType>> {
+  +siteType : SiteType
+}
+class ProtectedZone <<featureType>> {
+  +zoneType : ZoneType
+  +position : GM_Surface
+}
+
+ProtectedSite_Water "0..*" o-- "1..*" ProtectedZone : contains >
+@enduml
+....
+
+==== Queries
+
+===== Query 1: Select just the protected site features
+
+The following WFS query selects all ProtectedSite_Water (AX_SchutzgebietNachWasserrecht)
+features that have a protected zone in a given bounding box using a value reference
+`contains/ProtectedZone/position` (`adv:bestehtAus/adv:AX_Schutzzone/adv:position`).
+
+```
+https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?
+  service=WFS&
+  version=2.0.0&
+  request=GetFeature&
+  namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&
+  typenames=adv:AX_SchutzgebietNachWasserrecht&
+  filter=
+  <fes:Filter
+    xmlns:adv="http://www.adv-online.de/namespaces/adv/gid/6.0"
+    xmlns:gml="http://www.opengis.net/gml/3.2"
+    xmlns:fes="http://www.opengis.net/fes/2.0">
+    <fes:Intersects>
+      <fes:ValueReference>
+        adv:bestehtAus/adv:AX_Schutzzone/adv:position
+      </fes:ValueReference>
+      <gml:Envelope
+        srsName="http://www.opengis.net/def/crs/epsg/0/25832">
+        <gml:lowerCorner>360000 5600000</gml:lowerCorner>
+        <gml:upperCorner>370000 5700000</gml:upperCorner>
+      </gml:Envelope>
+    </fes:Intersects>
+  </fes:Filter>
+```
+
+The result is a feature collection with four ProtectedSite_Water
+(AX_SchutzgebietNachWasserrecht) features.
+
+link:https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?service=WFS&version=2.0.0&request=GetFeature&namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&typenames=adv:AX_SchutzgebietNachWasserrecht&filter=%3Cfes%3AFilter%20xmlns%3D%22http%3A%2F%2Fwww.adv-online.de%2Fnamespaces%2Fadv%2Fgid%2F6.0%22%20xmlns%3Agml%3D%22http%3A%2F%2Fwww.opengis.net%2Fgml%2F3.2%22%20xmlns%3Afes%3D%22http%3A%2F%2Fwww.opengis.net%2Ffes%2F2.0%22%3E%0A%20%20%3Cfes%3AIntersects%3E%0A%20%20%20%20%3Cfes%3AValueReference%3Eadv%3AbestehtAus%2Fadv%3AAX_Schutzzone%2Fadv%3Aposition%3C%2Ffes%3AValueReference%3E%0A%20%20%20%20%3Cgml%3AEnvelope%20srsName%3D%22http%3A%2F%2Fwww.opengis.net%2Fdef%2Fcrs%2Fepsg%2F0%2F25832%22%3E%0A%20%20%20%20%3Cgml%3AlowerCorner%3E360000%205600000%3C%2Fgml%3AlowerCorner%3E%0A%20%20%20%20%3Cgml%3AupperCorner%3E370000%205700000%3C%2Fgml%3AupperCorner%3E%0A%20%20%20%20%3C%2Fgml%3AEnvelope%3E%0A%20%20%3C%2Ffes%3AIntersects%3E%0A%3C%2Ffes%3AFilter%3E[Live link to invoke the query on a WFS...]
+
+===== Query 2: Select also the related protected zone features
+
+The following WFS query selects not only the ProtectedSite_Water (AX_SchutzgebietNachWasserrecht)
+features that have a protected zone in a given bounding box, but uses the
+WFS `resolve` and `resolvedepth` parameters to retrieve all the zone features in the same query.
+
+```
+https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?
+  service=WFS&
+  version=2.0.0&
+  request=GetFeature&
+  namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&
+  typenames=adv:AX_SchutzgebietNachWasserrecht&
+  resolve=local&
+  resolvedepth=1&
+  filter=
+  <fes:Filter
+    xmlns:adv="http://www.adv-online.de/namespaces/adv/gid/6.0"
+    xmlns:gml="http://www.opengis.net/gml/3.2"
+    xmlns:fes="http://www.opengis.net/fes/2.0">
+    <fes:Intersects>
+      <fes:ValueReference>
+        adv:bestehtAus/adv:AX_Schutzzone/adv:position
+      </fes:ValueReference>
+      <gml:Envelope
+        srsName="http://www.opengis.net/def/crs/epsg/0/25832">
+        <gml:lowerCorner>360000 5600000</gml:lowerCorner>
+        <gml:upperCorner>370000 5700000</gml:upperCorner>
+      </gml:Envelope>
+    </fes:Intersects>
+  </fes:Filter>
+```
+
+The result is a feature collection with four ProtectedSite_Water
+(AX_SchutzgebietNachWasserrecht) features and one ProtectedZone
+(AX_Schutzzone) feature in each site.
+
+link:https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?service=WFS&version=2.0.0&request=GetFeature&namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&typenames=adv:AX_SchutzgebietNachWasserrecht&resolve=local&resolvedepth=1&filter=%3Cfes%3AFilter%20xmlns%3D%22http%3A%2F%2Fwww.adv-online.de%2Fnamespaces%2Fadv%2Fgid%2F6.0%22%20xmlns%3Agml%3D%22http%3A%2F%2Fwww.opengis.net%2Fgml%2F3.2%22%20xmlns%3Afes%3D%22http%3A%2F%2Fwww.opengis.net%2Ffes%2F2.0%22%3E%0A%20%20%3Cfes%3AIntersects%3E%0A%20%20%20%20%3Cfes%3AValueReference%3Eadv%3AbestehtAus%2Fadv%3AAX_Schutzzone%2Fadv%3Aposition%3C%2Ffes%3AValueReference%3E%0A%20%20%20%20%3Cgml%3AEnvelope%20srsName%3D%22http%3A%2F%2Fwww.opengis.net%2Fdef%2Fcrs%2Fepsg%2F0%2F25832%22%3E%0A%20%20%20%20%3Cgml%3AlowerCorner%3E360000%205600000%3C%2Fgml%3AlowerCorner%3E%0A%20%20%20%20%3Cgml%3AupperCorner%3E370000%205700000%3C%2Fgml%3AupperCorner%3E%0A%20%20%20%20%3C%2Fgml%3AEnvelope%3E%0A%20%20%3C%2Ffes%3AIntersects%3E%0A%3C%2Ffes%3AFilter%3E[Live link to invoke the query on a WFS...]
