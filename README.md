@@ -33,4 +33,4 @@ Recipients of this document are requested to submit, with their comments, notifi
 
 The work on the Engineering Report is just starting. Chapter 1 ("Summary") has been updated and the document structure has been initiated. Work is ongoing to document the use case examples.
 
-[https://rawgit.com/opengeospatial/D040-Complex_Feature_Handling_Engineering_Report/master/18-021.html](Link to the current draft...)
+[Link to the current draft...](https://rawgit.com/opengeospatial/D040-Complex_Feature_Handling_Engineering_Report/master/18-021.html)
