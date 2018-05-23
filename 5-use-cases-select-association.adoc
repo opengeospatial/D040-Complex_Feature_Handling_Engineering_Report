@@ -51,7 +51,7 @@ class ProtectedZone <<featureType>> {
   +position : GM_Surface
 }
 
-ProtectedSite_Water "0..*" o-- "1..*" ProtectedZone : contains >
+ProtectedSite_Water o-> "1..*" ProtectedZone : contains >
 @enduml
 ....
 

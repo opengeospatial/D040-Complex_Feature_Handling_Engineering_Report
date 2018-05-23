@@ -46,9 +46,9 @@ class Person <<featureType>> {
   +lastName : CharacterString
 }
 
-Record "1..*" -- "1..*" CadastralParcel : relatedTo >
-Record "0..*" -- "0..*" Record : related >
-Person "0..*" -- "0..*" Record : partOf >
+Record "1..*" --> "1..*" CadastralParcel : relatedTo >
+Record "0..*" -> "0..*" Record : related >
+Person "0..*" --> "0..*" Record : partOf >
 @enduml
 ....
 
