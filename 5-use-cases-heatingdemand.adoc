@@ -43,6 +43,7 @@ The following aspects are covered by this use case:
 ==== Queries
 
 * 3DPS getScene request example from the New York showcase: 
+
 http://tb13.igd.fraunhofer.de:8082/3dps?SERVICE=3DPS&VERSION=1.0&REQUEST=GetScene&LAYERS=manhattan&FORMAT=text/html&CRS=EPSG:4326&BOUNDINGBOX=-74.00635826977239,40.71778771238832,-73.97393297660074,40.75070138933127
 
 In the existing implementation, 3D Tiles is used as content delivery format. See OGC Testbed 13 – 3D Tiles and I3S Interoperability and Performance Engineering Report, experiment#2 for further details (http://docs.opengeospatial.org/per/17-046.html#Experiment2).
@@ -67,6 +68,7 @@ The following aspects are covered by this use case:
 ==== Queries
 
 * 3DPS getFeatureInfo request example from the New York showcase: 
+
 http://81.169.187.7:3100/api/v2/endpoint?service=3DPS&version=1.0&request=GetFeatureInfoByObjectId&objectid=uuid_2824afd6-00e5-42ac-ab95-ec868595dc5a&dataset=ny_dataset 
 
 Should be replaced by a WFS getFeature request. The request needs to be specified, especially how to query selected attributes only.
