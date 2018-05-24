@@ -54,7 +54,9 @@ In the existing implementation, 3D Tiles is used as content delivery format. See
 
 ===== using 3D Portrayal Service and WFS 3.0 to query the simulation result and visualize it in a 3D scene by building Id
 
-In Testbed 13, the 3DPS getFeatureInfo request has been used to query heating demand (simulation result) per building from a server at HFT Stuttgart. It would make sense to user the building id to retrieve additional attributes from a WFS 3.0. But the building geometry is not wanted any more as it is already available. 
+In Testbed 13, the 3DPS getFeatureInfo request has been used to query heating demand (simulation result) per building from a server at HFT Stuttgart. See video on the Testbed 13 S3D Performance Experiment #2 here: https://www.youtube.com/watch?v=AbyCQKH-PC4&index=17&list=PLQsQNjNIDU87So4QmiSCKFmE0fv567s3m&t=0s
+
+It would make sense to user the building id to retrieve additional attributes from a WFS 3.0. But the building geometry is not wanted any more as it is already available. 
 
 [#img_PS,reftext='{figure-caption} {counter:figure-num}']
 .The dataflow from GeoRocket to the visualized 3D Tiles, which are requested via the 3DPS queries (from Testbed 13, S3D performance)
