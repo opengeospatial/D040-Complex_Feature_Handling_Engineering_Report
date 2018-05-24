@@ -51,14 +51,29 @@ In the existing implementation, 3D Tiles is used as content delivery format. See
 .3DPS getScene request to select an (bounding box) area of the New York data set
 [plantuml, images/Testbed13-fig35-3DPS-NY-2, png, align="center"]
 
+===== using 3D Portrayal Service and WFS 3.0 to query the simulation result and visualize it in a 3D scene by building Id
 
+In Testbed 13, the 3DPS getFeatureInfo request has been used to query heating demand (simulation result) per building from a server at HFT Stuttgart. It would make sense to user the building id to retrieve additional attributes from a WFS 3.0. But the building geometry is not wanted any more as it is already available. 
 
-    The Cesium client which queried:
+[#img_PS,reftext='{figure-caption} {counter:figure-num}']
+.The dataflow from GeoRocket to the visualized 3D Tiles, which are requested via the 3DPS queries (from Testbed 13, S3D performance)
+[plantuml, images/Testbed13-fig35-3DPS-NY-1, png, align="center"]
 
-        the 3DPS Framework for 3D geometries
+The following aspects are covered by this use case:
 
-        a separate Attribute Server, provided by the HFT Stuttgart, serving further information via the getFeatureById interface
+* [x] 3DPS getScene Region query
+* [x] Querying feature data and returning only parts of the features (selected properties, a single property only, etc.)
 
+==== Queries
+
+* 3DPS getFeatureInfo request example from the New York showcase: 
+http://81.169.187.7:3100/api/v2/endpoint?service=3DPS&version=1.0&request=GetFeatureInfoByObjectId&objectid=uuid_2824afd6-00e5-42ac-ab95-ec868595dc5a&dataset=ny_dataset 
+
+Should be replaced by a WFS getFeature request. The request needs to be specified, especially how to query selected attributes only.
+
+[#img_PS,reftext='{figure-caption} {counter:figure-num}']
+.Manhattan dataset with simulated heat demand, provided by HFT Stuttgart, and color coded in to the building’s appearance. (from Testbed 13, S3D performance)
+[plantuml, images/Testbed13-fig35-3DPS-NY-3, png, align="center"]
 
 
 ==== References
