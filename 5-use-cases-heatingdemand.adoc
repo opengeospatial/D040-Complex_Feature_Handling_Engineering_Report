@@ -32,7 +32,7 @@ http://www1.nyc.gov/site/doitt/initiatives/3d-building.page; heating demand simu
 * open data 3D model of Essen as used in the Energy and Location Pilot of the JRC. CityGML LoD 1/2 Building Model, no Textures; heating demand simulation is available (monthly energy balance) as "as is" simulation, medium refurbishment scenario, advanced refurbishment scenario (simulated with SimStadt Software, HFT Stuttgart)
 * open data 3D model of Essen, a test area converted from CityGML to INSPIRE building model using HALE Studio
 
-===== open a website to display a 3D map using 3D Portrayal Service and select a polygonal area / district 
+=== Sub Use Case: open a website to display a 3D map using 3D Portrayal Service and select a polygonal area / district 
 
 This has already been sshowcased and implemented in Testbed 13. The implemenetation is available here and can be further used and extended in Testbed 14 with the New York data set. The experiment evaluated the complete flow of data from its originating CityGML format to a web-enabled visualization with Cesium via OGC’s 3D Portrayal Service (3DPS). This data flow included the conversion from the CityGML data format served by GeoRocket, to 3D Tiles dataset, and the import of the 3D Tiles dataset to the 3DPS Framework. A public demo is available at: tb13.igd.fraunhofer.de:8080/Apps/Sandcastle/index.html?src=3DPS_r.html&label=Showcases.
 
@@ -52,7 +52,7 @@ In the existing implementation, 3D Tiles is used as content delivery format. See
 .3DPS getScene request to select an (bounding box) area of the New York data set
 [plantuml, images/Testbed13-fig35-3DPS-NY-2, png, align="center"]
 
-===== using 3D Portrayal Service and WFS 3.0 to query the simulation result and visualize it in a 3D scene by building Id
+=== SUb Use Case: Using 3D Portrayal Service and WFS 3.0 to query the simulation result and visualize it in a 3D scene by building Id
 
 In Testbed 13, the 3DPS getFeatureInfo request has been used to query heating demand (simulation result) per building from a server at HFT Stuttgart. See video on the Testbed 13 S3D Performance Experiment #2 here: https://www.youtube.com/watch?v=AbyCQKH-PC4&index=17&list=PLQsQNjNIDU87So4QmiSCKFmE0fv567s3m&t=0s
 
