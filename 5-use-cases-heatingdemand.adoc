@@ -34,7 +34,7 @@ http://www1.nyc.gov/site/doitt/initiatives/3d-building.page; heating demand simu
 
 ===== open a website to display a 3D map using 3D Portrayal Service and select a polygonal area / district 
 
-This has already been sshowcased and implemented in Testbed 13. The implemenetation is available here and can be further used and extended in Testbed 14 with the New York data set. A public demo is available at: tb13.igd.fraunhofer.de:8080/Apps/Sandcastle/index.html?src=3DPS_r.html&label=Showcases.
+This has already been sshowcased and implemented in Testbed 13. The implemenetation is available here and can be further used and extended in Testbed 14 with the New York data set. The experiment evaluated the complete flow of data from its originating CityGML format to a web-enabled visualization with Cesium via OGC’s 3D Portrayal Service (3DPS). This data flow included the conversion from the CityGML data format served by GeoRocket, to 3D Tiles dataset, and the import of the 3D Tiles dataset to the 3DPS Framework. A public demo is available at: tb13.igd.fraunhofer.de:8080/Apps/Sandcastle/index.html?src=3DPS_r.html&label=Showcases.
 
 The following aspects are covered by this use case:
 
@@ -42,8 +42,21 @@ The following aspects are covered by this use case:
 
 ==== Queries
 
-* 3DPS getScene request from Manhattan showcase: 
+* 3DPS getScene request example from the New York showcase: 
 http://tb13.igd.fraunhofer.de:8082/3dps?SERVICE=3DPS&VERSION=1.0&REQUEST=GetScene&LAYERS=manhattan&FORMAT=text/html&CRS=EPSG:4326&BOUNDINGBOX=-74.00635826977239,40.71778771238832,-73.97393297660074,40.75070138933127
+
+In the existing implementation, 3D Tiles is used as content delivery format. See OGC Testbed 13 – 3D Tiles and I3S Interoperability and Performance Engineering Report, experiment#2 for further details (http://docs.opengeospatial.org/per/17-046.html#Experiment2).
+
+
+
+
+
+    The Cesium client which queried:
+
+        the 3DPS Framework for 3D geometries
+
+        a separate Attribute Server, provided by the HFT Stuttgart, serving further information via the getFeatureById interface
+
 
 
 ==== References
