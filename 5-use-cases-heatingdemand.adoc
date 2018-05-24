@@ -4,6 +4,7 @@
 
 This use case is about using 3D city models to simulate the building's heating demand and visualize the results in a web-based 3D scene. Why is this relevant? The building sector has a large potential in the EU economy for energy efficiency gains and CO2-reductions and is thus a priority area for achievement of the ambitious climate and energy targets for 2020 and 2050 [1]. In order to reach a 2% energy refurbishment rate promoted by the European Union and to realise long-term climate neutral communities, information about the current and future demand is necessary to develop strategies for policy making as well as to raise awareness of the citizens. Some pioneering work has already been done world wide [2], [3], [4], [5]. As an input for the simulation, usually a building model in CityGML is used.
 The use case is split into several parts: 
+
 * open a website to display a 3D map using 3D Portrayal Service and select a polygonal area / district 
 * query 3D building geometry inside the polygonal area from a CityGML data store using WFS 3.0 as an input the simulation
 * using 3D Portrayal Service and WFS 3.0 to query the simulation result and visualize it in a 3D scene by building Id, by address, and by polygonal area
