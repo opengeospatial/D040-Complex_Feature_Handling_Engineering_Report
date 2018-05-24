@@ -1,28 +1,51 @@
-=== _Name of the use case_
+=== Building Heating demand simulation and visualization
 
 ==== Description
 
-_A paragraph of text describing the scope of the use case._
+This use case is about using 3D city models to simulate the building's heating demand and visualize the results in a web-based 3D scene. Why is this relevant? The building sector has a large potential in the EU economy for energy efficiency gains and CO2-reductions and is thus a priority area for achievement of the ambitious climate and energy targets for 2020 and 2050 [1]. In order to reach a 2% energy refurbishment rate promoted by the European Union and to realise long-term climate neutral communities, information about the current and future demand is necessary to develop strategies for policy making as well as to raise awareness of the citizens. Some pioneering work has already been done world wide [2], [3], [4], [5]. As an input for the simulation, usually a building model in CityGML is used.
+The use case is split into several parts: 
+* open a website to display a 3D map using 3D Portrayal Service and select a polygonal area / district 
+* query 3D building geometry inside the polygonal area from a CityGML data store using WFS 3.0 as an input the simulation
+* using 3D Portrayal Service and WFS 3.0 to query the simulation result and visualize it in a 3D scene by building Id, by address, and by polygonal area
+* exend the use case to the INSPIRE 3D building module in addition to CityGML
 
 The following aspects are covered by this use case:
 
 _Check all categories that apply_
 
 * [x] Querying features based on properties of related or nested objects or structured data types (one level)
-* [ ] Querying features based on properties of related or nested objects or structured data types (several levels)
+* [x] Querying features based on properties of related or nested objects or structured data types (several levels)
 * [ ] Querying features based on expressions built from complex predicates consisting of predicate groups and combinations of logical operators
-* [ ] Querying feature data and returning only parts of the features (selected properties, a single property only, etc.)
+* [x] Querying feature data and returning only parts of the features (selected properties, a single property only, etc.)
 * [x] Querying feature data and returning additional features linked to the selected features
-* [ ] Access to and query of solid geometries and other geometries in a 3D CRS
-* [ ] Use of responses for display in a web browser
+* [x] Access to and query of solid geometries and other geometries in a 3D CRS
+* [x] Use of responses for display in a web browser
 * [ ] Accessing different versions (including historic representations) of features
 
 NOTE: Do we need more categories? Or another categorisation?
 
 ==== Data
 
-_Description of the dataset, including information about / links to the schema; if available, a link to the GML application schema. Highlight specific aspects about "complexity" that make this relevant for this document._
+* open  data 3D city model New York as used in Testbed 13 S3D performance. CityGML LoD 1/2 Building Model, no Textures
+http://www1.nyc.gov/site/doitt/initiatives/3d-building.page; heating demand simulation is available (monthly energy balance) for Manhattan as "as is" simulation (simulated with SimStadt Software, HFT Stuttgart)
+* open data 3D model of Essen as used in the Energy and Location Pilot of the JRC. CityGML LoD 1/2 Building Model, no Textures; heating demand simulation is available (monthly energy balance) as "as is" simulation, medium refurbishment scenario, advanced refurbishment scenario (simulated with SimStadt Software, HFT Stuttgart)
+* open data 3D model of Essen, a test area converted from CityGML to INSPIRE building model using HALE Studio
+
 
 ==== Queries
 
 _Description of the queries and expected responses. Include WFS 2.0 Filter Encoding expressions and sample responses, if available. If other technologies are used, include sample requests and responses using those technologies. Highlight specific aspects about "complexity" that make this relevant for this document. If multiple related queries are described, use sub-sections for each query._
+
+==== References
+[1] Federal Ministry of Economics and Technology (2010) Energy Concept for
+an Environmentally Sound, Reliable and Affordable Energy Supply. http://
+www.bmwi.de/English/Redaktion/Pdf/energy-concept
+
+[2] Monien, D., Strzalka, A., Koukofikis, A., Coors, V., and Eicker, U.: Comparison of building modelling assumptions and methods for urban scale heat demand forecasting, Future Cities and Environment 2017, 3:2, Springer, DOI 10.1186/s40984-017-0025-7 (http://rdcu.be/oHtg) (open access)
+
+[3] Nouvel, R., Mastrucci, A., Coors, V., Leopold, U., and Eicker, U.: Combining GIS-based statistical and engineering urban heat consumption modelling: Towards a new framework for multi-scale policy support, In: Energy and Buildings 107:204-212, Elsevier, ISSN 0378-7788, September 2015, DOI: 10.1016/j.enbuild.2015.08.021
+
+[4] CitySim, http://www.kaemco.ch/
+
+[5] Chen, Y., Hong, T., and Piette, M.A.: Automatic generation and simulation of urban building energy models based on city datasets for city-scale building retrofit analysis, Applied Energy, Volume 205, 1 November 2017, Pages 323-335, https://doi.org/10.1016/j.apenergy.2017.07.128
+
