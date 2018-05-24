@@ -6,7 +6,7 @@ This use case is about using 3D city models to simulate the building's heating d
 The use case is split into several parts: 
 
 * open a website to display a 3D map using 3D Portrayal Service and select a polygonal area / district 
-* query 3D building geometry inside the polygonal area from a CityGML data store using WFS 3.0 as an input the simulation
+* query 3D building geometry inside the polygonal area from a CityGML data store using WFS 3.0 as an input to the simulation
 * using 3D Portrayal Service and WFS 3.0 to query the simulation result and visualize it in a 3D scene by building Id, by address, and by polygonal area
 * exend the use case to the INSPIRE 3D building module in addition to CityGML
 
@@ -32,10 +32,18 @@ http://www1.nyc.gov/site/doitt/initiatives/3d-building.page; heating demand simu
 * open data 3D model of Essen as used in the Energy and Location Pilot of the JRC. CityGML LoD 1/2 Building Model, no Textures; heating demand simulation is available (monthly energy balance) as "as is" simulation, medium refurbishment scenario, advanced refurbishment scenario (simulated with SimStadt Software, HFT Stuttgart)
 * open data 3D model of Essen, a test area converted from CityGML to INSPIRE building model using HALE Studio
 
+===== open a website to display a 3D map using 3D Portrayal Service and select a polygonal area / district 
+
+This has already been sshowcased and implemented in Testbed 13. The implemenetation is available here and can be further used and extended in Testbed 14 with the New York data set. 
+
+The following aspects are covered by this use case:
+
+* [x] 3DPS getScene Region query
 
 ==== Queries
 
-_Description of the queries and expected responses. Include WFS 2.0 Filter Encoding expressions and sample responses, if available. If other technologies are used, include sample requests and responses using those technologies. Highlight specific aspects about "complexity" that make this relevant for this document. If multiple related queries are described, use sub-sections for each query._
+* todo: add 3DPS getScene request from Manhattan showcase
+
 
 ==== References
 [1] Federal Ministry of Economics and Technology (2010) Energy Concept for
@@ -49,4 +57,6 @@ www.bmwi.de/English/Redaktion/Pdf/energy-concept
 [4] CitySim, http://www.kaemco.ch/
 
 [5] Chen, Y., Hong, T., and Piette, M.A.: Automatic generation and simulation of urban building energy models based on city datasets for city-scale building retrofit analysis, Applied Energy, Volume 205, 1 November 2017, Pages 323-335, https://doi.org/10.1016/j.apenergy.2017.07.128
+
+[6] Coors, V. (Ed.): OGC Testbed 13 – 3D Tiles and I3S Interoperability and Performance Engineering Report, 5.3.2018, http://docs.opengeospatial.org/per/17-046.html
 
