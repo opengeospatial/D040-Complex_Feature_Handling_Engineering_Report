@@ -49,7 +49,7 @@ In the existing implementation, 3D Tiles is used as content delivery format. See
 
 [#img_PS,reftext='{figure-caption} {counter:figure-num}']
 .3DPS getScene request to select an (bounding box) area of the New York data set
-[plantuml, images/ProtectedSite, png, align="center"]
+[plantuml, images/Testbed13-fig35-3DPS-NY-2, png, align="center"]
 
 
 
