@@ -3,84 +3,90 @@
 ==== Description
 
 This use case is about using 3D city models to simulate the building's heating demand and visualize the results in a web-based 3D scene. Why is this relevant? The building sector has a large potential in the EU economy for energy efficiency gains and CO2-reductions and is thus a priority area for achievement of the ambitious climate and energy targets for 2020 and 2050 [1]. In order to reach a 2% energy refurbishment rate promoted by the European Union and to realise long-term climate neutral communities, information about the current and future demand is necessary to develop strategies for policy making as well as to raise awareness of the citizens. Some pioneering work has already been done world wide [2], [3], [4], [5]. As an input for the simulation, usually a building model in CityGML is used.
-The use case is split into several parts: 
+The use case is split into several parts:
 
-* open a website to display a 3D map using 3D Portrayal Service and select a polygonal area / district 
+* open a website to display a 3D map using 3D Portrayal Service and select a polygonal area / district
 * query 3D building geometry inside the polygonal area from a CityGML data store using WFS 3.0 as an input to the simulation
 * using 3D Portrayal Service and WFS 3.0 to query the simulation result and visualize it in a 3D scene by building Id, by address, and by polygonal area
 * exend the use case to the INSPIRE 3D building module in addition to CityGML
 
 The following aspects are covered by this use case:
 
-_Check all categories that apply_
-
-* [x] Querying features based on properties of related or nested objects or structured data types (one level)
-* [x] Querying features based on properties of related or nested objects or structured data types (several levels)
-* [ ] Querying features based on expressions built from complex predicates consisting of predicate groups and combinations of logical operators
-* [x] Querying feature data and returning only parts of the features (selected properties, a single property only, etc.)
-* [x] Querying feature data and returning additional features linked to the selected features
-* [x] Access to and query of solid geometries and other geometries in a 3D CRS
-* [x] Use of responses for display in a web browser
-* [ ] Accessing different versions (including historic representations) of features
-
-NOTE: Do we need more categories? Or another categorisation?
+* Querying features based on properties of related or nested objects or structured data types (one level)
+* Querying features based on properties of related or nested objects or structured data types (several levels)
+* Querying feature data and returning only parts of the features (selected properties, a single property only, etc.)
+* Querying feature data and returning additional features linked to the selected features
+* Access to and query of solid geometries and other geometries in a 3D CRS
+* Use of responses for display in a web browser
 
 ==== Data
 
-* open  data 3D city model New York as used in Testbed 13 S3D performance. CityGML LoD 1/2 Building Model, no Textures
+* open data 3D city model New York as used in Testbed 13 S3D performance. CityGML LoD 1/2 Building Model, no Textures
 http://www1.nyc.gov/site/doitt/initiatives/3d-building.page; heating demand simulation is available (monthly energy balance) for Manhattan as "as is" simulation (simulated with SimStadt Software, HFT Stuttgart)
 * open data 3D model of Essen as used in the Energy and Location Pilot of the JRC. CityGML LoD 1/2 Building Model, no Textures; heating demand simulation is available (monthly energy balance) as "as is" simulation, medium refurbishment scenario, advanced refurbishment scenario (simulated with SimStadt Software, HFT Stuttgart)
 * open data 3D model of Essen, a test area converted from CityGML to INSPIRE building model using HALE Studio
 
-=== Sub Use Case: open a website to display a 3D map using 3D Portrayal Service and select a polygonal area / district 
+==== Sub Use Case: Open a website to display a 3D map using 3D Portrayal Service and select a polygonal area / district
 
-This has already been sshowcased and implemented in Testbed 13. The implemenetation is available here and can be further used and extended in Testbed 14 with the New York data set. The experiment evaluated the complete flow of data from its originating CityGML format to a web-enabled visualization with Cesium via OGC’s 3D Portrayal Service (3DPS). This data flow included the conversion from the CityGML data format served by GeoRocket, to 3D Tiles dataset, and the import of the 3D Tiles dataset to the 3DPS Framework. A public demo is available at: tb13.igd.fraunhofer.de:8080/Apps/Sandcastle/index.html?src=3DPS_r.html&label=Showcases.
+This has already been showcased and implemented in Testbed 13. The implementation is available and can be further used and extended in Testbed 14 with the New York data set. The experiment evaluated the complete flow of data from its originating CityGML format to a web-enabled visualization with Cesium via OGC’s 3D Portrayal Service (3DPS). This data flow included the conversion from the CityGML data format served by GeoRocket, to 3D Tiles dataset, and the import of the 3D Tiles dataset to the 3DPS Framework. A public demo is available at: tb13.igd.fraunhofer.de:8080/Apps/Sandcastle/index.html?src=3DPS_r.html&label=Showcases.
 
 The following aspects are covered by this use case:
 
-* [x] 3DPS getScene Region query
+* Use of responses for display in a web browser (3DPS getScene Region query)
 
-==== Queries
+===== Query
 
-* 3DPS getScene request example from the New York showcase: 
+A 3DPS getScene request example from the New York showcase:
 
-http://tb13.igd.fraunhofer.de:8082/3dps?SERVICE=3DPS&VERSION=1.0&REQUEST=GetScene&LAYERS=manhattan&FORMAT=text/html&CRS=EPSG:4326&BOUNDINGBOX=-74.00635826977239,40.71778771238832,-73.97393297660074,40.75070138933127
+link:http://tb13.igd.fraunhofer.de:8082/3dps?SERVICE=3DPS&VERSION=1.0&REQUEST=GetScene&LAYERS=manhattan&FORMAT=text/html&CRS=EPSG:4326&BOUNDINGBOX=-74.00635826977239,40.71778771238832,-73.97393297660074,40.75070138933127[http://tb13.igd.fraunhofer.de:8082/3dps? +
+  SERVICE=3DPS& +
+  VERSION=1.0& +
+  REQUEST=GetScene& +
+  LAYERS=manhattan& +
+  FORMAT=text/html& +
+  CRS=EPSG:4326& +
+  BOUNDINGBOX=-74.00635826977239,40.71778771238832,-73.97393297660074,40.75070138933127]
 
 In the existing implementation, 3D Tiles is used as content delivery format. See OGC Testbed 13 – 3D Tiles and I3S Interoperability and Performance Engineering Report, experiment#2 for further details (http://docs.opengeospatial.org/per/17-046.html#Experiment2).
 
-[#img_PS,reftext='{figure-caption} {counter:figure-num}']
+[#img_NY1,reftext='{figure-caption} {counter:figure-num}']
 .3DPS getScene request to select an (bounding box) area of the New York data set
-[plantuml, images/Testbed13-fig35-3DPS-NY-2, png, align="center"]
+image::images/Testbed13-fig35-3DPS-NY-2.png[align="center"]
 
-=== SUb Use Case: Using 3D Portrayal Service and WFS 3.0 to query the simulation result and visualize it in a 3D scene by building Id
+==== Sub Use Case: Using 3D Portrayal Service and WFS 3.0 to query the simulation result and visualize it in a 3D scene by building Id
 
 In Testbed 13, the 3DPS getFeatureInfo request has been used to query heating demand (simulation result) per building from a server at HFT Stuttgart. See video on the Testbed 13 S3D Performance Experiment #2 here: https://www.youtube.com/watch?v=AbyCQKH-PC4&index=17&list=PLQsQNjNIDU87So4QmiSCKFmE0fv567s3m&t=0s
 
-It would make sense to user the building id to retrieve additional attributes from a WFS 3.0. But the building geometry is not wanted any more as it is already available. 
+It would make sense to user the building id to retrieve additional attributes from a WFS 3.0. But the building geometry is not wanted any more as it is already available.
 
-[#img_PS,reftext='{figure-caption} {counter:figure-num}']
+[#img_NY2,reftext='{figure-caption} {counter:figure-num}']
 .The dataflow from GeoRocket to the visualized 3D Tiles, which are requested via the 3DPS queries (from Testbed 13, S3D performance)
-[plantuml, images/Testbed13-fig35-3DPS-NY-1, png, align="center"]
+image::images/Testbed13-fig35-3DPS-NY-1.png[align="center"]
 
 The following aspects are covered by this use case:
 
-* [x] 3DPS getScene Region query
-* [x] Querying feature data and returning only parts of the features (selected properties, a single property only, etc.)
+* Use of responses for display in a web browser (3DPS getScene Region query)
+* Querying feature data and returning only parts of the features (selected properties, a single property only, etc.)
 
-==== Queries
+===== Query
 
-* 3DPS getFeatureInfo request example from the New York showcase: 
+A 3DPS getFeatureInfo request example from the New York showcase:
 
-http://81.169.187.7:3100/api/v2/endpoint?service=3DPS&version=1.0&request=GetFeatureInfoByObjectId&objectid=uuid_2824afd6-00e5-42ac-ab95-ec868595dc5a&dataset=ny_dataset 
+link:http://81.169.187.7:3100/api/v2/endpoint?service=3DPS&version=1.0&request=GetFeatureInfoByObjectId&objectid=uuid_2824afd6-00e5-42ac-ab95-ec868595dc5a&dataset=ny_dataset[http://81.169.187.7:3100/api/v2/endpoint? +
+  SERVICE=3DPS& +
+  VERSION=1.0& +
+  REQUEST=GetFeatureInfoByObjectId& +
+  OBJECTID=uuid_2824afd6-00e5-42ac-ab95-ec868595dc5a& +
+  DATASET=ny_dataset]
 
-Should be replaced by a WFS getFeature request. The request needs to be specified, especially how to query selected attributes only.
+NOTE: Should be replaced by a WFS getFeature request. The request needs to be specified, especially how to query selected attributes only.
 
-[#img_PS,reftext='{figure-caption} {counter:figure-num}']
+[#img_NY3,reftext='{figure-caption} {counter:figure-num}']
 .Manhattan dataset with simulated heat demand, provided by HFT Stuttgart, and color coded in to the building’s appearance. (from Testbed 13, S3D performance)
-[plantuml, images/Testbed13-fig35-3DPS-NY-3, png, align="center"]
-
+image::images/Testbed13-fig35-3DPS-NY-3.png[align="center"]
 
 ==== References
+
 [1] Federal Ministry of Economics and Technology (2010) Energy Concept for
 an Environmentally Sound, Reliable and Affordable Energy Supply. http://
 www.bmwi.de/English/Redaktion/Pdf/energy-concept
@@ -94,4 +100,3 @@ www.bmwi.de/English/Redaktion/Pdf/energy-concept
 [5] Chen, Y., Hong, T., and Piette, M.A.: Automatic generation and simulation of urban building energy models based on city datasets for city-scale building retrofit analysis, Applied Energy, Volume 205, 1 November 2017, Pages 323-335, https://doi.org/10.1016/j.apenergy.2017.07.128
 
 [6] Coors, V. (Ed.): OGC Testbed 13 – 3D Tiles and I3S Interoperability and Performance Engineering Report, 5.3.2018, http://docs.opengeospatial.org/per/17-046.html
-
