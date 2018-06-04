@@ -85,6 +85,200 @@ NOTE: Should be replaced by a WFS getFeature request. The request needs to be sp
 .Manhattan dataset with simulated heat demand, provided by HFT Stuttgart, and color coded in to the building’s appearance. (from Testbed 13, S3D performance)
 image::images/Testbed13-fig35-3DPS-NY-3.png[align="center"]
 
+==== Sub Use Case: Using WFS 3.0 to query a feature from a feature collecion by id and deliver a CityGML model (citymodel is a feature collection)
+
+Most important in this use case is that the feature geometry is a solid geometry. In addition, it needs to be discussed how to deal with the LoD concept. The CityGML model will be further used by another process, in this use case the simulation of the heating demand of that building. 
+
+===== Query
+
+WFS 2.0 query (using 3D CityDB)
+<?xml version="1.0" encoding="UTF-8"?>
+	<wfs:GetFeature service="WFS" 
+				version="2.0.0" 
+				xmlns:wfs="http://www.opengis.net/wfs/2.0">
+		<wfs:TypeName>TWINHOUSE1</wfs:TypeName>
+	</wfs:GetFeature>
+
+Query can be expressed in WFS 3.0 without any changes, if I am right
+
+GET /collections/{name}/items/{id}
+
+==== Result
+
+most important is that the result contains a solid geometry. It can be encoded as a feature collection, as CityGML model, or as a INSPIRE feature collection. Does the server decides it? Or is it part of the query?
+
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<wfs:FeatureCollection xmlns:xAL="urn:oasis:names:tc:ciq:xsdschema:xAL:2.0" xmlns:gml="http://www.opengis.net/gml" xmlns:bldg="http://www.opengis.net/citygml/building/2.0" xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:gen="http://www.opengis.net/citygml/generics/2.0" xmlns:core="http://www.opengis.net/citygml/2.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/citygml/building/2.0 http://schemas.opengis.net/citygml/building/2.0/building.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd http://www.opengis.net/citygml/generics/2.0 http://schemas.opengis.net/citygml/generics/2.0/generics.xsd" timeStamp="2018-03-28T15:01:47" numberMatched="2" numberReturned="2">
+ <wfs:member>
+  <wfs:FeatureCollection timeStamp="2018-03-28T15:01:47" numberMatched="1" numberReturned="1">
+   <wfs:member>
+    <bldg:Building gml:id="TWINHOUSE1">
+     <gml:boundedBy>
+      <gml:Envelope srsName="crs:EPSG::31468" srsDimension="3">
+       <gml:lowerCorner>-8.0E-15 0.0 0.0</gml:lowerCorner>
+       <gml:upperCorner>10.04 10.04 6.4</gml:upperCorner>
+      </gml:Envelope>
+     </gml:boundedBy>
+     <core:creationDate>2018-03-20</core:creationDate>
+     <bldg:lod1Solid>
+      <gml:Solid gml:id="UUID_836b4b28-24d9-4e83-906a-98f4364d351f">
+       <gml:exterior>
+        <gml:CompositeSurface gml:id="UUID_2ac22267-11d4-48f0-b63d-c417228d1968">
+         <gml:surfaceMember>
+          <gml:Polygon gml:id="UUID_e379198f-7e10-43e8-8737-851cece07579">
+           <gml:exterior>
+            <gml:LinearRing gml:id="UUID_e379198f-7e10-43e8-8737-851cece07579_0_">
+             <gml:posList srsDimension="3">2.0E-15 10.04 0.0 4.0E-15 10.04 1.0E-13 -0.0 0.0 0.0 2.0E-15 10.04 0.0</gml:posList>
+            </gml:LinearRing>
+           </gml:exterior>
+          </gml:Polygon>
+         </gml:surfaceMember>
+         <gml:surfaceMember>
+          <gml:Polygon gml:id="UUID_0e264d5e-3034-43fc-b65f-2b231ef5907b">
+           <gml:exterior>
+            <gml:LinearRing gml:id="UUID_0e264d5e-3034-43fc-b65f-2b231ef5907b_0_">
+             <gml:posList srsDimension="3">4.0E-15 10.04 1.0E-13 4.0E-15 0.0 1.0E-13 -0.0 0.0 0.0 4.0E-15 10.04 1.0E-13</gml:posList>
+            </gml:LinearRing>
+           </gml:exterior>
+          </gml:Polygon>
+         </gml:surfaceMember>
+         <gml:surfaceMember>
+          <gml:Polygon gml:id="UUID_c8dbcf60-8f0e-43f1-a1ef-ed43620dbfb1">
+           <gml:exterior>
+            <gml:LinearRing gml:id="UUID_c8dbcf60-8f0e-43f1-a1ef-ed43620dbfb1_0_">
+             <gml:posList srsDimension="3">4.0E-15 10.04 1.0E-13 10.04 10.04 0.0 10.04 0.0 0.0 4.0E-15 0.0 1.0E-13 4.0E-15 10.04 1.0E-13</gml:posList>
+            </gml:LinearRing>
+           </gml:exterior>
+          </gml:Polygon>
+         </gml:surfaceMember>
+         <gml:surfaceMember>
+          <gml:Polygon gml:id="UUID_22c99934-a675-4b42-97af-f73874d1aabb">
+           <gml:exterior>
+            <gml:LinearRing gml:id="UUID_22c99934-a675-4b42-97af-f73874d1aabb_0_">
+             <gml:posList srsDimension="3">10.04 0.0 6.4 10.04 0.0 0.0 10.04 10.04 0.0 10.04 10.04 6.4 10.04 0.0 6.4</gml:posList>
+            </gml:LinearRing>
+           </gml:exterior>
+          </gml:Polygon>
+         </gml:surfaceMember>
+         <gml:surfaceMember>
+          <gml:Polygon gml:id="UUID_13db3bd0-6210-414c-b884-3bd2099c9680">
+           <gml:exterior>
+            <gml:LinearRing gml:id="UUID_13db3bd0-6210-414c-b884-3bd2099c9680_0_">
+             <gml:posList srsDimension="3">10.04 10.04 6.4 10.04 10.04 0.0 4.0E-15 10.04 1.0E-13 2.0E-15 10.04 0.0 -8.0E-15 10.04 6.39999999999999 10.04 10.04 6.4</gml:posList>
+            </gml:LinearRing>
+           </gml:exterior>
+          </gml:Polygon>
+         </gml:surfaceMember>
+         <gml:surfaceMember>
+          <gml:Polygon gml:id="UUID_024dfb16-831c-4404-9c94-cdda06aaca86">
+           <gml:exterior>
+            <gml:LinearRing gml:id="UUID_024dfb16-831c-4404-9c94-cdda06aaca86_0_">
+             <gml:posList srsDimension="3">2.0E-15 10.04 0.0 -0.0 0.0 0.0 -8.0E-15 10.04 6.39999999999999 2.0E-15 10.04 0.0</gml:posList>
+            </gml:LinearRing>
+           </gml:exterior>
+          </gml:Polygon>
+         </gml:surfaceMember>
+         <gml:surfaceMember>
+          <gml:Polygon gml:id="UUID_a9f8e079-5033-49ed-851a-aae7f9454dd8">
+           <gml:exterior>
+            <gml:LinearRing gml:id="UUID_a9f8e079-5033-49ed-851a-aae7f9454dd8_0_">
+             <gml:posList srsDimension="3">-8.0E-15 10.04 6.39999999999999 -0.0 0.0 0.0 -8.0E-15 0.0 6.39999999999999 -8.0E-15 10.04 6.39999999999999</gml:posList>
+            </gml:LinearRing>
+           </gml:exterior>
+          </gml:Polygon>
+         </gml:surfaceMember>
+         <gml:surfaceMember>
+          <gml:Polygon gml:id="UUID_a6d3c8c7-ace0-4e48-b8c1-ca18cd5a814d">
+           <gml:exterior>
+            <gml:LinearRing gml:id="UUID_a6d3c8c7-ace0-4e48-b8c1-ca18cd5a814d_0_">
+             <gml:posList srsDimension="3">10.04 0.0 6.4 -8.0E-15 0.0 6.39999999999999 -0.0 0.0 0.0 4.0E-15 0.0 1.0E-13 10.04 0.0 0.0 10.04 0.0 6.4</gml:posList>
+            </gml:LinearRing>
+           </gml:exterior>
+          </gml:Polygon>
+         </gml:surfaceMember>
+         <gml:surfaceMember>
+          <gml:Polygon gml:id="UUID_c1b51c00-2dbc-45d2-9c93-c9b396382780">
+           <gml:exterior>
+            <gml:LinearRing gml:id="UUID_c1b51c00-2dbc-45d2-9c93-c9b396382780_0_">
+             <gml:posList srsDimension="3">-8.0E-15 10.04 6.39999999999999 -8.0E-15 0.0 6.39999999999999 10.04 0.0 6.4 10.04 10.04 6.4 -8.0E-15 10.04 6.39999999999999</gml:posList>
+            </gml:LinearRing>
+           </gml:exterior>
+          </gml:Polygon>
+         </gml:surfaceMember>
+        </gml:CompositeSurface>
+       </gml:exterior>
+      </gml:Solid>
+     </bldg:lod1Solid>
+     <bldg:lod1TerrainIntersection>
+      <gml:MultiCurve>
+       <gml:curveMember>
+        <gml:LineString>
+         <gml:posList srsDimension="3">10.04 0.0 0.0 10.04 10.04 0.0</gml:posList>
+        </gml:LineString>
+       </gml:curveMember>
+       <gml:curveMember>
+        <gml:LineString>
+         <gml:posList srsDimension="3">-0.0 0.0 0.0 10.04 0.0 0.0</gml:posList>
+        </gml:LineString>
+       </gml:curveMember>
+       <gml:curveMember>
+        <gml:LineString>
+         <gml:posList srsDimension="3">2.0E-15 10.04 0.0 -0.0 0.0 0.0</gml:posList>
+        </gml:LineString>
+       </gml:curveMember>
+       <gml:curveMember>
+        <gml:LineString>
+         <gml:posList srsDimension="3">2.0E-15 10.04 0.0 10.04 10.04 0.0</gml:posList>
+        </gml:LineString>
+       </gml:curveMember>
+      </gml:MultiCurve>
+     </bldg:lod1TerrainIntersection>
+    </bldg:Building>
+   </wfs:member>
+  </wfs:FeatureCollection>
+ </wfs:member>
+
+Same response in CityGML, different header rest is the same.
+
+<core:CityModel xmlns:smil20="http://www.w3.org/2001/SMIL20/" xmlns:grp="http://www.opengis.net/citygml/cityobjectgroup/1.0" xmlns:smil20lang="http://www.w3.org/2001/SMIL20/Language" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:base="http://www.citygml.org/citygml/profiles/base/1.0" xmlns:luse="http://www.opengis.net/citygml/landuse/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:frn="http://www.opengis.net/citygml/cityfurniture/1.0" xmlns:dem="http://www.opengis.net/citygml/relief/1.0" xmlns:tran="http://www.opengis.net/citygml/transportation/1.0" xmlns:wtr="http://www.opengis.net/citygml/waterbody/1.0" xmlns:tex="http://www.opengis.net/citygml/texturedsurface/1.0" xmlns:core="http://www.opengis.net/citygml/1.0" xmlns:xAL="urn:oasis:names:tc:ciq:xsdschema:xAL:2.0" xmlns:bldg="http://www.opengis.net/citygml/building/1.0" xmlns:sch="http://www.ascc.net/xml/schematron" xmlns:app="http://www.opengis.net/citygml/appearance/1.0" xmlns:veg="http://www.opengis.net/citygml/vegetation/1.0" xmlns:gml="http://www.opengis.net/gml" xmlns:gen="http://www.opengis.net/citygml/generics/1.0">
+<core:cityObjectMember>
+<bldg:Building gml:id="TWINHOUSE1">
+...
+
+In INSPIRE, it will look similar, but not the same. Example will follow. 
+
+Interesting use case would be the support of CityJSON. 
+
+==== Sub Use Case: Using WFS 3.0 to query a 2D region from a feature collecion by id and deliver a CityGML model (citymodel is a feature collection)
+
+
+===== Query
+
+An instance of GeoRocket containing the New York City CityGML model developed in Testbed 13 already supports this use case. However, it is not based on WFS specification. 
+Search buildings by bounding box:
+
+http://192.44.35.62:63020/store/?search=-74,40.7,-73.96,40.8
+
+can be used to test the resulting feature collection. Sould contain the same features
+
+Query in WFS 3.0
+
+===== Results
+
+too long for the ER.
+
+http://192.44.35.62:63020/store/?search=-74,40.7,-73.96,40.8
+
+==== Sub Use Case: Using WFS 3.0 to query a 3D region from a feature collecion by id and deliver a CityGML model (citymodel is a feature collection)
+
+I don't have an example yet.
+
+===== Query
+
+
+===== Results
+
+
 ==== References
 
 [1] Federal Ministry of Economics and Technology (2010) Energy Concept for
