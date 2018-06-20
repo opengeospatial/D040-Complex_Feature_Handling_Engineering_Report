@@ -35,6 +35,8 @@ include::5-use-cases-select-association.adoc[]
 
 include::5-use-cases-select-associations.adoc[]
 
+include::5-use-cases-versions.adoc[]
+
 include::5-use-cases-heatingdemand.adoc[]
 
 // include::5-use-cases-TEMPLATE.adoc[]

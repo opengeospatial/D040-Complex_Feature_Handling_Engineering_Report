@@ -1,0 +1,130 @@
+[[uc-versions]]
+=== Select features / feature versions based on temporal validity
+
+==== Description
+
+Often, the history of a dataset is important. The example that we are using
+here is a cadastral parcel dataset, where it can be important to know the
+state of the parcels at a point in the past.
+
+There are two options how this is typically handled in application schemas.
+
+One approach is that the features are in fact feature versions. That is,
+different versions of the same feature / real-world entity are each represented
+as separate features. This is the approach we are considering in this use case.
+To avoid confusion we use the terms "version" and "real-world entity" in the
+description of this use case instead of "feature" which could mean the feature or
+a specific version of the feature.
+
+The advantage of this approach is that no specific temporal support is required
+in clients processing the data. This pattern is therefore frequently used with
+data that is used in map-based GIS clients, for example, with dataset provided
+by mapping or cadastral agencies.
+
+The other approach is to model the feature properties as timestamped sequences
+of values. GML supports this approach with the Dynamic Features pattern. The downside
+of this approach is that clients and servers must support this specific pattern,
+which typically requires customised software. A domain that is using this approach
+is the aviation domain.
+
+The following aspects are covered by this use case:
+
+* Accessing different versions (including historic representations) of features
+
+==== Data
+
+The dataset is the same as in the <<uc-select-association,first use case>>.
+
+As described above, the features in the application schema are versions of a
+real-world entity, valid for a given time period.
+
+All versions of the same real-world entity have the same `gml:identifier`.
+If multiple versions occur in the same GML document, a timestamp will be added
+to the `gml:id` attribute, otherwise the identifier of the real-world entity
+will be used.
+
+Each version has information about the lifespan of the version at hand.
+I.e., each version has a timestamp when this version
+has been added to the dataset. If the version is still valid, there is no
+timestamp for the end of the version validity. If the version (or the real-world entity)
+is no longer valid in the dataset, a timestamp for the end is added.
+
+Each timestamp is given in UTC, the granularity is seconds.
+
+If a new version is added due to a change in a property, the new version will have
+a start timestamp that is one second after the end timestamp of the previous version.
+
+The example query use the following feature types. This is simplified, the actual
+schema and data is much more complex and reflects the legal requirements of the
+German land register.
+
+CadastralParcel (AX_Flurstueck)::
+  A cadastral parcel.
+
+[#img_PS,reftext='{figure-caption} {counter:figure-num}']
+.UML class diagram for features in use case "Select features based on related features (one association)"
+[plantuml, images/CadastralParcel, png, align="center"]
+....
+@startuml
+hide methods
+class CadastralParcel <<featureType>> {
+  +parcelId : CharacterString
+  +lifespan : Lifespan
+  +position : GM_MultiSurface
+}
+class Lifespan <<dataType>> {
+  +begin : DateTime
+  +end : DateTime [0..1]
+}
+@enduml
+....
+
+=== Query: Select the cadastral parcel versions based on their temporal validity
+
+The following WFS query selects all CadastralParcel (AX_Flurstueck)
+versions that have been inserted into the dataset on July 1st, 2017.
+
+```
+https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?
+  service=WFS&
+  version=2.0.0&
+  request=GetFeature&
+  namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&
+  typenames=adv:AX_Flurstueck&
+  filter=
+  <fes:Filter
+    xmlns:adv="http://www.adv-online.de/namespaces/adv/gid/6.0"
+    xmlns:gml="http://www.opengis.net/gml/3.2"
+    xmlns:fes="http://www.opengis.net/fes/2.0">
+    <fes:During>
+      <fes:ValueReference>
+        adv:lebenszeitintervall/adv:AA_Lebenszeitintervall/adv:beginnt
+      </fes:ValueReference>
+      <gml:TimePeriod gml:id="TP1">
+      <gml:begin>
+        <gml:TimeInstant gml:id="TI1">
+          <gml:timePosition>2017-07-01T00:00:00Z</gml:timePosition>
+        </gml:TimeInstant>
+      </gml:begin>
+      <gml:end>
+        <gml:TimeInstant gml:id="TI2">
+          <gml:timePosition>2017-07-01T23:59:59Z</gml:timePosition>
+        </gml:TimeInstant>
+      </gml:end>
+      </gml:TimePeriod>
+    </fes:During>
+  </fes:Filter>
+```
+
+The result is a feature collection with eight CadastralParcel
+(AX_Flurstueck) features.
+
+link:https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?service=WFS&version=2.0.0&request=GetFeature&namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&typenames=adv:AX_Flurstueck&filter=%3Cfes%3AFilter%0A%20%20%20%20xmlns%3Aadv%3D%22http%3A%2F%2Fwww.adv-online.de%2Fnamespaces%2Fadv%2Fgid%2F6.0%22%0A%20%20%20%20xmlns%3Agml%3D%22http%3A%2F%2Fwww.opengis.net%2Fgml%2F3.2%22%0A%20%20%20%20xmlns%3Afes%3D%22http%3A%2F%2Fwww.opengis.net%2Ffes%2F2.0%22%3E%0A%20%20%20%20%3Cfes%3ADuring%3E%0A%20%20%20%20%20%20%3Cfes%3AValueReference%3Eadv%3Alebenszeitintervall%2Fadv%3AAA_Lebenszeitintervall%2Fadv%3Abeginnt%3C%2Ffes%3AValueReference%3E%0A%20%20%20%20%20%20%3Cgml%3ATimePeriod%20gml%3Aid%3D%22TP1%22%3E%0A%20%20%20%20%20%20%3Cgml%3Abegin%3E%0A%20%20%20%20%20%20%20%20%3Cgml%3ATimeInstant%20gml%3Aid%3D%22TI1%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cgml%3AtimePosition%3E2017-07-01T00%3A00%3A00Z%3C%2Fgml%3AtimePosition%3E%0A%20%20%20%20%20%20%20%20%3C%2Fgml%3ATimeInstant%3E%0A%20%20%20%20%20%20%3C%2Fgml%3Abegin%3E%0A%20%20%20%20%20%20%3Cgml%3Aend%3E%0A%20%20%20%20%20%20%20%20%3Cgml%3ATimeInstant%20gml%3Aid%3D%22TI2%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cgml%3AtimePosition%3E2017-07-01T23%3A59%3A59Z%3C%2Fgml%3AtimePosition%3E%0A%20%20%20%20%20%20%20%20%3C%2Fgml%3ATimeInstant%3E%0A%20%20%20%20%20%20%3C%2Fgml%3Aend%3E%0A%20%20%20%20%20%20%3C%2Fgml%3ATimePeriod%3E%0A%20%20%20%20%3C%2Ffes%3ADuring%3E%0A%20%20%3C%2Ffes%3AFilter%3E[Live link to invoke the query on a WFS...]
+
+Note that the dataset accessible via the WFS only includes valid versions, because
+WFS 2.0 does not include a simple mechanism to handle versions in queries and
+most users, especially those using a map-based GIS client, would be surprised to receive
+multiple features from the WFS representing the same real-world entity. All of those
+version would be drawn on a map at the same time.
+
+There is an opportunity with WFS 3.0 to support datasets with versions natively.
