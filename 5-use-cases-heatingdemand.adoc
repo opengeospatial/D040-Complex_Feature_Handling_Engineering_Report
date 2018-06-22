@@ -348,6 +348,7 @@ image::images/wfs_3_example1_VCS_result.png[align="center"]
 
 ==== Query 3
 
+
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <wfs:GetFeature service="WFS" version="2.0.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:wfs="http://www.opengis.net/wfs/2.0"
@@ -370,12 +371,14 @@ image::images/wfs_3_example1_VCS_result.png[align="center"]
     </fes:Filter>
   </wfs:Query>
 </wfs:GetFeature>
+
 ```
 
 ==== Result 3
+ This result is shown as an image as the XML Model itself is too verbose for the report. Note: image does not fit to the query as buildings are shown, not trees; needs to be updated
  
- [#img_VCS3,reftext='{figure-caption} {counter:figure-num}']
-.get all buildings within a given distance of a point (note: image does not fit to the query as buildings are shown, not trees; needs to be updated) 
+[#img_VCS3,reftext='{figure-caption} {counter:figure-num}']
+.get all buildings within a given distance of a point 
 image::images/wfs_3_example3_VCS_result.png[align="center"]
 
 ==== Query 4
