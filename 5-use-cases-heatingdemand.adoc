@@ -91,6 +91,7 @@ Most important in this use case is that the feature geometry is a solid geometry
 
 ===== Query
 
+```
 WFS 2.0 query (using 3D CityDB)
 <?xml version="1.0" encoding="UTF-8"?>
 	<wfs:GetFeature service="WFS" 
@@ -98,6 +99,7 @@ WFS 2.0 query (using 3D CityDB)
 				xmlns:wfs="http://www.opengis.net/wfs/2.0">
 		<wfs:TypeName>TWINHOUSE1</wfs:TypeName>
 	</wfs:GetFeature>
+```
 
 Query can be expressed in WFS 3.0 without any changes, if I am right
 
@@ -107,6 +109,7 @@ GET /collections/{name}/items/{id}
 
 most important is that the result contains a solid geometry. It can be encoded as a feature collection, as CityGML model, or as a INSPIRE feature collection. Does the server decides it? Or is it part of the query?
 
+```
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <wfs:FeatureCollection xmlns:xAL="urn:oasis:names:tc:ciq:xsdschema:xAL:2.0" xmlns:gml="http://www.opengis.net/gml" xmlns:bldg="http://www.opengis.net/citygml/building/2.0" xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:gen="http://www.opengis.net/citygml/generics/2.0" xmlns:core="http://www.opengis.net/citygml/2.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/citygml/building/2.0 http://schemas.opengis.net/citygml/building/2.0/building.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd http://www.opengis.net/citygml/generics/2.0 http://schemas.opengis.net/citygml/generics/2.0/generics.xsd" timeStamp="2018-03-28T15:01:47" numberMatched="2" numberReturned="2">
  <wfs:member>
@@ -237,6 +240,7 @@ most important is that the result contains a solid geometry. It can be encoded a
    </wfs:member>
   </wfs:FeatureCollection>
  </wfs:member>
+ ```
 
 Same response in CityGML, different header rest is the same.
 
@@ -276,6 +280,7 @@ http://192.44.35.62:63020/store/?search=-74,40.7,-73.96,40.8
 
 ===== Query 1
 
+```
 <?xml version="1.0" encoding="UTF-8"?>
 <wfs:GetFeature service="WFS" version="2.0.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:wfs="http://www.opengis.net/wfs/2.0"
   xmlns:bldg="http://www.opengis.net/citygml/building/2.0" xmlns:gml="http://www.opengis.net/gml"
@@ -307,7 +312,7 @@ http://192.44.35.62:63020/store/?search=-74,40.7,-73.96,40.8
     </fes:Filter>
   </wfs:Query>
 </wfs:GetFeature>
-
+```
 
 ==== Result
 
@@ -321,6 +326,7 @@ image::images/wfs_3_example1_VCS_result.png[align="center"]
  
 ==== Query 2
 
+```
 <?xml version="1.0" encoding="UTF-8"?>
 <wfs:GetFeature service="WFS" version="2.0.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:wfs="http://www.opengis.net/wfs/2.0"
   xmlns:bldg="http://www.opengis.net/citygml/building/2.0" xmlns:gml="http://www.opengis.net/gml" xmlns:core="http://www.opengis.net/citygml/2.0"
@@ -338,9 +344,11 @@ image::images/wfs_3_example1_VCS_result.png[align="center"]
     </fes:Filter>
   </wfs:Query>
 </wfs:GetFeature>
+```
 
 ==== Query 3
 
+```
 <?xml version="1.0" encoding="UTF-8"?>
 <wfs:GetFeature service="WFS" version="2.0.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:wfs="http://www.opengis.net/wfs/2.0"
   xmlns:veg="http://www.opengis.net/citygml/vegetation/2.0" xmlns:gml="http://www.opengis.net/gml" xmlns:core="http://www.opengis.net/citygml/2.0"
@@ -362,7 +370,7 @@ image::images/wfs_3_example1_VCS_result.png[align="center"]
     </fes:Filter>
   </wfs:Query>
 </wfs:GetFeature>
-
+```
 
 ==== Result 3
  
@@ -372,6 +380,7 @@ image::images/wfs_3_example3_VCS_result.png[align="center"]
 
 ==== Query 4
 
+```
 <?xml version="1.0" encoding="UTF-8"?>
 <wfs:GetFeature service="WFS" version="2.0.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:wfs="http://www.opengis.net/wfs/2.0"
   xmlns:bldg="http://www.opengis.net/citygml/building/2.0" xmlns:gml="http://www.opengis.net/gml" xmlns:energy="http://www.sig3d.org/citygml/2.0/energy/1.0"
@@ -390,9 +399,11 @@ image::images/wfs_3_example3_VCS_result.png[align="center"]
     </fes:Filter>
   </wfs:Query>
 </wfs:GetFeature>
+```
 
 ==== Query 5
 
+```
 <?xml version="1.0" encoding="UTF-8"?>
 <wfs:GetFeature service="WFS" version="2.0.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:wfs="http://www.opengis.net/wfs/2.0"
   xmlns:tran="http://www.opengis.net/citygml/transportation/2.0" xmlns:gml="http://www.opengis.net/gml"
@@ -410,9 +421,11 @@ image::images/wfs_3_example3_VCS_result.png[align="center"]
     </fes:Filter>
   </wfs:Query>
 </wfs:GetFeature>
+```
 
 ==== Query 6
 
+```
 <?xml version="1.0" encoding="UTF-8"?>
 <wfs:GetFeature service="WFS" version="2.0.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:wfs="http://www.opengis.net/wfs/2.0"
   xmlns:bldg="http://www.opengis.net/citygml/building/2.0" xmlns:gml="http://www.opengis.net/gml"
@@ -436,6 +449,7 @@ image::images/wfs_3_example3_VCS_result.png[align="center"]
     </fes:Filter>
   </wfs:Query>
 </wfs:GetFeature>
+```
 
 ==== References
 
