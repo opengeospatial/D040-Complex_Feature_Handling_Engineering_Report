@@ -109,7 +109,7 @@ GET /collections/{name}/items/{id}
 
 most important is that the result contains a solid geometry. It can be encoded as a feature collection, as CityGML model, or as a INSPIRE feature collection. Does the server decides it? Or is it part of the query?
 
-```
+
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <wfs:FeatureCollection xmlns:xAL="urn:oasis:names:tc:ciq:xsdschema:xAL:2.0" xmlns:gml="http://www.opengis.net/gml" xmlns:bldg="http://www.opengis.net/citygml/building/2.0" xmlns:wfs="http://www.opengis.net/wfs/2.0" xmlns:gen="http://www.opengis.net/citygml/generics/2.0" xmlns:core="http://www.opengis.net/citygml/2.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/citygml/building/2.0 http://schemas.opengis.net/citygml/building/2.0/building.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd http://www.opengis.net/citygml/generics/2.0 http://schemas.opengis.net/citygml/generics/2.0/generics.xsd" timeStamp="2018-03-28T15:01:47" numberMatched="2" numberReturned="2">
  <wfs:member>
@@ -240,14 +240,14 @@ most important is that the result contains a solid geometry. It can be encoded a
    </wfs:member>
   </wfs:FeatureCollection>
  </wfs:member>
- ```
+
 
 Same response in CityGML, different header rest is the same.
 
 <core:CityModel xmlns:smil20="http://www.w3.org/2001/SMIL20/" xmlns:grp="http://www.opengis.net/citygml/cityobjectgroup/1.0" xmlns:smil20lang="http://www.w3.org/2001/SMIL20/Language" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:base="http://www.citygml.org/citygml/profiles/base/1.0" xmlns:luse="http://www.opengis.net/citygml/landuse/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:frn="http://www.opengis.net/citygml/cityfurniture/1.0" xmlns:dem="http://www.opengis.net/citygml/relief/1.0" xmlns:tran="http://www.opengis.net/citygml/transportation/1.0" xmlns:wtr="http://www.opengis.net/citygml/waterbody/1.0" xmlns:tex="http://www.opengis.net/citygml/texturedsurface/1.0" xmlns:core="http://www.opengis.net/citygml/1.0" xmlns:xAL="urn:oasis:names:tc:ciq:xsdschema:xAL:2.0" xmlns:bldg="http://www.opengis.net/citygml/building/1.0" xmlns:sch="http://www.ascc.net/xml/schematron" xmlns:app="http://www.opengis.net/citygml/appearance/1.0" xmlns:veg="http://www.opengis.net/citygml/vegetation/1.0" xmlns:gml="http://www.opengis.net/gml" xmlns:gen="http://www.opengis.net/citygml/generics/1.0">
 <core:cityObjectMember>
 <bldg:Building gml:id="TWINHOUSE1">
-...
+
 
 In INSPIRE, it will look similar, but not the same. Example will follow. 
 
