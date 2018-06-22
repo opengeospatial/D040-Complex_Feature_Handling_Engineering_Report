@@ -2,7 +2,7 @@
 
 ==== Description
 
-This use case is about using 3D city models to simulate the building's heating demand and visualize the results in a web-based 3D scene. Why is this relevant? The building sector has a large potential in the EU economy for energy efficiency gains and CO2-reductions and is thus a priority area for achievement of the ambitious climate and energy targets for 2020 and 2050 [1]. In order to reach a 2% energy refurbishment rate promoted by the European Union and to realise long-term climate neutral communities, information about the current and future demand is necessary to develop strategies for policy making as well as to raise awareness of the citizens. Some pioneering work has already been done world wide [2], [3], [4], [5]. As an input for the simulation, usually a building model in CityGML is used.
+This use case is about using 3D city models to simulate the building's heating demand and visualize the results in a web-based 3D scene. Why is this relevant? The building sector has a large potential in the European Union economy for energy efficiency gains and CO2-reductions and is thus a priority area for achieving the ambitious climate and energy targets for 2020 and 2050 [1]. In order to reach a 2% energy refurbishment rate promoted by the European Union and to realise long-term climate neutral communities, information about the current and future demand is necessary to develop strategies for policy making as well as to raise awareness of the citizens. Some pioneering work has already been done world wide [2], [3], [4], [5]. As an input for the simulation, usually a building model in CityGML is used.
 The use case is split into several parts:
 
 * open a website to display a 3D map using 3D Portrayal Service and select a polygonal area / district
@@ -21,14 +21,14 @@ The following aspects are covered by this use case:
 
 ==== Data
 
-* open data 3D city model New York as used in Testbed 13 S3D performance. CityGML LoD 1/2 Building Model, no Textures
+* Open data 3D city model New York as used in Testbed 13 S3D performance. CityGML LoD 1/2 Building Model, no Textures
 http://www1.nyc.gov/site/doitt/initiatives/3d-building.page; heating demand simulation is available (monthly energy balance) for Manhattan as "as is" simulation (simulated with SimStadt Software, HFT Stuttgart)
-* open data 3D model of Essen as used in the Energy and Location Pilot of the JRC. CityGML LoD 1/2 Building Model, no Textures; heating demand simulation is available (monthly energy balance) as "as is" simulation, medium refurbishment scenario, advanced refurbishment scenario (simulated with SimStadt Software, HFT Stuttgart)
-* open data 3D model of Essen, a test area converted from CityGML to INSPIRE building model using HALE Studio
+* Open data 3D model of Essen as used in the Energy and Location Pilot of the JRC. CityGML LoD 1/2 Building Model, no Textures; heating demand simulation is available (monthly energy balance) as "as is" simulation, medium refurbishment scenario, advanced refurbishment scenario (simulated with SimStadt Software, HFT Stuttgart)
+* Open data 3D model of Essen, a test area converted from CityGML to INSPIRE building model using HALE Studio
 
 ==== Sub Use Case: Open a website to display a 3D map using 3D Portrayal Service and select a polygonal area / district
 
-This has already been showcased and implemented in Testbed 13. The implementation is available and can be further used and extended in Testbed 14 with the New York data set. The experiment evaluated the complete flow of data from its originating CityGML format to a web-enabled visualization with Cesium via OGC’s 3D Portrayal Service (3DPS). This data flow included the conversion from the CityGML data format served by GeoRocket, to 3D Tiles dataset, and the import of the 3D Tiles dataset to the 3DPS Framework. A public demo is available at: tb13.igd.fraunhofer.de:8080/Apps/Sandcastle/index.html?src=3DPS_r.html&label=Showcases.
+This has already been showcased and implemented in Testbed 13. The implementation is available and can be further used and extended in Testbed 14 with the New York data set. The experiment evaluated the complete flow of data from its originating CityGML format to a web-enabled visualization with Cesium via OGC’s 3D Portrayal Service (3DPS). This data flow included the conversion from the CityGML data format served by GeoRocket, to 3D Tiles dataset, and the import of the 3D Tiles dataset to the 3DPS Framework. A public demo is available at: http://tb13.igd.fraunhofer.de:8080/Apps/Sandcastle/index.html?src=3DPS_r.html&label=Showcases.
 
 The following aspects are covered by this use case:
 
@@ -87,15 +87,15 @@ image::images/Testbed13-fig35-3DPS-NY-3.png[align="center"]
 
 ==== Sub Use Case: Using WFS 3.0 to query a feature from a feature collecion by id and deliver a CityGML model (citymodel is a feature collection)
 
-Most important in this use case is that the feature geometry is a solid geometry. In addition, it needs to be discussed how to deal with the LoD concept. The CityGML model will be further used by another process, in this use case the simulation of the heating demand of that building. 
+Most important in this use case is that the feature geometry is a solid geometry. In addition, it needs to be discussed how to deal with the LoD concept. The CityGML model will be further used by another process, in this use case the simulation of the heating demand of that building.
 
 ===== Query
 
 ```
 WFS 2.0 query (using 3D CityDB)
 <?xml version="1.0" encoding="UTF-8"?>
-	<wfs:GetFeature service="WFS" 
-				version="2.0.0" 
+	<wfs:GetFeature service="WFS"
+				version="2.0.0"
 				xmlns:wfs="http://www.opengis.net/wfs/2.0">
 		<wfs:TypeName>TWINHOUSE1</wfs:TypeName>
 	</wfs:GetFeature>
@@ -249,16 +249,16 @@ Same response in CityGML, different header rest is the same.
 <bldg:Building gml:id="TWINHOUSE1">
 
 
-In INSPIRE, it will look similar, but not the same. Example will follow. 
+In INSPIRE, it will look similar, but not the same. Example will follow.
 
-Interesting use case would be the support of CityJSON. 
+Interesting use case would be the support of CityJSON.
 
 ==== Sub Use Case: Using WFS 3.0 to query a 2D region from a feature collecion by id and deliver a CityGML model (citymodel is a feature collection)
 
 
 ===== Query
 
-An instance of GeoRocket containing the New York City CityGML model developed in Testbed 13 already supports this use case. However, it is not based on WFS specification. 
+An instance of GeoRocket containing the New York City CityGML model developed in Testbed 13 already supports this use case. However, it is not based on WFS specification.
 Search buildings by bounding box:
 
 http://192.44.35.62:63020/store/?search=-74,40.7,-73.96,40.8
@@ -322,8 +322,8 @@ This result is shown as an image as the XML Model itself is too verbose for the 
 [#img_VCS1,reftext='{figure-caption} {counter:figure-num}']
 .get all buildings having one or more ground surfaces whose LoD2 geometry intersects with a given geometry (Ground Surface is a nested feature in CityGML)
 image::images/wfs_3_example1_VCS_result.png[align="center"]
- 
- 
+
+
 ==== Query 2
 
 ```
@@ -376,9 +376,9 @@ image::images/wfs_3_example1_VCS_result.png[align="center"]
 
 ==== Result 3
  This result is shown as an image as the XML Model itself is too verbose for the report. Note: image does not fit to the query as buildings are shown, not trees; needs to be updated
- 
+
 [#img_VCS3,reftext='{figure-caption} {counter:figure-num}']
-.get all buildings within a given distance of a point 
+.get all buildings within a given distance of a point
 image::images/wfs_3_example3_VCS_result.png[align="center"]
 
 ==== Query 4

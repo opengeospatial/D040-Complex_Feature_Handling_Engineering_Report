@@ -1,0 +1,160 @@
+[[uc-se]]
+=== Select features for rendering with a specific style
+
+==== Description
+
+A common requirement is to present features in a dataset on a map (or in a 3D scene).
+In this use case we look at rendering feature data on a 2D map, for display in a
+web browser.
+
+This may be implemented using a WFS 2.0 as the backend, i.e. the rendering
+engine is a WFS client and then renders the data, either directly in the browser or
+in a server, for example, a WMS 1.3.
+
+For server-side rendering, the data will typically be rendered closer to the
+database and not via a WFS 2.0 interface - for performance reasons. For client-side
+rendering, the data will typically not use GML, but a format that is optimised for
+the rendering purpose. Nevertheless, the use case is still relevant in the context
+of complex feature handling, for at least two reasons:
+
+* Style information in the OGC standards baseline uses Symbology Encoding and the
+feature selection mechanisms are the same as in WFS 2.0 - both use the Filter Encoding
+standard.
+* In this report, we are not limited to WFS only, but we want to consider other
+aspects that are relevant for future OGC NextGen services, too. As OGC NextGen services
+will have to be able to support API building blocks for providing maps, scenes,
+vector tiles, etc., the related query aspects need to be considered, too.
+
+The following aspects are covered by this use case:
+
+* Querying features based on expressions built from complex predicates consisting
+of predicate groups and combinations of logical operators
+* Use of responses for display in a web browser
+
+==== Data
+
+The dataset is the same as in the <<uc-select-association,first use case>>.
+
+The example query uses the following feature types. The actual schema and data is
+more complex and has been simplified to the relevant aspects for this use case.
+
+CadastralParcel (AX_Flurstueck)::
+  A cadastral parcel.
+
+Text (AP_PTO)::
+  A map text for display on a map for a feature.
+
+[#img_PS,reftext='{figure-caption} {counter:figure-num}']
+.UML class diagram for features in use case "Select features for rendering with a specific style"
+[plantuml, images/SE, png, align="center"]
+....
+@startuml
+hide methods
+class CadastralParcel <<featureType>> {
+  +parcelId : CharacterString
+  +numerator : Integer
+  +denominator : Integer [0..1]
+  +altLegalStatus : Boolean [0..1]
+  +position : GM_MultiSurface
+}
+class Text <<featureType>> {
+  +position : GM_Point
+  +type : CharacterString
+  +text : CharacterString [0..1]
+}
+
+Text "textOnMap *" -- "displays 1" CadastralParcel
+@enduml
+....
+
+
+==== Query
+
+Rich, standardised symbology rule sets exist for the cadastral datasets consisting of a
+large number of selection rules and feature styles.
+
+We will use rules RUL06410 and RUL06420 from this link:http://sg.geodatenzentrum.de/web_public/adv/sk/alkis/docAlkisFB/html/SYCALFB1xLAY00001xRST00001ById.html[portrayal catalogue]
+as an example. The rules select all cadastral parcels that meet the following
+criteria (for display of the parcel number on the map):
+
+* Parcels in a local district are identified using a numerator ("Zähler") and
+an optional denominator ("Nenner"). The example rules only apply to parcels
+with a denominator. The value reference is `numerator`
+(`adv:flurstuecksnummer/adv:AX_Flurstuecksnummer/adv:nenner`).
+* In addition, all of the following conditions must be met:
+** Another organisation than the land register may be legally responsible for some
+parcels. This is indicated in a boolean attribute for an alternative legal
+status ("abweichenderRechtszustand"). The example rules only apply to parcels
+for which the attribute is either missing or `false`. The value reference is
+`altLegalStatus` (`adv:abweichenderRechtszustand`).
+** The application schema includes special feature types to capture map placement
+information. A typical example is a Text object (AP_PTO), which may be used to
+provide a fixed location for a text on the map ("position") or to provide a
+different text ("schriftinhalt") than the default text derived from the properties of the
+real-world thing. An association exists between the cadastral parcel and the
+Text objects that contain information overriding the default portrayal on the map
+("inversZu_dientZurDarstellungVon_AP_PTO"). Since a map may contain multiple
+texts for a feature, there is also a type property ("art") to distinguish different
+text types. The example rules only apply to parcels that have an associated
+Text object for displaying the parcel number on the map (type is "ZAE_NEN"). The value reference is
+`textOnMap/Text[type = 'ZAE_NEN']`
+(`adv:inversZu_dientZurDarstellungVon_AP_PTO/adv:AP_PTO[adv:art = 'ZAE_NEN']`).
+
+The difference between the two rules RUL06410 and RUL06420 is whether the
+text on the map is taken from the `numerator` attribute of the cadastral parcel
+feature or from the `text` attribute of the associated Text object.
+
+The following WFS query selects all CadastralParcel (AX_Flurstueck)
+features that are rendered using the example portrayal rules. The `<fes:Filter>`
+part would be the same in a portrayal rule according to the Symbology Encoding
+standard as used in a WMS/SLD.
+
+```
+https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?
+  service=WFS&
+  version=2.0.0&
+  request=GetFeature&
+  namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&
+  typenames=adv:AX_Flurstueck&
+  filter=
+  <fes:Filter xmlns:adv="http://www.adv-online.de/namespaces/adv/gid/6.0"
+  xmlns:gml="http://www.opengis.net/gml/3.2"
+  xmlns:fes="http://www.opengis.net/fes/2.0">
+  <fes:And>
+    <fes:Not>
+      <fes:PropertyIsNull>
+        <fes:ValueReference>
+          adv:flurstuecksnummer/adv:AX_Flurstuecksnummer/adv:nenner
+        </fes:ValueReference>
+      </fes:PropertyIsNull>
+    </fes:Not>
+    <fes:And>
+      <fes:Or>
+        <fes:PropertyIsNull>
+          <fes:ValueReference>
+            adv:abweichenderRechtszustand
+          </fes:ValueReference>
+        </fes:PropertyIsNull>
+        <fes:PropertyIsEqualTo>
+          <fes:ValueReference>
+            adv:abweichenderRechtszustand
+          </fes:ValueReference>
+          <fes:Literal>false</fes:Literal>
+        </fes:PropertyIsEqualTo>
+      </fes:Or>
+      <fes:Not>
+        <fes:PropertyIsNull>
+          <fes:ValueReference>
+            adv:inversZu_dientZurDarstellungVon_AP_PTO/adv:AP_PTO[adv:art = 'ZAE_NEN']
+          </fes:ValueReference>
+        </fes:PropertyIsNull>
+      </fes:Not>
+    </fes:And>
+  </fes:And>
+  </fes:Filter>
+```
+
+The result is a feature collection with more than 234,000 CadastralParcel
+(AX_Flurstueck) features.
+
+link:https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?service=WFS&version=2.0.0&request=GetFeature&namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&typenames=adv:AX_Flurstueck&filter=%3Cfes%3AFilter%20xmlns%3Aadv%3D%22http%3A%2F%2Fwww.adv-online.de%2Fnamespaces%2Fadv%2Fgid%2F6.0%22%0A%20%20xmlns%3Agml%3D%22http%3A%2F%2Fwww.opengis.net%2Fgml%2F3.2%22%0A%20%20xmlns%3Afes%3D%22http%3A%2F%2Fwww.opengis.net%2Ffes%2F2.0%22%3E%0A%20%20%3Cfes%3AAnd%3E%0A%20%20%20%20%3Cfes%3ANot%3E%0A%20%20%20%20%20%20%3Cfes%3APropertyIsNull%3E%0A%20%20%20%20%20%20%20%20%3Cfes%3AValueReference%3E%0A%20%20%20%20%20%20%20%20%20%20adv%3Aflurstuecksnummer%2Fadv%3AAX_Flurstuecksnummer%2Fadv%3Anenner%0A%20%20%20%20%20%20%20%20%3C%2Ffes%3AValueReference%3E%0A%20%20%20%20%20%20%3C%2Ffes%3APropertyIsNull%3E%0A%20%20%20%20%3C%2Ffes%3ANot%3E%0A%20%20%20%20%3Cfes%3AAnd%3E%0A%20%20%20%20%20%20%3Cfes%3AOr%3E%0A%20%20%20%20%20%20%20%20%3Cfes%3APropertyIsNull%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cfes%3AValueReference%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20adv%3AabweichenderRechtszustand%0A%20%20%20%20%20%20%20%20%20%20%3C%2Ffes%3AValueReference%3E%0A%20%20%20%20%20%20%20%20%3C%2Ffes%3APropertyIsNull%3E%0A%20%20%20%20%20%20%20%20%3Cfes%3APropertyIsEqualTo%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cfes%3AValueReference%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20adv%3AabweichenderRechtszustand%0A%20%20%20%20%20%20%20%20%20%20%3C%2Ffes%3AValueReference%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cfes%3ALiteral%3Efalse%3C%2Ffes%3ALiteral%3E%0A%20%20%20%20%20%20%20%20%3C%2Ffes%3APropertyIsEqualTo%3E%0A%20%20%20%20%20%20%3C%2Ffes%3AOr%3E%0A%20%20%20%20%20%20%3Cfes%3ANot%3E%0A%20%20%20%20%20%20%20%20%3Cfes%3APropertyIsNull%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cfes%3AValueReference%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20adv%3AinversZu_dientZurDarstellungVon_AP_PTO%2Fadv%3AAP_PTO%5Badv%3Aart%20%3D%20%27ZAE_NEN%27%5D%0A%20%20%20%20%20%20%20%20%20%20%3C%2Ffes%3AValueReference%3E%0A%20%20%20%20%20%20%20%20%3C%2Ffes%3APropertyIsNull%3E%0A%20%20%20%20%20%20%3C%2Ffes%3ANot%3E%0A%20%20%20%20%3C%2Ffes%3AAnd%3E%0A%20%20%3C%2Ffes%3AAnd%3E%0A%20%20%3C%2Ffes%3AFilter%3E&resultType=hits[Live link to invoke the query on a WFS (with resultType=hits due to the large number of features)...]

@@ -54,15 +54,14 @@ Each timestamp is given in UTC, the granularity is seconds.
 If a new version is added due to a change in a property, the new version will have
 a start timestamp that is one second after the end timestamp of the previous version.
 
-The example query use the following feature types. This is simplified, the actual
-schema and data is much more complex and reflects the legal requirements of the
-German land register.
+The example query use the following feature type. The actual schema and data is
+more complex and has been simplified to the relevant aspects for this use case.
 
 CadastralParcel (AX_Flurstueck)::
   A cadastral parcel.
 
 [#img_PS,reftext='{figure-caption} {counter:figure-num}']
-.UML class diagram for features in use case "Select features based on related features (one association)"
+.UML class diagram for features in use case "Select features / feature versions based on temporal validity"
 [plantuml, images/CadastralParcel, png, align="center"]
 ....
 @startuml
@@ -79,7 +78,7 @@ class Lifespan <<dataType>> {
 @enduml
 ....
 
-=== Query: Select the cadastral parcel versions based on their temporal validity
+==== Query
 
 The following WFS query selects all CadastralParcel (AX_Flurstueck)
 versions that have been inserted into the dataset on July 1st, 2017.
