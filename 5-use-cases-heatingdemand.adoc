@@ -269,15 +269,162 @@ too long for the ER.
 
 http://192.44.35.62:63020/store/?search=-74,40.7,-73.96,40.8
 
-==== Sub Use Case: Using WFS 3.0 to query a 3D region from a feature collecion by id and deliver a CityGML model (citymodel is a feature collection)
+==== Sub Use Case: Using WFS 2.0 to query nested features based on CityGML schema. Examples provided from Claus Nagel, virtualcitySYSTEMS
 
-I don't have an example yet.
+* Querying features based on properties of related or nested objects or structured data types (several levels)
+* Access to and query of solid geometries and other geometries in a 3D CRS
 
-===== Query
+===== Query 1
+
+<?xml version="1.0" encoding="UTF-8"?>
+<wfs:GetFeature service="WFS" version="2.0.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:wfs="http://www.opengis.net/wfs/2.0"
+  xmlns:bldg="http://www.opengis.net/citygml/building/2.0" xmlns:gml="http://www.opengis.net/gml"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.opengis.net/wfs/2.0 ../schemas/wfs/2.0.2/wfs.xsd
+  http://www.opengis.net/gml ../schemas/gml/3.1.1/base/gml.xsd">
+  <wfs:Query typeNames="bldg:Building">
+    <fes:Filter>
+      <fes:Intersects>
+        <!-- get all buildings having one or more ground surfaces whose LoD2 geometry intersects with a given geometry -->
+        <!-- bldg:GroundSurface is a nested feature -->
+        <fes:ValueReference>bldg:boundedBy/bldg:GroundSurface/bldg:lod2MultiSurface</fes:ValueReference>
+        <!-- in this example, the query geometry is a multi surface with 3D coordinate values -->
+        <gml:MultiSurface>
+          <gml:surfaceMember>
+            <gml:Polygon>
+              <gml:exterior>
+                <gml:LinearRing>
+                  <gml:posList>
+                    21498.400088101323 17386.16611967112 31.123
+                    <!-- ... -->
+                  </gml:posList>
+                </gml:LinearRing>
+              </gml:exterior>
+            </gml:Polygon>
+          </gml:surfaceMember>
+        </gml:MultiSurface>
+      </fes:Intersects>
+    </fes:Filter>
+  </wfs:Query>
+</wfs:GetFeature>
 
 
-===== Results
+==== Result
 
+This result is shown as an image as the XML Model itself is too verbose for the report, and is not open data.
+
+
+==== Query 2
+
+<?xml version="1.0" encoding="UTF-8"?>
+<wfs:GetFeature service="WFS" version="2.0.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:wfs="http://www.opengis.net/wfs/2.0"
+  xmlns:bldg="http://www.opengis.net/citygml/building/2.0" xmlns:gml="http://www.opengis.net/gml" xmlns:core="http://www.opengis.net/citygml/2.0"
+  xmlns:xAL="urn:oasis:names:tc:ciq:xsdschema:xAL:2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.opengis.net/wfs/2.0 ../schemas/wfs/2.0.2/wfs.xsd
+  http://www.opengis.net/gml ../schemas/gml/3.1.1/base/gml.xsd">
+  <wfs:Query typeNames="bldg:Building">
+    <fes:Filter>
+      <fes:PropertyIsLike wildCard="*" singleChar="." escapeChar="\">
+        <!-- get all buildings along a given road -->
+        <!-- core:Address is a nested feature, and xAL requires access to an entire subtree of XML elements -->
+        <fes:ValueReference>bldg:address/core:Address/core:xalAddress/xAL:AddressDetails/xAL:Country/xAL:Locality/xAL:Thoroughfare/xAL:ThoroughfareName</fes:ValueReference>
+        <fes:Literal>Unter den Linden*</fes:Literal>
+      </fes:PropertyIsLike>
+    </fes:Filter>
+  </wfs:Query>
+</wfs:GetFeature>
+
+==== Query 3
+
+<?xml version="1.0" encoding="UTF-8"?>
+<wfs:GetFeature service="WFS" version="2.0.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:wfs="http://www.opengis.net/wfs/2.0"
+  xmlns:veg="http://www.opengis.net/citygml/vegetation/2.0" xmlns:gml="http://www.opengis.net/gml" xmlns:core="http://www.opengis.net/citygml/2.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.opengis.net/wfs/2.0 ../schemas/wfs/2.0.2/wfs.xsd
+  http://www.opengis.net/gml ../schemas/gml/3.1.1/base/gml.xsd">
+  <wfs:Query typeNames="veg:SolitaryVegetationObject">
+    <fes:Filter>
+      <fes:DWithin>
+        <!-- get all trees that are given by an LoD3 template geometry and where this geometry is within a distance to a given geometry -->
+        <!-- core:ImplicitGeometry is a complex data type (but is discussed to be a feature type in CityGML 3.0) -->
+        <fes:ValueReference>veg:lod3ImplicitRepresentation/core:ImplicitGeometry/core:relativeGMLGeometry</fes:ValueReference>
+        <!-- in this example, the geometry is a 3D point -->
+        <gml:Point>
+          <gml:pos>21498.400088101323 17386.16611967112 145.34675</gml:pos>
+        </gml:Point>
+        <fes:Distance uom="m">800</fes:Distance>
+      </fes:DWithin>
+    </fes:Filter>
+  </wfs:Query>
+</wfs:GetFeature>
+
+
+==== Query 4
+
+<?xml version="1.0" encoding="UTF-8"?>
+<wfs:GetFeature service="WFS" version="2.0.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:wfs="http://www.opengis.net/wfs/2.0"
+  xmlns:bldg="http://www.opengis.net/citygml/building/2.0" xmlns:gml="http://www.opengis.net/gml" xmlns:energy="http://www.sig3d.org/citygml/2.0/energy/1.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.opengis.net/wfs/2.0 ../schemas/wfs/2.0.2/wfs.xsd
+  http://www.opengis.net/gml ../schemas/gml/3.1.1/base/gml.xsd">
+  <wfs:Query typeNames="bldg:Building">
+    <fes:Filter>
+      <fes:PropertyIsGreaterThan>
+        <!-- get all buildings that have a thermal zone which contains a thermal boundary whose u value is greater than a given value -->
+        <!-- This example uses the CityGML EnergyADE 1.0 extension which adds energy information to the CityGML base model -->
+        <!-- this query involves three nested feature: energy:ThermalZone, energy:ThermalBoundary, energy:Construction -->
+        <fes:ValueReference>energy:thermalZone/energy:ThermalZone/energy:boundedBy/energy:ThermalBoundary/energy:construction/energy:Construction/energy:uValue</fes:ValueReference>
+        <fes:Literal>2.5</fes:Literal>
+      </fes:PropertyIsGreaterThan>
+    </fes:Filter>
+  </wfs:Query>
+</wfs:GetFeature>
+
+==== Query 5
+
+<?xml version="1.0" encoding="UTF-8"?>
+<wfs:GetFeature service="WFS" version="2.0.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:wfs="http://www.opengis.net/wfs/2.0"
+  xmlns:tran="http://www.opengis.net/citygml/transportation/2.0" xmlns:gml="http://www.opengis.net/gml"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.opengis.net/wfs/2.0 ../schemas/wfs/2.0.2/wfs.xsd
+  http://www.opengis.net/gml ../schemas/gml/3.1.1/base/gml.xsd">
+  <wfs:Query typeNames="tran:Road">
+    <fes:Filter>
+      <fes:PropertyIsEqualTo matchCase="false">
+        <!-- get all roads with a traffic lane for bicycles -->
+        <!-- this query involves the nested feature tran:TrafficArea -->
+        <fes:ValueReference>tran:trafficArea/tran:TrafficArea/tran:function</fes:ValueReference>
+        <fes:Literal>cycleLane</fes:Literal>
+      </fes:PropertyIsEqualTo>
+    </fes:Filter>
+  </wfs:Query>
+</wfs:GetFeature>
+
+==== Query 6
+
+<?xml version="1.0" encoding="UTF-8"?>
+<wfs:GetFeature service="WFS" version="2.0.0" xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:wfs="http://www.opengis.net/wfs/2.0"
+  xmlns:bldg="http://www.opengis.net/citygml/building/2.0" xmlns:gml="http://www.opengis.net/gml"
+  xmlns:gen="http://www.opengis.net/citygml/generics/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.opengis.net/wfs/2.0 ../schemas/wfs/2.0.2/wfs.xsd
+  http://www.opengis.net/gml ../schemas/gml/3.1.1/base/gml.xsd">
+  <wfs:Query typeNames="bldg:Building">
+    <fes:Filter>
+      <fes:PropertyIsBetween>
+        <!-- get all buildings having one or more roof surfaces that are suitable for mounting photovoltaic panels -->
+        <!-- (the attribute 'pc_class' stores the suitability class which has been precomputed -->
+        <!-- bldg:RoofSurface is a nested feature -->
+        <fes:ValueReference>bldg:boundedBy/bldg:RoofSurface/gen:intAttribute[@gen:name='pv_class']/gen:value</fes:ValueReference>
+        <fes:LowerBoundary>
+          <fes:Literal>2</fes:Literal>
+        </fes:LowerBoundary>
+        <fes:UpperBoundary>
+          <fes:Literal>3</fes:Literal>
+        </fes:UpperBoundary>
+      </fes:PropertyIsBetween>
+    </fes:Filter>
+  </wfs:Query>
+</wfs:GetFeature>
 
 ==== References
 
