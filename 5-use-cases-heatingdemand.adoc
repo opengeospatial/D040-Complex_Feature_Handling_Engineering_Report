@@ -313,7 +313,12 @@ http://192.44.35.62:63020/store/?search=-74,40.7,-73.96,40.8
 
 This result is shown as an image as the XML Model itself is too verbose for the report, and is not open data.
 
-
+ D040-Complex_Feature_Handling_Engineering_Report/images/ 
+[#img_VCS1,reftext='{figure-caption} {counter:figure-num}']
+.get all buildings having one or more ground surfaces whose LoD2 geometry intersects with a given geometry (Ground Surface is a nested feature in CityGML)
+image::images/wfs_3_example1_VCS_result.png[align="center"]
+ 
+ 
 ==== Query 2
 
 <?xml version="1.0" encoding="UTF-8"?>
