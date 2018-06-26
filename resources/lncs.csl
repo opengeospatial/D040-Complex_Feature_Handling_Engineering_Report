@@ -71,6 +71,7 @@
         <if type="bill book graphic legal_case legislation motion_picture report song" match="any">
           <group delimiter=" ">
             <text macro="title" suffix="."/>
+            <text variable="URL" suffix="."/>
             <text macro="publisher"/>
             <date variable="issued">
               <date-part name="year" prefix="(" suffix=")"/>
@@ -80,11 +81,12 @@
         <else-if type="article-journal">
           <group delimiter=" ">
             <text macro="title" suffix="."/>
+            <text variable="URL" suffix="."/>
             <text variable="container-title" form="short" suffix="."/>
             <text variable="volume" suffix=","/>
             <text variable="page"/>
             <date variable="issued">
-              <date-part name="year" prefix="(" suffix=")"/>
+              <date-part name="year" prefix="(" suffix=")."/>
             </date>
           </group>
         </else-if>

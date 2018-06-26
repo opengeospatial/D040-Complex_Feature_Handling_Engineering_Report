@@ -162,7 +162,7 @@ include::8-recommendations.adoc[]
 
 include::annex-history.adoc[]
 
-// include::annex-bibliography.adoc[]
+include::annex-bibliography.adoc[]
 
 // *****************************************************************************
 // Editors please proceed to edit the content of 2-references.adoc[],
