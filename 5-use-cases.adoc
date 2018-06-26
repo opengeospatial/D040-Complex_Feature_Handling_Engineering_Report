@@ -39,6 +39,6 @@ include::5-use-cases-versions.adoc[]
 
 include::5-use-cases-se.adoc[]
 
-include::5-use-cases-heatingdemand.adoc[]
+include::5-use-cases-heatingdemand-cp.adoc[]
 
 // include::5-use-cases-TEMPLATE.adoc[]
