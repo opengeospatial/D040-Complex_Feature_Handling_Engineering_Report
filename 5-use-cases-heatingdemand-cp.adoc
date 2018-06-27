@@ -1,8 +1,8 @@
-=== Building Heating demand simulation and visualization
+=== Building heating demand simulation and visualization
 
 ==== Description
 
-This use case is about using 3D city models to simulate the building's heating demand and visualize the results in a web-based 3D scene. Why is this relevant? The building sector has large potential for energy efficiency gains and CO~2~-reductions and is thus a priority area for achieving the ambitious climate and energy targets for 2020 and 2050 in the European Union cite:[bmwi2010]. In order to reach the 2% energy refurbishment rate promoted by the European Union and to realise long-term climate neutral communities, information about the current and future demand is necessary in order to develop strategies for policy making as well as to raise awareness of the citizens. Some pioneering work has already been done world wide cite:[Monien2017], cite:[Nouvel2015], cite:[CitySim], cite:[Chen2017]. As an input for the simulation, a building model in CityGML is usually used.
+This section is about using 3D city models to simulate the building's heating demand and visualize the results in a web-based 3D scene. Why is this relevant? The building sector has large potential for energy efficiency gains and CO~2~-reductions and is thus a priority area for achieving the ambitious climate and energy targets for 2020 and 2050 in the European Union cite:[bmwi2010]. In order to reach the 2% energy refurbishment rate promoted by the European Union and to realise long-term climate neutral communities, information about the current and future demand is necessary in order to develop strategies for policy making as well as to raise awareness of the citizens. Some pioneering work has already been done world wide cite:[Monien2017], cite:[Nouvel2015], cite:[CitySim], cite:[Chen2017]. As an input for the simulation, a building model in CityGML is usually used.
 The use case is split into several parts:
 
 * open a website to display a 3D map using 3D Portrayal Service and select a polygonal area / district
@@ -10,7 +10,7 @@ The use case is split into several parts:
 * using 3D Portrayal Service and WFS 3.0 to query the simulation result and visualize it in a 3D scene by building Id, by address, and by polygonal area
 * exend the use case to the INSPIRE 3D building module in addition to CityGML
 
-The following aspects are covered by this use case:
+The following aspects are covered:
 
 * Querying features based on properties of related or nested objects or structured data types (one level / several levels)
 * Querying feature data and returning only parts of the features (selected properties, a single property only, etc.)
@@ -25,7 +25,7 @@ http://www1.nyc.gov/site/doitt/initiatives/3d-building.page; heating demand simu
 * Open data 3D model of Essen as used in the Energy and Location Pilot of the JRC. CityGML LoD 1/2 Building Model, no Textures; heating demand simulation is available (monthly energy balance) as "as is" simulation, medium refurbishment scenario, advanced refurbishment scenario (simulated with SimStadt Software, HFT Stuttgart).
 * Open data 3D model of Essen, a test area converted from CityGML to INSPIRE building model using HALE Studio.
 
-==== Sub Use Case: Open a website to display a 3D map using 3D Portrayal Service and select a polygonal area / district
+==== Open a webpage to display a 3D map using 3D Portrayal Service and select a polygonal area / district
 
 This has been showcased and implemented in Testbed 13 cite:[Coors2018]. The implementation is available and could be further used and extended in Testbed 14 with the New York data set. The experiment evaluated the complete flow of data from its originating CityGML format to a web-enabled visualization with Cesium via OGC’s 3D Portrayal Service (3DPS). This data flow included the conversion from the CityGML data format served by GeoRocket, to 3D Tiles dataset, and the import of the 3D Tiles dataset to the 3DPS Framework.
 
@@ -56,7 +56,7 @@ In the existing implementation, 3D Tiles is used as content delivery format. See
 .3DPS getScene request to select an (bounding box) area of the New York data set
 image::images/Testbed13-fig35-3DPS-NY-2.png[align="center"]
 
-==== Sub Use Case: Using 3D Portrayal Service and WFS to query the simulation result and visualize it in a 3D scene by building Id
+==== Using 3D Portrayal Service and WFS to query the simulation result and visualize it in a 3D scene by building Id
 
 In Testbed 13, the 3DPS getFeatureInfo request has been used to query heating demand (simulation result) per building from a server at HFT Stuttgart. See link:https://www.youtube.com/watch?v=AbyCQKH-PC4&index=17&list=PLQsQNjNIDU87So4QmiSCKFmE0fv567s3m&t=0s[video] on the Testbed 13 S3D Performance Experiment #2.
 
@@ -106,7 +106,7 @@ WFS 3.0 should include an extension that supports such a capability, too.
 .Manhattan dataset with simulated heat demand, provided by HFT Stuttgart, and color coded in to the building’s appearance. (from Testbed 13, S3D performance)
 image::images/Testbed13-fig35-3DPS-NY-3.png[align="center"]
 
-==== Sub Use Case: Using WFS to query a feature from a city model by id
+==== Query a feature from a city model by id
 
 Most important in this use case is that solids are supported as feature geometries.
 
@@ -129,9 +129,8 @@ https://www.example.com/wfs?
 In WFS 3.0, the building would be identified by a URI, for example,
 http://www.example.com/my-city-model/collections/buildings/items/TWINHOUSE1.
 
-===== Result
-
-As mentioned above, most important is that the result contains a solid geometry.
+As mentioned above, the most important aspect in this query is that the WFS
+supports solid geometries and is able to return features with such geometries.
 
 A WFS 2.0 would return the building feature in a `wfs:FeatureCollection`.
 
@@ -296,7 +295,7 @@ element could be used that is also used in the link:https://cdn.rawgit.com/openg
 
 Another option could be a WFS 3.0 that returns CityJSON.
 
-==== Sub Use Case: Using WFS to query a 2D region from a city model
+==== Select buildings in a 2D region from a city model
 
 In this example, all buildings in a rectangular region are requested and
 the selected building features are returned in a feature collection.
@@ -320,18 +319,16 @@ developed in Testbed 13 the request could also be:
 
 http://192.44.35.62:63020/store/?search=-74,40.7,-73.96,40.8
 
+This link points to a live service, but returns a large
+response. A more manageable response can be retrieved with a
+link:http://192.44.35.62:63020/store/?search=-74,40.75,-73.999999,40.7500001[smaller bounding box].
+
 In WFS 3.0, the request is also supported by the query capabilities of the Core,
 for example:
 
 http://www.example.com/my-city-model/collections/buildings/items?bbox=-74,40.7,-73.96,40.8
 
-===== Results
-
-The GeoRocket link from above points to a live service, but returns a large
-response. A more manageable response can be retrieved with a
-link:http://192.44.35.62:63020/store/?search=-74,40.75,-73.999999,40.7500001[smaller bounding box].
-
-==== Sub Use Case: Using WFS to select buildings based on nested features or properties
+==== Select buildings based on nested features or properties
 
 These examples have been provided by Claus Nagel, virtualcitySYSTEMS. They cover
 the following query categories:
@@ -339,7 +336,7 @@ the following query categories:
 * Querying features based on properties of related or nested objects or structured data types (several levels)
 * Access to and query of solid geometries and other geometries in a 3D CRS
 
-===== Query 1
+===== Query 1: Select buildings based on their ground surface geometry
 
 This query retrieves all buildings having one or more ground surfaces whose
 LoD2 geometry intersects with a given geometry. bldg:GroundSurface is a nested feature.
@@ -380,19 +377,18 @@ https://www.example.com/wfs?
   </fes:Filter>
 ```
 
-===== Result
-
-This result is shown as an image as the XML response itself is too verbose to
+The result is shown as an image as the XML response itself is too verbose to
 show, and is not open data.
-
 
 [#img_VCS1,reftext='{figure-caption} {counter:figure-num}']
 .Get all buildings having one or more ground surfaces whose LoD2 geometry intersects with a given geometry (Ground Surface is a nested feature in CityGML)
 image::images/wfs_3_example1_VCS_result.png[align="center"]
 
-===== Query 2
+===== Query 2: Select buildings along a road
 
-Get all buildings along a given road. core:Address is a nested feature, and xAL requires access to an entire subtree of XML elements.
+This query retrieves all buildings along a given road using the road name.
+
+`core:Address` is a nested feature, and xAL requires access to an entire subtree of XML elements.
 
 ```
 https://www.example.com/wfs?
@@ -417,7 +413,7 @@ https://www.example.com/wfs?
   </fes:Filter>
 ```
 
-===== Query 3
+===== Query 3: Select trees within a buffer of an implicit geometry
 
 Get all trees that are given by an LoD3 template geometry and where this
 geometry is within a distance to a given geometry. `core:ImplicitGeometry`
@@ -452,9 +448,7 @@ https://www.example.com/wfs?
   </fes:Filter>
 ```
 
-===== Result 3
-
-This result is shown as an image as the XML response itself is too verbose to
+The result is shown as an image as the XML response itself is too verbose to
 show, and is not open data.
 
 CAUTION: The image does not fit to the query as buildings are shown, not trees;
@@ -464,7 +458,7 @@ this needs to be updated.
 .get all buildings within a given distance of a point
 image::images/wfs_3_example3_VCS_result.png[align="center"]
 
-===== Query 4
+===== Query 4: Select buildings based on ADE information
 
 Get all buildings that have a thermal zone which contains a thermal boundary
 whose `u` value is greater than a given value. This example uses the
@@ -498,9 +492,9 @@ https://www.example.com/wfs?
 </wfs:GetFeature>
 ```
 
-===== Query 5
+===== Query 5: Select roads with a bicycle lane
 
-Get all roads with a traffic lane for bicycles.
+This query retrieves all roads with a traffic lane for bicycles.
 
 This query involves the nested feature `tran:TrafficArea`.
 
@@ -525,7 +519,7 @@ https://www.example.com/wfs?
   </fes:Filter>
 ```
 
-===== Query 6
+===== Query 6: Select buildings suitable for photovoltaic panels
 
 Get all buildings having one or more roof surfaces that are suitable for
 mounting photovoltaic panels (the attribute `pc_class` stores the suitability

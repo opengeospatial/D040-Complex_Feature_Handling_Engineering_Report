@@ -1,0 +1,540 @@
+[[uc-cadastre]]
+=== Managing and using a Cadastral dataset
+
+==== Description
+
+The dataset used in this section is about cadastral parcels and
+related information. It is using the
+link:http://www.adv-online.de/AAA-Modell/[AFIS-ALKIS-ATKIS application schema]
+of the
+link:http://www.adv-online.de/[Surveying Authorities in Germany].
+The GML application schema is the
+link:http://repository.gdi-de.org/schemas/adv/nas/6.0/aaa.xsd[NAS].
+
+The application schema is optimised for maintaining the data by the Surveying
+Authorities and reflects the legal requirements. As a result, the application
+schema contains many relationships between feature types as well as
+structured data types. The application schema includes information related
+to portrayal of the data at map scales that are traditionally used for base
+maps, too. For example, information is included about text placement in
+specific maps.
+
+Outside of the Surveying Authorities the data is often simplified / flattened
+to simplify the use of the data, but a number of workflows require the
+full use of the complex data structures included in the dataset.
+
+As the application schema is used in Germany, it uses German terms. For better
+readability we show a simplified schema using English translation for each query
+described in this section.
+
+[[uc-select-association]]
+==== Selection of protected sites
+
+This is a relatively simple use case where features are selected based on
+properties of related features, i.e. features that are the value of an
+association role property.
+
+The following aspects are covered by this use case:
+
+* Querying features based on properties of related or nested objects or structured data types (one level)
+* Querying feature data and returning additional features linked to the selected features
+
+===== Data
+
+The queries use the following feature types:
+
+ProtectedSite_Water (AX_SchutzgebietNachWasserrecht)::
+  A protected site based on laws pertaining to water and waterways. It consists
+  of one or more zones.
+
+ProtectedZone (AX_Schutzzone)::
+  An area in a protected site with a homogeneous classification.
+
+[#img_PS,reftext='{figure-caption} {counter:figure-num}']
+.UML class diagram for features in use case "Select features based on related features (one association)"
+[plantuml, images/ProtectedSite, png, align="center"]
+....
+@startuml
+hide methods
+class ProtectedSite_Water <<featureType>> {
+  +siteType : SiteType
+}
+class ProtectedZone <<featureType>> {
+  +zoneType : ZoneType
+  +position : GM_Surface
+}
+
+ProtectedSite_Water o-> "1..*" ProtectedZone : contains >
+@enduml
+....
+
+===== Query 1: Select just the protected site features
+
+The following WFS query selects all ProtectedSite_Water (AX_SchutzgebietNachWasserrecht)
+features that have a protected zone in a given bounding box using a value reference
+`contains/ProtectedZone/position` (`adv:bestehtAus/adv:AX_Schutzzone/adv:position`).
+
+```
+https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?
+  service=WFS&
+  version=2.0.0&
+  request=GetFeature&
+  namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&
+  typenames=adv:AX_SchutzgebietNachWasserrecht&
+  filter=
+  <fes:Filter
+    xmlns:adv="http://www.adv-online.de/namespaces/adv/gid/6.0"
+    xmlns:gml="http://www.opengis.net/gml/3.2"
+    xmlns:fes="http://www.opengis.net/fes/2.0">
+    <fes:Intersects>
+      <fes:ValueReference>
+        adv:bestehtAus/adv:AX_Schutzzone/adv:position
+      </fes:ValueReference>
+      <gml:Envelope
+        srsName="http://www.opengis.net/def/crs/epsg/0/25832">
+        <gml:lowerCorner>360000 5600000</gml:lowerCorner>
+        <gml:upperCorner>370000 5700000</gml:upperCorner>
+      </gml:Envelope>
+    </fes:Intersects>
+  </fes:Filter>
+```
+
+The result is a feature collection with four ProtectedSite_Water
+(AX_SchutzgebietNachWasserrecht) features.
+
+link:https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?service=WFS&version=2.0.0&request=GetFeature&namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&typenames=adv:AX_SchutzgebietNachWasserrecht&filter=%3Cfes%3AFilter%20xmlns%3D%22http%3A%2F%2Fwww.adv-online.de%2Fnamespaces%2Fadv%2Fgid%2F6.0%22%20xmlns%3Agml%3D%22http%3A%2F%2Fwww.opengis.net%2Fgml%2F3.2%22%20xmlns%3Afes%3D%22http%3A%2F%2Fwww.opengis.net%2Ffes%2F2.0%22%3E%0A%20%20%3Cfes%3AIntersects%3E%0A%20%20%20%20%3Cfes%3AValueReference%3Eadv%3AbestehtAus%2Fadv%3AAX_Schutzzone%2Fadv%3Aposition%3C%2Ffes%3AValueReference%3E%0A%20%20%20%20%3Cgml%3AEnvelope%20srsName%3D%22http%3A%2F%2Fwww.opengis.net%2Fdef%2Fcrs%2Fepsg%2F0%2F25832%22%3E%0A%20%20%20%20%3Cgml%3AlowerCorner%3E360000%205600000%3C%2Fgml%3AlowerCorner%3E%0A%20%20%20%20%3Cgml%3AupperCorner%3E370000%205700000%3C%2Fgml%3AupperCorner%3E%0A%20%20%20%20%3C%2Fgml%3AEnvelope%3E%0A%20%20%3C%2Ffes%3AIntersects%3E%0A%3C%2Ffes%3AFilter%3E[Live link to invoke the query on a WFS...]
+
+===== Query 2: Select also the related protected zone features
+
+The following WFS query selects not only the ProtectedSite_Water (AX_SchutzgebietNachWasserrecht)
+features that have a protected zone in a given bounding box, but uses the
+WFS `resolve` and `resolvedepth` parameters to retrieve all the zone features in the same query.
+
+```
+https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?
+  service=WFS&
+  version=2.0.0&
+  request=GetFeature&
+  namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&
+  typenames=adv:AX_SchutzgebietNachWasserrecht&
+  resolve=local&
+  resolvedepth=1&
+  filter=
+  <fes:Filter
+    xmlns:adv="http://www.adv-online.de/namespaces/adv/gid/6.0"
+    xmlns:gml="http://www.opengis.net/gml/3.2"
+    xmlns:fes="http://www.opengis.net/fes/2.0">
+    <fes:Intersects>
+      <fes:ValueReference>
+        adv:bestehtAus/adv:AX_Schutzzone/adv:position
+      </fes:ValueReference>
+      <gml:Envelope
+        srsName="http://www.opengis.net/def/crs/epsg/0/25832">
+        <gml:lowerCorner>360000 5600000</gml:lowerCorner>
+        <gml:upperCorner>370000 5700000</gml:upperCorner>
+      </gml:Envelope>
+    </fes:Intersects>
+  </fes:Filter>
+```
+
+The result is a feature collection with four ProtectedSite_Water
+(AX_SchutzgebietNachWasserrecht) features and one ProtectedZone
+(AX_Schutzzone) feature in each site.
+
+link:https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?service=WFS&version=2.0.0&request=GetFeature&namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&typenames=adv:AX_SchutzgebietNachWasserrecht&resolve=local&resolvedepth=1&filter=%3Cfes%3AFilter%20xmlns%3D%22http%3A%2F%2Fwww.adv-online.de%2Fnamespaces%2Fadv%2Fgid%2F6.0%22%20xmlns%3Agml%3D%22http%3A%2F%2Fwww.opengis.net%2Fgml%2F3.2%22%20xmlns%3Afes%3D%22http%3A%2F%2Fwww.opengis.net%2Ffes%2F2.0%22%3E%0A%20%20%3Cfes%3AIntersects%3E%0A%20%20%20%20%3Cfes%3AValueReference%3Eadv%3AbestehtAus%2Fadv%3AAX_Schutzzone%2Fadv%3Aposition%3C%2Ffes%3AValueReference%3E%0A%20%20%20%20%3Cgml%3AEnvelope%20srsName%3D%22http%3A%2F%2Fwww.opengis.net%2Fdef%2Fcrs%2Fepsg%2F0%2F25832%22%3E%0A%20%20%20%20%3Cgml%3AlowerCorner%3E360000%205600000%3C%2Fgml%3AlowerCorner%3E%0A%20%20%20%20%3Cgml%3AupperCorner%3E370000%205700000%3C%2Fgml%3AupperCorner%3E%0A%20%20%20%20%3C%2Fgml%3AEnvelope%3E%0A%20%20%3C%2Ffes%3AIntersects%3E%0A%3C%2Ffes%3AFilter%3E[Live link to invoke the query on a WFS...]
+
+[[uc-select-associations]]
+==== Select the owners of cadastral parcels in an area
+
+This use case is similar to the <<uc-select-association,previous one>>,
+but uses value references along multiple associations.
+
+The following aspects are covered by this use case:
+
+* Querying features based on properties of related or nested objects or structured data types (several levels)
+
+===== Data
+
+The dataset is the same as in the <<uc-select-association,previous use case>>.
+
+The example query use the following feature types. This is simplified, the actual
+schema and data is much more complex and reflects the legal requirements of the
+German land register.
+
+CadastralParcel (AX_Flurstueck)::
+  A cadastral parcel.
+
+Record (multiple feature types)::
+  An entry in the land register.
+
+Person (AX_Person)::
+  A person that has some rights or responsibilities related to one or more parcels.
+
+[#img_CP,reftext='{figure-caption} {counter:figure-num}']
+.UML class diagram for features in use case "Select features based on related features (multiple associations)"
+[plantuml, images/Person, png, align="center"]
+....
+@startuml
+hide methods
+class CadastralParcel <<featureType>> {
+  +parcelId : CharacterString
+  +position : GM_MultiSurface
+}
+class Record <<featureType>> {
+  +recordId : CharacterString
+  +right: RightType
+}
+class Person <<featureType>> {
+  +firstName : CharacterString
+  +lastName : CharacterString
+}
+
+Record "1..*" --> "1..*" CadastralParcel : relatedTo >
+Record "0..*" -> "0..*" Record : related >
+Person "0..*" --> "0..*" Record : partOf >
+@enduml
+....
+
+===== Query
+
+The following WFS query selects all Person (AX_Person) features, that are
+related to cadastral parcels in a bounding box, e.g. own the parcel or
+have some rights. The filter uses a value reference along
+multiple associations: `partOf/Record/relatedTo/CadastralParcel/position`
+(the first value reference) or
+`partOf/Record/related/Record/relatedTo/CadastralParcel/position`
+(the second value reference).
+
+```
+https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?
+  service=WFS&
+  version=2.0.0&
+  request=GetFeature&
+  namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&
+  typenames=adv:AX_Person&
+  filter=
+  <fes:Filter
+    xmlns:adv="http://www.adv-online.de/namespaces/adv/gid/6.0"
+    xmlns:gml="http://www.opengis.net/gml/3.2"
+    xmlns:fes="http://www.opengis.net/fes/2.0">
+    <fes:Or>
+      <fes:Intersects>
+        <fes:ValueReference>
+          adv:weistAuf/adv:AX_Namensnummer/adv:istBestandteilVon/
+          adv:AX_Buchungsblatt/adv:bestehtAus/adv:AX_Buchungsstelle/
+          adv:grundstueckBestehtAus/adv:AX_Flurstueck/adv:position
+        </fes:ValueReference>
+        <gml:Envelope
+          srsName="http://www.opengis.net/def/crs/epsg/0/25832">
+          <gml:lowerCorner>361000 5610000</gml:lowerCorner>
+          <gml:upperCorner>362000 5620000</gml:upperCorner>
+        </gml:Envelope>
+      </fes:Intersects>
+      <fes:Intersects>
+        <fes:ValueReference>
+          adv:weistAuf/adv:AX_Namensnummer/adv:istBestandteilVon/
+          adv:AX_Buchungsblatt/adv:bestehtAus/adv:AX_Buchungsstelle/
+          adv:an/adv:AX_Buchungsstelle/adv:grundstueckBestehtAus/
+          adv:AX_Flurstueck/adv:position
+        </fes:ValueReference>
+        <gml:Envelope
+          srsName="http://www.opengis.net/def/crs/epsg/0/25832">
+          <gml:lowerCorner>361000 5610000</gml:lowerCorner>
+          <gml:upperCorner>362000 5620000</gml:upperCorner>
+        </gml:Envelope>
+      </fes:Intersects>
+    </fes:Or>
+  </fes:Filter>
+```
+
+The result is a feature collection with the person features matching the query.
+
+Due to privacy regulations, the land register data is not open data and no
+live query link can be provided.
+
+[[uc-versions]]
+==== Select versions of cadastral parcels based on their temporal validity
+
+Often, the history of a dataset is important. The example that we are using
+here is a cadastral parcel dataset, where it can be important to know the
+state of the parcels at a point in the past.
+
+There are two options how this is typically handled in application schemas.
+
+One approach is that the features are in fact feature versions. That is,
+different versions of the same feature / real-world entity are each represented
+as separate features. This is the approach we are considering in this use case.
+To avoid confusion we use the terms "version" and "real-world entity" in the
+description of this use case instead of "feature" which could mean the feature or
+a specific version of the feature.
+
+The advantage of this approach is that no specific temporal support is required
+in clients processing the data. This pattern is therefore frequently used with
+data that is used in map-based GIS clients, for example, with dataset provided
+by mapping or cadastral agencies.
+
+The other approach is to model the feature properties as timestamped sequences
+of values. GML supports this approach with the Dynamic Features pattern. The downside
+of this approach is that clients and servers must support this specific pattern,
+which typically requires customised software. A domain that is using this approach
+is the aviation domain.
+
+The following aspects are covered by this use case:
+
+* Accessing different versions (including historic representations) of features
+
+===== Data
+
+The dataset is the same as in the <<uc-select-association,first use case>>.
+
+As described above, the features in the application schema are versions of a
+real-world entity, valid for a given time period.
+
+All versions of the same real-world entity have the same `gml:identifier`.
+If multiple versions occur in the same GML document, a timestamp will be added
+to the `gml:id` attribute, otherwise the identifier of the real-world entity
+will be used.
+
+Each version has information about the lifespan of the version at hand.
+I.e., each version has a timestamp when this version
+has been added to the dataset. If the version is still valid, there is no
+timestamp for the end of the version validity. If the version (or the real-world entity)
+is no longer valid in the dataset, a timestamp for the end is added.
+
+Each timestamp is given in UTC, the granularity is seconds.
+
+If a new version is added due to a change in a property, the new version will have
+a start timestamp that is one second after the end timestamp of the previous version.
+
+The example query use the following feature type. The actual schema and data is
+more complex and has been simplified to the relevant aspects for this use case.
+
+CadastralParcel (AX_Flurstueck)::
+  A cadastral parcel.
+
+[#img_PS,reftext='{figure-caption} {counter:figure-num}']
+.UML class diagram for features in use case "Select features / feature versions based on temporal validity"
+[plantuml, images/CadastralParcel, png, align="center"]
+....
+@startuml
+hide methods
+class CadastralParcel <<featureType>> {
+  +parcelId : CharacterString
+  +lifespan : Lifespan
+  +position : GM_MultiSurface
+}
+class Lifespan <<dataType>> {
+  +begin : DateTime
+  +end : DateTime [0..1]
+}
+@enduml
+....
+
+===== Query
+
+The following WFS query selects all CadastralParcel (AX_Flurstueck)
+versions that have been inserted into the dataset on July 1st, 2017.
+
+```
+https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?
+  service=WFS&
+  version=2.0.0&
+  request=GetFeature&
+  namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&
+  typenames=adv:AX_Flurstueck&
+  filter=
+  <fes:Filter
+    xmlns:adv="http://www.adv-online.de/namespaces/adv/gid/6.0"
+    xmlns:gml="http://www.opengis.net/gml/3.2"
+    xmlns:fes="http://www.opengis.net/fes/2.0">
+    <fes:During>
+      <fes:ValueReference>
+        adv:lebenszeitintervall/adv:AA_Lebenszeitintervall/adv:beginnt
+      </fes:ValueReference>
+      <gml:TimePeriod gml:id="TP1">
+      <gml:begin>
+        <gml:TimeInstant gml:id="TI1">
+          <gml:timePosition>2017-07-01T00:00:00Z</gml:timePosition>
+        </gml:TimeInstant>
+      </gml:begin>
+      <gml:end>
+        <gml:TimeInstant gml:id="TI2">
+          <gml:timePosition>2017-07-01T23:59:59Z</gml:timePosition>
+        </gml:TimeInstant>
+      </gml:end>
+      </gml:TimePeriod>
+    </fes:During>
+  </fes:Filter>
+```
+
+The result is a feature collection with eight CadastralParcel
+(AX_Flurstueck) features.
+
+link:https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?service=WFS&version=2.0.0&request=GetFeature&namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&typenames=adv:AX_Flurstueck&filter=%3Cfes%3AFilter%0A%20%20%20%20xmlns%3Aadv%3D%22http%3A%2F%2Fwww.adv-online.de%2Fnamespaces%2Fadv%2Fgid%2F6.0%22%0A%20%20%20%20xmlns%3Agml%3D%22http%3A%2F%2Fwww.opengis.net%2Fgml%2F3.2%22%0A%20%20%20%20xmlns%3Afes%3D%22http%3A%2F%2Fwww.opengis.net%2Ffes%2F2.0%22%3E%0A%20%20%20%20%3Cfes%3ADuring%3E%0A%20%20%20%20%20%20%3Cfes%3AValueReference%3Eadv%3Alebenszeitintervall%2Fadv%3AAA_Lebenszeitintervall%2Fadv%3Abeginnt%3C%2Ffes%3AValueReference%3E%0A%20%20%20%20%20%20%3Cgml%3ATimePeriod%20gml%3Aid%3D%22TP1%22%3E%0A%20%20%20%20%20%20%3Cgml%3Abegin%3E%0A%20%20%20%20%20%20%20%20%3Cgml%3ATimeInstant%20gml%3Aid%3D%22TI1%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cgml%3AtimePosition%3E2017-07-01T00%3A00%3A00Z%3C%2Fgml%3AtimePosition%3E%0A%20%20%20%20%20%20%20%20%3C%2Fgml%3ATimeInstant%3E%0A%20%20%20%20%20%20%3C%2Fgml%3Abegin%3E%0A%20%20%20%20%20%20%3Cgml%3Aend%3E%0A%20%20%20%20%20%20%20%20%3Cgml%3ATimeInstant%20gml%3Aid%3D%22TI2%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cgml%3AtimePosition%3E2017-07-01T23%3A59%3A59Z%3C%2Fgml%3AtimePosition%3E%0A%20%20%20%20%20%20%20%20%3C%2Fgml%3ATimeInstant%3E%0A%20%20%20%20%20%20%3C%2Fgml%3Aend%3E%0A%20%20%20%20%20%20%3C%2Fgml%3ATimePeriod%3E%0A%20%20%20%20%3C%2Ffes%3ADuring%3E%0A%20%20%3C%2Ffes%3AFilter%3E[Live link to invoke the query on a WFS...]
+
+Note that the dataset accessible via the WFS only includes valid versions, because
+WFS 2.0 does not include a simple mechanism to handle versions in queries and
+most users, especially those using a map-based GIS client, would be surprised to receive
+multiple features from the WFS representing the same real-world entity. All of those
+version would be drawn on a map at the same time.
+
+There is an opportunity with WFS 3.0 to support datasets with versions natively.
+
+[[uc-se]]
+==== Select cadastral parcels for rendering with a specific style
+
+A common requirement is to present features in a dataset on a map (or in a 3D scene).
+In this use case we look at rendering feature data on a 2D map, for display in a
+web browser.
+
+This may be implemented using a WFS 2.0 as the backend, i.e. the rendering
+engine is a WFS client and then renders the data, either directly in the browser or
+in a server, for example, a WMS 1.3.
+
+For server-side rendering, the data will typically be rendered closer to the
+database and not via a WFS 2.0 interface - for performance reasons. For client-side
+rendering, the data will typically not use GML, but a format that is optimised for
+the rendering purpose. Nevertheless, the use case is still relevant in the context
+of complex feature handling, for at least two reasons:
+
+* Style information in the OGC standards baseline uses Symbology Encoding and the
+feature selection mechanisms are the same as in WFS 2.0 - both use the Filter Encoding
+standard.
+* In this report, we are not limited to WFS only, but we want to consider other
+aspects that are relevant for future OGC NextGen services, too. As OGC NextGen services
+will have to be able to support API building blocks for providing maps, scenes,
+vector tiles, etc., the related query aspects need to be considered, too.
+
+The following aspects are covered by this use case:
+
+* Querying features based on expressions built from complex predicates consisting
+of predicate groups and combinations of logical operators
+* Use of responses for display in a web browser
+
+===== Data
+
+The dataset is the same as in the <<uc-select-association,first use case>>.
+
+The example query uses the following feature types. The actual schema and data is
+more complex and has been simplified to the relevant aspects for this use case.
+
+CadastralParcel (AX_Flurstueck)::
+  A cadastral parcel.
+
+Text (AP_PTO)::
+  A map text for display on a map for a feature.
+
+[#img_PS,reftext='{figure-caption} {counter:figure-num}']
+.UML class diagram for features in use case "Select features for rendering with a specific style"
+[plantuml, images/SE, png, align="center"]
+....
+@startuml
+hide methods
+class CadastralParcel <<featureType>> {
+  +parcelId : CharacterString
+  +numerator : Integer
+  +denominator : Integer [0..1]
+  +altLegalStatus : Boolean [0..1]
+  +position : GM_MultiSurface
+}
+class Text <<featureType>> {
+  +position : GM_Point
+  +type : CharacterString
+  +text : CharacterString [0..1]
+}
+
+Text "textOnMap *" -- "displays 1" CadastralParcel
+@enduml
+....
+
+
+===== Query
+
+Rich, standardised symbology rule sets exist for the cadastral datasets consisting of a
+large number of selection rules and feature styles.
+
+We will use rules RUL06410 and RUL06420 from this link:http://sg.geodatenzentrum.de/web_public/adv/sk/alkis/docAlkisFB/html/SYCALFB1xLAY00001xRST00001ById.html[portrayal catalogue]
+as an example. The rules select all cadastral parcels that meet the following
+criteria (for display of the parcel number on the map):
+
+* Parcels in a local district are identified using a numerator ("Zähler") and
+an optional denominator ("Nenner"). The example rules only apply to parcels
+with a denominator. The value reference is `numerator`
+(`adv:flurstuecksnummer/adv:AX_Flurstuecksnummer/adv:nenner`).
+* In addition, all of the following conditions must be met:
+** Another organisation than the land register may be legally responsible for some
+parcels. This is indicated in a boolean attribute for an alternative legal
+status ("abweichenderRechtszustand"). The example rules only apply to parcels
+for which the attribute is either missing or `false`. The value reference is
+`altLegalStatus` (`adv:abweichenderRechtszustand`).
+** The application schema includes special feature types to capture map placement
+information. A typical example is a Text object (AP_PTO), which may be used to
+provide a fixed location for a text on the map ("position") or to provide a
+different text ("schriftinhalt") than the default text derived from the properties of the
+real-world thing. An association exists between the cadastral parcel and the
+Text objects that contain information overriding the default portrayal on the map
+("inversZu_dientZurDarstellungVon_AP_PTO"). Since a map may contain multiple
+texts for a feature, there is also a type property ("art") to distinguish different
+text types. The example rules only apply to parcels that have an associated
+Text object for displaying the parcel number on the map (type is "ZAE_NEN"). The value reference is
+`textOnMap/Text[type = 'ZAE_NEN']`
+(`adv:inversZu_dientZurDarstellungVon_AP_PTO/adv:AP_PTO[adv:art = 'ZAE_NEN']`).
+
+The difference between the two rules RUL06410 and RUL06420 is whether the
+text on the map is taken from the `numerator` attribute of the cadastral parcel
+feature or from the `text` attribute of the associated Text object.
+
+The following WFS query selects all CadastralParcel (AX_Flurstueck)
+features that are rendered using the example portrayal rules. The `<fes:Filter>`
+part would be the same in a portrayal rule according to the Symbology Encoding
+standard as used in a WMS/SLD.
+
+```
+https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?
+  service=WFS&
+  version=2.0.0&
+  request=GetFeature&
+  namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&
+  typenames=adv:AX_Flurstueck&
+  filter=
+  <fes:Filter xmlns:adv="http://www.adv-online.de/namespaces/adv/gid/6.0"
+  xmlns:gml="http://www.opengis.net/gml/3.2"
+  xmlns:fes="http://www.opengis.net/fes/2.0">
+  <fes:And>
+    <fes:Not>
+      <fes:PropertyIsNull>
+        <fes:ValueReference>
+          adv:flurstuecksnummer/adv:AX_Flurstuecksnummer/adv:nenner
+        </fes:ValueReference>
+      </fes:PropertyIsNull>
+    </fes:Not>
+    <fes:And>
+      <fes:Or>
+        <fes:PropertyIsNull>
+          <fes:ValueReference>
+            adv:abweichenderRechtszustand
+          </fes:ValueReference>
+        </fes:PropertyIsNull>
+        <fes:PropertyIsEqualTo>
+          <fes:ValueReference>
+            adv:abweichenderRechtszustand
+          </fes:ValueReference>
+          <fes:Literal>false</fes:Literal>
+        </fes:PropertyIsEqualTo>
+      </fes:Or>
+      <fes:Not>
+        <fes:PropertyIsNull>
+          <fes:ValueReference>
+            adv:inversZu_dientZurDarstellungVon_AP_PTO/adv:AP_PTO[adv:art = 'ZAE_NEN']
+          </fes:ValueReference>
+        </fes:PropertyIsNull>
+      </fes:Not>
+    </fes:And>
+  </fes:And>
+  </fes:Filter>
+```
+
+The result is a feature collection with more than 234,000 CadastralParcel
+(AX_Flurstueck) features.
+
+link:https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?service=WFS&version=2.0.0&request=GetFeature&namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&typenames=adv:AX_Flurstueck&filter=%3Cfes%3AFilter%20xmlns%3Aadv%3D%22http%3A%2F%2Fwww.adv-online.de%2Fnamespaces%2Fadv%2Fgid%2F6.0%22%0A%20%20xmlns%3Agml%3D%22http%3A%2F%2Fwww.opengis.net%2Fgml%2F3.2%22%0A%20%20xmlns%3Afes%3D%22http%3A%2F%2Fwww.opengis.net%2Ffes%2F2.0%22%3E%0A%20%20%3Cfes%3AAnd%3E%0A%20%20%20%20%3Cfes%3ANot%3E%0A%20%20%20%20%20%20%3Cfes%3APropertyIsNull%3E%0A%20%20%20%20%20%20%20%20%3Cfes%3AValueReference%3E%0A%20%20%20%20%20%20%20%20%20%20adv%3Aflurstuecksnummer%2Fadv%3AAX_Flurstuecksnummer%2Fadv%3Anenner%0A%20%20%20%20%20%20%20%20%3C%2Ffes%3AValueReference%3E%0A%20%20%20%20%20%20%3C%2Ffes%3APropertyIsNull%3E%0A%20%20%20%20%3C%2Ffes%3ANot%3E%0A%20%20%20%20%3Cfes%3AAnd%3E%0A%20%20%20%20%20%20%3Cfes%3AOr%3E%0A%20%20%20%20%20%20%20%20%3Cfes%3APropertyIsNull%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cfes%3AValueReference%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20adv%3AabweichenderRechtszustand%0A%20%20%20%20%20%20%20%20%20%20%3C%2Ffes%3AValueReference%3E%0A%20%20%20%20%20%20%20%20%3C%2Ffes%3APropertyIsNull%3E%0A%20%20%20%20%20%20%20%20%3Cfes%3APropertyIsEqualTo%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cfes%3AValueReference%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20adv%3AabweichenderRechtszustand%0A%20%20%20%20%20%20%20%20%20%20%3C%2Ffes%3AValueReference%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cfes%3ALiteral%3Efalse%3C%2Ffes%3ALiteral%3E%0A%20%20%20%20%20%20%20%20%3C%2Ffes%3APropertyIsEqualTo%3E%0A%20%20%20%20%20%20%3C%2Ffes%3AOr%3E%0A%20%20%20%20%20%20%3Cfes%3ANot%3E%0A%20%20%20%20%20%20%20%20%3Cfes%3APropertyIsNull%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cfes%3AValueReference%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20adv%3AinversZu_dientZurDarstellungVon_AP_PTO%2Fadv%3AAP_PTO%5Badv%3Aart%20%3D%20%27ZAE_NEN%27%5D%0A%20%20%20%20%20%20%20%20%20%20%3C%2Ffes%3AValueReference%3E%0A%20%20%20%20%20%20%20%20%3C%2Ffes%3APropertyIsNull%3E%0A%20%20%20%20%20%20%3C%2Ffes%3ANot%3E%0A%20%20%20%20%3C%2Ffes%3AAnd%3E%0A%20%20%3C%2Ffes%3AAnd%3E%0A%20%20%3C%2Ffes%3AFilter%3E&resultType=hits[Live link to invoke the query on a WFS (with resultType=hits due to the large number of features)...]
