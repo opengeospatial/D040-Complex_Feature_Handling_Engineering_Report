@@ -19,6 +19,10 @@ to portrayal of the data at map scales that are traditionally used for base
 maps, too. For example, information is included about text placement in
 specific maps.
 
+Since the cadastral law permits arcs in a boundary of a cadastral parcel,
+Simple Feature geometries are not sufficient for storing the authoritative
+feature data.
+
 Outside of the Surveying Authorities the data is often simplified / flattened
 to simplify the use of the data, but a number of workflows require the
 full use of the complex data structures included in the dataset.
