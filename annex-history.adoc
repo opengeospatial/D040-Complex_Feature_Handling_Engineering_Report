@@ -10,5 +10,5 @@
 |May 8, 2018 |C. Portele |0.2 |2-8 |add document structure, initial use case template
 |May 30, 2018 |V. Coors, C. Portele |0.3 |5 |initial use cases added (work in progress)
 |June 22, 2018 |V. Coors, C. Portele |0.4 |5 |additional use cases and details added (work in progress)
-|June 27, 2018 |C. Portele |0.5 |5 |Update of the use cases, unify structure and style, add bibliography
+|June 28, 2018 |C. Portele |0.5 |5 |Update use cases, unify structure and style, add bibliography
 |====================

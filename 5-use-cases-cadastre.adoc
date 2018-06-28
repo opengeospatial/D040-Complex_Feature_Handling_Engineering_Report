@@ -55,7 +55,7 @@ ProtectedZone (AX_Schutzzone)::
   An area in a protected site with a homogeneous classification.
 
 [#img_PS,reftext='{figure-caption} {counter:figure-num}']
-.UML class diagram for features in use case "Select features based on related features (one association)"
+.UML class diagram for features in use case "Selection of protected sites"
 [plantuml, images/ProtectedSite, png, align="center"]
 ....
 @startuml
@@ -175,7 +175,7 @@ Person (AX_Person)::
   A person that has some rights or responsibilities related to one or more parcels.
 
 [#img_CP,reftext='{figure-caption} {counter:figure-num}']
-.UML class diagram for features in use case "Select features based on related features (multiple associations)"
+.UML class diagram for features in use case "Select the owners of cadastral parcels in an area"
 [plantuml, images/Person, png, align="center"]
 ....
 @startuml
@@ -317,7 +317,7 @@ CadastralParcel (AX_Flurstueck)::
   A cadastral parcel.
 
 [#img_PS,reftext='{figure-caption} {counter:figure-num}']
-.UML class diagram for features in use case "Select features / feature versions based on temporal validity"
+.UML class diagram for features in use case "Select versions of cadastral parcels based on their temporal validity"
 [plantuml, images/CadastralParcel, png, align="center"]
 ....
 @startuml
@@ -384,6 +384,9 @@ version would be drawn on a map at the same time.
 
 There is an opportunity with WFS 3.0 to support datasets with versions natively.
 
+See also the related discussion in the
+link:https://www.w3.org/TR/sdw-bp/#bp-dataversioning[W3C/OGC Spatial Data on the Web Best Practice document].
+
 [[uc-se]]
 ==== Select cadastral parcels for rendering with a specific style
 
@@ -429,7 +432,7 @@ Text (AP_PTO)::
   A map text for display on a map for a feature.
 
 [#img_PS,reftext='{figure-caption} {counter:figure-num}']
-.UML class diagram for features in use case "Select features for rendering with a specific style"
+.UML class diagram for features in use case "Select cadastral parcels for rendering with a specific style"
 [plantuml, images/SE, png, align="center"]
 ....
 @startuml
@@ -542,3 +545,109 @@ The result is a feature collection with more than 234,000 CadastralParcel
 (AX_Flurstueck) features.
 
 link:https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?service=WFS&version=2.0.0&request=GetFeature&namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&typenames=adv:AX_Flurstueck&filter=%3Cfes%3AFilter%20xmlns%3Aadv%3D%22http%3A%2F%2Fwww.adv-online.de%2Fnamespaces%2Fadv%2Fgid%2F6.0%22%0A%20%20xmlns%3Agml%3D%22http%3A%2F%2Fwww.opengis.net%2Fgml%2F3.2%22%0A%20%20xmlns%3Afes%3D%22http%3A%2F%2Fwww.opengis.net%2Ffes%2F2.0%22%3E%0A%20%20%3Cfes%3AAnd%3E%0A%20%20%20%20%3Cfes%3ANot%3E%0A%20%20%20%20%20%20%3Cfes%3APropertyIsNull%3E%0A%20%20%20%20%20%20%20%20%3Cfes%3AValueReference%3E%0A%20%20%20%20%20%20%20%20%20%20adv%3Aflurstuecksnummer%2Fadv%3AAX_Flurstuecksnummer%2Fadv%3Anenner%0A%20%20%20%20%20%20%20%20%3C%2Ffes%3AValueReference%3E%0A%20%20%20%20%20%20%3C%2Ffes%3APropertyIsNull%3E%0A%20%20%20%20%3C%2Ffes%3ANot%3E%0A%20%20%20%20%3Cfes%3AAnd%3E%0A%20%20%20%20%20%20%3Cfes%3AOr%3E%0A%20%20%20%20%20%20%20%20%3Cfes%3APropertyIsNull%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cfes%3AValueReference%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20adv%3AabweichenderRechtszustand%0A%20%20%20%20%20%20%20%20%20%20%3C%2Ffes%3AValueReference%3E%0A%20%20%20%20%20%20%20%20%3C%2Ffes%3APropertyIsNull%3E%0A%20%20%20%20%20%20%20%20%3Cfes%3APropertyIsEqualTo%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cfes%3AValueReference%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20adv%3AabweichenderRechtszustand%0A%20%20%20%20%20%20%20%20%20%20%3C%2Ffes%3AValueReference%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cfes%3ALiteral%3Efalse%3C%2Ffes%3ALiteral%3E%0A%20%20%20%20%20%20%20%20%3C%2Ffes%3APropertyIsEqualTo%3E%0A%20%20%20%20%20%20%3C%2Ffes%3AOr%3E%0A%20%20%20%20%20%20%3Cfes%3ANot%3E%0A%20%20%20%20%20%20%20%20%3Cfes%3APropertyIsNull%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cfes%3AValueReference%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20adv%3AinversZu_dientZurDarstellungVon_AP_PTO%2Fadv%3AAP_PTO%5Badv%3Aart%20%3D%20%27ZAE_NEN%27%5D%0A%20%20%20%20%20%20%20%20%20%20%3C%2Ffes%3AValueReference%3E%0A%20%20%20%20%20%20%20%20%3C%2Ffes%3APropertyIsNull%3E%0A%20%20%20%20%20%20%3C%2Ffes%3ANot%3E%0A%20%20%20%20%3C%2Ffes%3AAnd%3E%0A%20%20%3C%2Ffes%3AAnd%3E%0A%20%20%3C%2Ffes%3AFilter%3E&resultType=hits[Live link to invoke the query on a WFS (with resultType=hits due to the large number of features)...]
+
+[[uc-select-buildingparts]]
+==== Selection of building parts of a building
+
+This use case has been added to include a query that - while not overly complex -
+cannot be executed with most WFS implementations as it would require support for
+spatial joins.
+
+Including this use case does imply that WFS 3.0 should include an
+extension that supports such a query. However, as spatial relations are an
+important aspect of spatial data, we should at least include it in our
+considerations, even if we recommend to include explicit spatial relations
+in the feature representations, consistent with the recommendations of the
+link:https://www.w3.org/TR/sdw-bp/#bp-linking-2[W3C/OGC Spatial Data on the Web Best Practice document].
+
+===== Data
+
+The AFIS-ALKIS-ATKIS application schema distinguishes between buildings and
+building parts, where a building part is a part of a building with different
+characteristics, for example, a different number of floors. The 2D footprint
+geometry of a building part is within the footprint geometry of the building.
+
+NOTE: The CityGML Building and BuildingPart features were originally modelled
+after the cadastral model in Germany.
+
+As the AFIS-ALKIS-ATKIS application schema is designed for maintaining the
+cadastral datasets, they do not contain a (redundant) association to identify
+the building parts within a build (as the relationship can be determined from
+the footprint geometries).
+
+The queries use the following feature types:
+
+Building (AX_Gebaeude)::
+  A permanent construction that must be recorded due its significance for the cadastre.
+
+BuildingPart (AX_Bauteil)::
+  A part of a Building with distinct or special characteristics.
+
+[#img_BU,reftext='{figure-caption} {counter:figure-num}']
+.UML class diagram for features in use case "Selection of building parts of a building"
+[plantuml, images/BuildingPart, png, align="center"]
+....
+@startuml
+hide methods
+class Building <<featureType>> {
+  +positon : GM_Surface
+}
+class BuildingPart <<featureType>> {
+  +position : GM_Surface
+}
+@enduml
+....
+
+===== Query
+
+Two subsequent queries are required.
+
+The first query retrieves the building using its identifier (`DENW45AL0000lxrJ`)
+in order to determine the footprint geometry of the building.
+
+```
+https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?
+  service=WFS&
+  version=2.0.0&
+  request=GetFeature&
+  resourceId=DENW45AL0000lxrJ
+```
+link:https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?service=WFS&version=2.0.0&request=GetFeature&resourceId=DENW45AL0000lxrJ[Live link to invoke the query on a WFS...]
+
+The geometry can now be used to retrieve all building parts of that building.
+
+```
+https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?
+  service=WFS&
+  version=2.0.0&
+  request=GetFeature&
+  namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&
+  typenames=adv:AX_Bauteil&
+  filter=
+  <fes:Filter
+    xmlns:adv="http://www.adv-online.de/namespaces/adv/gid/6.0"
+    xmlns:gml="http://www.opengis.net/gml/3.2"
+    xmlns:fes="http://www.opengis.net/fes/2.0">
+    <fes:Intersects>
+      <fes:ValueReference>
+        adv:position
+      </fes:ValueReference>
+      <gml:Polygon gml:id="o31001.id.29956334.position.Geom_0" srsName="urn:ogc:def:crs:EPSG::25832">
+        <gml:exterior>
+          <gml:LinearRing>
+            <gml:posList>
+              377034.58 5658143.873 377036.274 5658136.338 377036.438 5658135.613
+              377038.889 5658136.168 377039.429 5658136.291 377043.42 5658137.194
+              377043.262 5658137.895 377041.564 5658145.455 377041.193 5658145.371
+              377038.311 5658144.715 377034.58 5658143.873
+            </gml:posList>
+          </gml:LinearRing>
+        </gml:exterior>
+      </gml:Polygon>
+    </fes:Intersects>
+  </fes:Filter>
+```
+
+The result is a feature collection with two BuildingPart (AX_Bauteil) features.
+
+link:https://www.wfs.nrw.de/geobasis/wfs_nw_alkis_aaa-modell-basiert?service=WFS&version=2.0.0&request=GetFeature&namespaces=xmlns(adv,http://www.adv-online.de/namespaces/adv/gid/6.0)&typenames=adv:AX_Bauteil&filter=%3Cfes%3AFilter%0A%20%20%20%20xmlns%3Aadv%3D%22http%3A%2F%2Fwww.adv-online.de%2Fnamespaces%2Fadv%2Fgid%2F6.0%22%0A%20%20%20%20xmlns%3Agml%3D%22http%3A%2F%2Fwww.opengis.net%2Fgml%2F3.2%22%0A%20%20%20%20xmlns%3Afes%3D%22http%3A%2F%2Fwww.opengis.net%2Ffes%2F2.0%22%3E%0A%20%20%20%20%3Cfes%3AIntersects%3E%0A%20%20%20%20%20%20%3Cfes%3AValueReference%3Eadv%3Aposition%3C%2Ffes%3AValueReference%3E%0A%3Cgml%3APolygon%20gml%3Aid%3D%22o31001.id.29956334.position.Geom_0%22%20srsName%3D%22urn%3Aogc%3Adef%3Acrs%3AEPSG%3A%3A25832%22%20srsDimension%3D%222%22%3E%0A%3Cgml%3Aexterior%3E%0A%3Cgml%3ALinearRing%3E%0A%3Cgml%3AposList%3E377034.58%205658143.873%20377036.274%205658136.338%20377036.438%205658135.613%20377038.889%205658136.168%20377039.429%205658136.291%20377043.42%205658137.194%20377043.262%205658137.895%20377041.564%205658145.455%20377041.193%205658145.371%20377038.311%205658144.715%20377034.58%205658143.873%3C%2Fgml%3AposList%3E%0A%3C%2Fgml%3ALinearRing%3E%0A%3C%2Fgml%3Aexterior%3E%0A%3C%2Fgml%3APolygon%3E%0A%20%20%20%20%3C%2Ffes%3AIntersects%3E%0A%20%20%3C%2Ffes%3AFilter%3E[Live link to invoke the query on a WFS...]
