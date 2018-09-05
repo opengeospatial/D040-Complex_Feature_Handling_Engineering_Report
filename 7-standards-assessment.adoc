@@ -1,7 +1,243 @@
 [[standards]]
 == Assessment of OGC and community standards
 
-NOTE: TODO +
-This section will assesses current OGC standards and community standards with respect
-to the use cases and the approach to a next generation of OGC services ("NextGen
-services") based on the approach taken by WFS 3.0.
+=== General remarks
+
+This section assesses current OGC and other specifications with respect
+to the identified requirements and analyses options for addressing the
+requirements in an architecture for a next generation of OGC services
+("OGC NextGen services") based on the approach taken by WFS 3.0.
+
+This chapter is organised in three parts. First, we summarise how the different
+XML and JSON encodings match the requirements. Second, we look at different
+approaches to querying complex data and, third, we look at additional resource
+types and other ways to organise and encode the data.
+
+=== Encodings
+
+The following table provides an overview of how the different feature encodings
+for XML (GML, GML Simple Features Profile Level 0 and 2) and JSON (GeoJSON,
+CityJSON) match the requirements regarding data structures identified in
+the previous chapter.
+
+CityJSON is, of course, limited to 3D city models, provides a fixed schema
+and is an implementation of the model that underpins CityGML in JSON.
+
+.Comparison of XML and JSON encodings
+[width="100%",cols="4,3,3,3,3,3",options="header"]
+|=========================================================
+|Requirement |GML |GML-SF0 |GML-SF2 |GeoJSON |CityJSON
+|multiple-values |Yes |No |Yes |Yes |Yes
+|nested-structures |Yes |No |Yes |Yes |Yes, where necessary
+|relationships |Yes |No |Yes |No |Yes
+|multiple-geometries |Yes |Yes |Yes |No |Yes
+|3D-geometries |Yes |No |No |No |Yes
+|shared-geometries |Yes |No |No |No |No?
+|non-linear-interpolation |Yes |Arcs only |Arcs only |No |No
+|schema-validation |Yes |Yes |Yes |Yes, but uncommon |Yes
+|=========================================================
+
+
+=== API building blocks for queries
+
+Looking at extending the WFS 3.0 Core API with support for richer
+queries, there are two different approaches: Leveraging an existing
+approach used in other OGC standards with support for spatial queries,
+or leveraging an existing approach used by the mainstream Web community that
+is well-known to developers and well-supported.
+
+Filter Encoding and CQL fall into the first category,
+GraphQL and Falcor into the second category.
+
+This could potentially be extended with additional options, including
+(Geo)SPARQL, Gremlin, XQuery, etc. However, graph databases, triple stores or
+XML databases are not the typical database backends used when publishing
+spatial datasets for Web developers, so this analysis has focussed on the
+other options mentioned above.
+
+NOTE: I planned to also analyse the OpenSearch Geo/Time extension, but I
+do not really see how this could be a candidate. It is more tailored towards
+full-text searches, overlaps with WFS 3.0 (paging, etc), is XML-based
+(OpenSearch descriptions, RSS/Atom as response formats) and the
+OpenSearch descriptions overlap with the OpenAPI definitions. I, therefore,
+removed the text about it again.
+
+NOTE: TODO, look at any filter extensions in STAC. In Fort Collins we discussed
+a query syntax encoded in JSON.
+
+To assess the options, the following aspects are considered:
+
+* the capabilities to query complex spatial datasets based on the
+requirements identified in the previous chapter;
+* the suitability to support different encodings, in particular XML and JSON;
+* the support for popular database backends, mainly relational databases and
+document stores;
+* support by libraries in key programming languages.
+
+==== WFS 2.0 ad-hoc queries and Filter Encoding 2.0
+
+The OGC Filter Encoding Standard (latest version: 2.0.2) is the standard
+filter language for ad-hoc queries in WFS 2.0. Together they support the query
+requirements identified in the previous chapter.
+
+However, the specifications are closely tied to XML including the use of XPath,
+which makes them an unnatural match for servers that want to return JSON.
+
+Implementations exist, but the requirements identified in
+the previous chapter are supported to a limited extent in freely available
+libraries. Implementations typically support relational database backends.
+
+**Assessment: A candidate query language for WFS 3.0 implementations that
+also support WFS 2.0 and GML. Complex feature handling in WFS 3.0 will,
+of course, only be supported if the WFS 2.0 implementation supports the
+identified <<use_cases,use cases>>.**
+
+Links:
+
+* link:https://docs.opengeospatial.org/is/09-025r2/09-025r2.html[OGC Web Feature Service standard 2.0, section 7.9]
+* link:https://docs.opengeospatial.org/is/09-026r2/09-026r2.html[OGC Filter Encoding standard 2.0]
+
+==== CQL
+
+CQL is short for "OGC Common Query Language" and is defined in the
+OGC Catalogue Services Standard (version 2.0.2). It is a text-based
+syntax similar to the SQL "Where" clause, i.e. on a similar level as
+Filter Encoding, but easier to write for most developers than the XML
+syntax of Filter Encoding.
+
+On the other hand, Filter Encoding does not support all identified
+query requirements. CQL does not have a well-defined semantics for
+querying properties with multiple values, does not support link traversal
+across relationships or 3D geometries.
+
+As a text-based query language it is not strongly tied to XML, JSON or any
+other encoding.
+
+Implementations exist, but the requirements identified in
+the previous chapter are supported to a limited extent in freely available
+libraries. Implementations typically support relational database backends,
+CQL is less suited for document stores.
+
+**Assessment: A candidate query language for an intermediate WFS 3.0
+query capability that goes beyond the limited support that WFS 3.0 offers,
+but is not intended as an exhaustive query capability.
+The lack of 3D support and the lack of support for document stores
+is an issue, too.**
+
+Link:
+
+* link:http://portal.opengeospatial.org/files/?artifact_id=20555[OGC Catalogue Service standard 2.0, section 6.2.2]
+
+==== Falcor
+
+Falcor is a data platform that powers the Netflix user interfaces.
+
+The starting point of Falcor is to assume that all data is a single
+(virtual) JSON object. This allows clients to work with the data
+using standard operations on JSON objects and support for Path expressions.
+In the words of Netflix: "If you know your data, you know your API."
+
+In a way this would be comparable to using XQuery as a query language
+in WFS 2.0 where the dataset is basically a large GML feature collection.
+
+Falcor has additional conventions to allow that the virtual JSON object can
+be used as a graph with shared resources and not just the that a JSON object
+is. This avoids multiple copies of the same object in different parts of
+the virtual JSON object. An enhanced path notation is used to reference
+nodes within the virtual JSON object.
+
+Falcor has no schema of the data and assumes that the developer knows the
+data.
+
+It is mainly designed for use in JavaScript and has no support for
+geometries or spatial predicates.
+
+**Assessment: Falcor may be a candidate for a WFS 3.0 implementation that
+only supports JSON and that is mainly accessed from JavaScript. However,
+support for spatial aspects would need to be specified and implemented first.
+It is thus not considered in more detail in this report.**
+
+Link:
+
+* link:https://netflix.github.io/falcor/[Falcor website]
+
+==== GraphQL
+
+GraphQL is a declarative, string-based query language created by Facebook to
+support fetching data for use in a user application from a server.
+
+NOTE: A similarity with Filter Encoding is the intent to be a
+declarative language independent of the underlying database technology.
+
+One of the main drivers for GraphQL was the goal to provide an interface that
+allows mobile app developers to retrieve exactly the data that they need in
+a single query from a single endpoint. This is
+This is based on the observation that in REST APIs one usually
+needs multiple requests to fetch the information and/or that the response
+often contains unnecessary information ("overfetching").
+
+I.e. support for GraphQL would basically be complementary to the current
+WFS 3.0 Web API. The blogpost "GraphQL: Everything You Need to Know" listed
+below includes a comparison of strengths and weaknesses of both approaches.
+
+NOTE: A GraphQL endpoint could be implemented on
+top of the Web API, but likely with sub-optimal performance.
+
+Unlike Falcor, where the client has to know the data, GraphQL *requires* a
+schema of the data. GraphQL is strongly typed and supports nesting,
+multiplicities, etc.
+
+Typically GraphQL schemas are
+tailored for the specific application needs. That is, GraphQL queries are in
+practice in a way more similar to the stored queries of WFS 2.0 than the
+generic ad-hoc queries of WFS / FES 2.0 - although with a much richer
+mechanism to specify parameters and projection clauses.
+
+One of the biggest advantages of GraphQL is that it seems quite mature and
+has a lively and growing ecosystem with good tools, support, etc.
+
+One issue, of course, is that currently there is no support for geometries or
+spatial queries in GraphQL.
+
+GraphQL is not tied to JSON, but JSON seems to be by far the most commonly used
+encoding.
+
+NOTE: TODO, add a detailed example based on one of the use cases and analyse
+how/if it could be spatially-enabled without the need to discard the tooling.
+
+**Assessment: GraphQL is a promising candidate because of its popularity and
+its characteristics, in particular for usages that are close to end user
+applications. Spatial support may be an issue and needs to be explored in more detail, including the use of GeoJSON or CityJSON.**
+
+Links:
+
+* link:https://graphql.org/[GraphQL website]
+* link:https://medium.com/@weblab_tech/graphql-everything-you-need-to-know-58756ff253d8[GraphQL: Everything You Need to Know]
+
+=== API building blocks for additional resource types
+
+For 2D data, a commonly used approach is to organise the feature data in tiles,
+in particular for visualisation in map-based client applications in a web
+browser. Tiles are
+provided for different zoom levels (scales) and the subset of features that are
+located in the bounding box of the tile and are included in a tile will depend
+on the zoom level (e.g. no buildings at a country scale).
+
+In parallel to OGC Testbed 14 another OGC Innovation Program initiative, the
+Vector Tiles Pilot, is investigating how Vector Tiles should be provided via
+an OGC NextGen service API as Mapbox Vector Tiles (using Google Protocol Buffers)
+and as GeoJSON. Of course, the tiles could also be rendered as bitmap images, too,
+if the server has styling information.
+
+In general, as tiles are different resources, they would be made available under
+a new resource path, e.g. `/collections/{collectionId}/tiles` as well as `/tiles`
+for tiles with feature data from multiple collections / with multiple layers.
+
+In addition, Google Protocol Buffers following the Mapbox Vector Tile format
+could also be served from the `/collections/{collectionId}/items` path as an
+additional encoding.
+
+NOTE: TODO, how 3DPS with i3s and 3D Tiles could be made available in an OGC
+NextGen service architecture.
+
+NOTE: TODO, aspects to consider: Caching. Processing on the server vs the client.

@@ -4,3 +4,19 @@
 NOTE: TODO +
 This section will provide recommendations for the most appropriate way to support the
 use cases within the NextGen service architecture.
+
+Some initial, incomplete thoughts:
+
+* Support an intermediate cross-collection mechanism to fetch data (at `/search`).
+Candidate: CQL - or another simple, easy to implement syntax that is straightforward to map to queries on relational databases and document stores.
+* Investigate if/how GraphQL could be used to query a dataset (response formats: GeoJSON, CityJSON).
+* For 3D city models in JSON explore the use of CityJSON.
+* Provide guidance how implementations could support additional, more advanced
+query mechanisms that best fit their encoding(s) and datastore. These probably
+should not be promoted as standards as the details may be implementation
+dependent. Examples could be:
+** the use of XQuery on a document store that supports XML or a XML database;
+** the use of WFS 2.0 Query / FES 2.0 Filter in an implementation that supports
+WFS 2.0 in addition to WFS 3.0
+** the use of a bespoke query language with a straightforward mapping to the underlying datastore.
+* 3DPS in NextGen is a TODO
