@@ -118,6 +118,8 @@ the previous chapter are supported to a limited extent in freely available
 libraries. Implementations typically support relational database backends,
 CQL is less suited for document stores.
 
+NOTE: TODO, add a detailed example based on one or more of the use cases.
+
 **Assessment: A candidate query language for an intermediate WFS 3.0
 query capability that goes beyond the limited support that WFS 3.0 offers,
 but is not intended as an exhaustive query capability.
