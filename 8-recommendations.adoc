@@ -20,3 +20,54 @@ dependent. Examples could be:
 WFS 2.0 in addition to WFS 3.0
 ** the use of a bespoke query language with a straightforward mapping to the underlying datastore.
 * 3DPS in NextGen is a TODO
+An experimental 3D Portrayal Service request using WFS 3.0 is implemented based on the Testbed 13 showcase using the 3D CityGML model of New York (see use case in chapter 4). The request
+
+https://services.thisserverisnotavailableyet.de/t14/wfs3/manhattan/collections/buildings3d/scene/FORMAT=application/json
+
+will deliver a 3D scene of Manhattan using 3D tiles. It can be rendered in the Cesium globe, as shown here (tbd).
+
+** open issues
+*** MIME type
+It whould be good to have a more specific mime type for 3D Tiles. From the spec:
+
+https://github.com/AnalyticalGraphicsInc/3d-tiles/tree/master/specification#file-extensions-and-mime-types
+3D Tiles uses the following file extensions and MIME types.
+
+    Tileset files use the .json extension and the application/json MIME type.
+    Tile content files use the file type and MIME format specific to their tile format specification.
+    Tileset style files use the .json extension and the application/json MIME type.
+
+Explicit file extensions are optional. Valid implementations may ignore it and identify a content's format by the magic field in its header.
+
+todo: discuss this issue with Patrick.
+
+ESRI's I3S uses the mime type application/vnd.esri.i3s.json+gzip.
+
+*** layers
+The logic behind the request only supports one "layer" such as buildings. To include another layer such as vegetation, a new request has be be send:
+
+https://services.thisserverisnotavailableyet.de/t14/wfs3/manhattan/collections/vegetation3d/scene/FORMAT=application/json
+
+This will result in a second 3D tileset. However, I am not sure if Cesium supports multiple tile sets. 
+
+todo: test / discuss this issue with Patrick.
+
+Alternative 1: the server provides a scene that includes both building and vegetation. But the will limit the client / user to select the layers of interest.
+
+Alternative 2: select multiple layers in one request as doene in 3DPS 1.0. However, this "damages" the logic of the WFS 3.0 requests. 
+
+In general: I don't like the mix of feature and geometry in the collection id ("buildings3D"). I just follow the structure from the Daraa use case (https://services.interactive-instruments.de/t14/wfs3/daraa/)
+
+*** LoD
+An example for LoD selection whould be helpful.
+
+** Info: similar query in 3DPS 1.0 (with additional bounding box):
+http://tb13.igd.fraunhofer.de:8082/3dps?
+SERVICE=3DPS&
+VERSION=1.0&
+REQUEST=GetScene&
+LAYERS=manhattan&
+FORMAT=text/html&
+CRS=EPSG:4326&
+BOUNDINGBOX=-74.00635826977239,40.71778771238832,-73.97393297660074,40.75070138933127
+
