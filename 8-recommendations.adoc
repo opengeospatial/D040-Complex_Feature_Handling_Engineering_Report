@@ -38,6 +38,8 @@ https://github.com/AnalyticalGraphicsInc/3d-tiles/tree/master/specification#file
     Tile content files use the file type and MIME format specific to their tile format specification.
     Tileset style files use the .json extension and the application/json MIME type.
 
+Batched 3D Model tiles use the .b3dm extension and application/octet-stream MIME type.
+
 Explicit file extensions are optional. Valid implementations may ignore it and identify a content's format by the magic field in its header.
 
 todo: discuss this issue with Patrick.
