@@ -19,6 +19,7 @@ dependent. Examples could be:
 ** the use of WFS 2.0 Query / FES 2.0 Filter in an implementation that supports
 WFS 2.0 in addition to WFS 3.0
 ** the use of a bespoke query language with a straightforward mapping to the underlying datastore.
+
 * 3DPS in NextGen is a TODO
 An experimental 3D Portrayal Service request using WFS 3.0 is implemented based on the Testbed 13 showcase using the 3D CityGML model of New York (see use case in chapter 4). The request
 
@@ -44,6 +45,7 @@ todo: discuss this issue with Patrick.
 ESRI's I3S uses the mime type application/vnd.esri.i3s.json+gzip.
 
 *** layers
+
 The logic behind the request only supports one "layer" such as buildings. To include another layer such as vegetation, a new request has be be send:
 
 https://services.thisserverisnotavailableyet.de/t14/wfs3/manhattan/collections/vegetation3d/scene/FORMAT=application/json
@@ -59,9 +61,11 @@ Alternative 2: select multiple layers in one request as doene in 3DPS 1.0. Howev
 In general: I don't like the mix of feature and geometry in the collection id ("buildings3D"). I just follow the structure from the Daraa use case (https://services.interactive-instruments.de/t14/wfs3/daraa/)
 
 *** LoD
+
 An example for LoD selection whould be helpful.
 
 ** Info: similar query in 3DPS 1.0 (with additional bounding box):
+
 http://tb13.igd.fraunhofer.de:8082/3dps?
 SERVICE=3DPS&
 VERSION=1.0&
