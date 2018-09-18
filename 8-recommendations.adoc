@@ -66,6 +66,10 @@ In general: I don't like the mix of feature and geometry in the collection id ("
 
 An example for LoD selection whould be helpful.
 
+*** getCapabilities
+
+do we need to extend the WFS 3.0 get capabilities???
+
 ** Info: similar query in 3DPS 1.0 (with additional bounding box):
 
 http://tb13.igd.fraunhofer.de:8082/3dps?
