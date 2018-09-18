@@ -23,9 +23,9 @@ WFS 2.0 in addition to WFS 3.0
 * 3DPS in NextGen is a TODO
 An experimental 3D Portrayal Service request using WFS 3.0 is implemented based on the Testbed 13 showcase using the 3D CityGML model of New York (see use case in chapter 4). The request
 
-https://services.thisserverisnotavailableyet.de/t14/wfs3/manhattan/collections/buildings3d/scene/FORMAT=application/json
+https://services.thisserverisnotavailableyet.de/t14/wfs3/3D_CityModel_manhattan/collections/buildings/scene/FORMAT=application/json
 
-will deliver a 3D scene of Manhattan using 3D tiles. It can be rendered in the Cesium globe, as shown here (tbd).
+will deliver a 3D buildiing model (as one layer of the 3D city model (3D-DLM)) of Manhattan using 3D tiles.  It can be rendered in the Cesium globe, as shown here (tbd).
 
 ** open issues
 *** MIME type
@@ -50,7 +50,7 @@ ESRI's I3S uses the mime type application/vnd.esri.i3s.json+gzip.
 
 The logic behind the request only supports one "layer" such as buildings. To include another layer such as vegetation, a new request has be be send:
 
-https://services.thisserverisnotavailableyet.de/t14/wfs3/manhattan/collections/vegetation3d/scene/FORMAT=application/json
+https://services.thisserverisnotavailableyet.de/t14/wfs3/3D_CityModel_manhattan/collections/vegetation/scene/FORMAT=application/json
 
 This will result in a second 3D tileset. However, I am not sure if Cesium supports multiple tile sets. 
 
@@ -60,7 +60,7 @@ Alternative 1: the server provides a scene that includes both building and veget
 
 Alternative 2: select multiple layers in one request as doene in 3DPS 1.0. However, this "damages" the logic of the WFS 3.0 requests. 
 
-In general: I don't like the mix of feature and geometry in the collection id ("buildings3D"). I just follow the structure from the Daraa use case (https://services.interactive-instruments.de/t14/wfs3/daraa/)
+
 
 *** LoD
 
