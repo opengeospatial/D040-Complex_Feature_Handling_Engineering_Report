@@ -14,9 +14,10 @@ We split the analysis between requirements related to the data structures used i
 the data, the requirements related to querying such data and requirements for
 other approaches to organising the data.
 
-In terms of encodings, mainly JSON and XML encodings are considered. Requirements
-related to a HTML representation of features or collections of them are not
-discussed.
+In terms of encodings, this analysis documents the support for the requirements
+in the feature encodings supported by WFS 3.0 Core, i.e. GeoJSON and the GML
+Simple Feature Profile. Requirements related to a HTML representation of
+features or collections of them are not discussed.
 
 NOTE: The identified requirements are based on the use cases documented in
 the <<use_cases,previous chapter>> and the
@@ -53,11 +54,10 @@ are represented by repeated property elements.
 Requirement "nested-structures"::
   Support for properties with structured values.
 
-In an application schema, the property has data type that is a data type specified
-in the application schema. It is neither a geometry, another feature nor a simple
-value type (like Integer or CharacterString).
+In an application schema, the property has value type that is neither a geometry,
+another feature nor a literal value (like Integer or CharacterString).
 
-Again, WFS 3.0 Core and the GeoJSON and GML Simple Feature Profile Level 2 conformance
+Again, WFS 3.0 Core and the GeoJSON / GML Simple Feature Profile Level 2 conformance
 classes already support this requirement.
 
 In GeoJSON the natural approach is to represent such values as a JSON object.
@@ -96,9 +96,9 @@ The GeoJSON representation would be:
 {
   "type": "Feature",
   "id": "f1",
-  "geometry": { … },
+  "geometry": { ... },
   "properties": {
-    …,
+    ...,
     "property": [
       {
         "sub-property1": "value1",
@@ -109,12 +109,12 @@ The GeoJSON representation would be:
         "sub-property2": "value4"
       }
     ],
-    …
+    ...
   }
 }
 ----
 
-Note that even though GeoJSON and GML support such complex data structures, software
+Even though GeoJSON and GML support such complex data structures, software
 tools are sometimes limited to simple values only. In that case, the data structures
 would have to be flattened. The following GeoJSON snippet is a flattened version
 of the GeoJSON feature above.
@@ -124,20 +124,21 @@ of the GeoJSON feature above.
 {
   "type": "Feature",
   "id": "f1",
-  "geometry": { … },
+  "geometry": { ... },
   "properties": {
-    …,
+    ...,
     "property-1.sub-property1": "value1",
     "property-1.sub-property2": "value2",
     "property-2.sub-property1": "value3",
     "property-2.sub-property2": "value4",
-    …
+    ...
   }
 }
 ----
 
 If application schemas according to ISO 19109 are used, ShapeChange can help
-to create link:https://shapechange.net/transformations/flattener/[flattened implementation schemas].
+to create link:https://shapechange.net/transformations/flattener/[flattened implementation schemas],
+i.e. where all feature properties have a literal value.
 
 ==== Relationships / links
 
@@ -154,7 +155,7 @@ a value are such data types).
 The GML encoding in a WFS 3.0 Core supports such properties already using
 Xlinks (again, only in Simple Feature Profile Level 2, not in Level 0).
 
-GeoJSON has no concept of links, but as it has extension points and no constraints
+GeoJSON has no concept of links, but specifies extension points and no constraints
 on the content of "properties". The links could thus be implemented in multiple
 ways:
 
@@ -165,7 +166,9 @@ relationship is a URI and the property name represents the relation type.
 * Similar to the previous option, but using the link:https://github.com/opengeospatial/WFS_FES/blob/master/core/openapi/schemas/link.yaml[link data type from WFS 3.0 Core] as the value.
 
 Spatial relationships between features are a somewhat special case as they can
-be derived by spatial analysis (see the discussion in the use cases and the link:https://www.w3.org/TR/sdw-bp/#bp-linking-2[W3C/OGC Spatial Data on the Web Best Practice document]), but they can use the same pattern in an encoding.
+be derived by spatial analysis (see the discussion in the <<use_cases,use cases>>
+and the link:https://www.w3.org/TR/sdw-bp/#bp-linking-2[W3C/OGC Spatial Data on the Web Best Practice document]),
+but they can use the same pattern in an encoding.
 
 The W3C/OGC Spatial Data on the Web Working Group discussed whether the most commonly
 used spatial relation types should be registered with IANA,
@@ -174,9 +177,11 @@ now has a link:https://pending.schema.org/GeospatialGeometry[pending change to s
 
 ==== Geometries
 
-WFS 3.0 Core is limited to geometries in a 2D coordinate reference system. All
-curves and surface boundaries are restricted to linear interpolation. This is
-not sufficient for the use cases identified in the previous chapter.
+WFS 3.0 Core is basically limited to 2D geometries in a 2D or 3D coordinate
+reference system (elevation values may be included for each position). All
+curves and surface boundaries are restricted to linear interpolation (plus
+circular arc interpolation in the GML Simple Feature conformance classes).
+This is not sufficient for the use cases identified in the previous chapter.
 
 [[req-multiple-geometries]]
 Requirement "multiple-geometries"::
@@ -192,7 +197,7 @@ GML, including the Simple Feature Profiles Levels 0 and 2, supports this, but
 GeoJSON does not.
 
 I.e., in cases where this capability is important, another JSON encoding has to
-be used or the features are split so that there is one feature per spatial
+be used or the features have to be split so that there is one feature per spatial
 geometry property.
 
 Another option could be to include additional geometries inside the "properties"
@@ -203,8 +208,8 @@ Such an option should, therefore, not be considered.
 Requirement "3D-geometries"::
   Support for 3D coordinate reference systems and solid geometries.
 
-Again, this is supported by GML, but not GeoJSON. In the GML case, the Simple
-Features Profiles that are do not include solids. That is, none of the conformace
+This is fully supported by GML, but not the GML Simple Feature Profiles or GeoJSON
+as both encodings do not support solids. That is, none of the conformance
 classes in WFS 3.0 Core is able to support this requirement.
 
 [[req-shared-geometries]]
@@ -231,7 +236,7 @@ Requirement "schema-validation"::
 
 Typical examples are validation against an XML Schema or a JSON Schema.
 
-The current draft of WFS 3.0 Core includes as a stopgap a recommendation to
+The current draft of WFS 3.0 Core includes - as a stopgap - a recommendation to
 include relationships to the schema documents. Another option would be `/schema`
 paths.
 
@@ -245,9 +250,7 @@ OGC should wait for the resolution of this development before looking for other 
 
 As the use cases have shown, support for richer data structures is not only required
 for representing the features in JSON or XML, but these data structures have to
-be accessible in query expressions, too.
-
-ing features based on properties of related or nested objects or structured data types
+be accessible in queries, too.
 
 [[req-query-properties-with-multiple-values]]
 Requirement "query-properties-with-multiple-values"::
@@ -258,7 +261,7 @@ In FES 2.0 this is supported by the link:http://docs.opengeospatial.org/is/09-02
 
 [[req-query-nested-properties]]
 Requirement "query-nested-properties"::
-  The capability to specify predicate on properties of a nested data type or a
+  The capability to specify predicates on properties of a nested data type or a
   related feature. The "nesting" may be multiple levels.
 
 In WFS 2.0 and FES 2.0 this is supported by the use of
@@ -266,23 +269,24 @@ link:http://docs.opengeospatial.org/is/09-026r2/09-026r2.html#37[XPath expressio
 in value references, including for cases that require the traversal of a link
 to a related feature.
 
-If the data includes spatial relationships, these can be used for filtering, too.
+If the data includes explicit spatial relationships, these may be used for filtering, too.
 
 [[req-query-logical-operators]]
 Requirement "query-logical-operators"::
   The capability to specify query expressions built from complex predicates consisting of predicate groups and combinations of logical operators.
 
 This requires support for grouping as well as the
-link:http://docs.opengeospatial.org/is/09-026r2/09-026r2.html#68[standard logical operators].
+link:http://docs.opengeospatial.org/is/09-026r2/09-026r2.html#68[standard logical operators]
+specified in FES 2.0.
 
-==== Query using geometries
+==== Query using spatial geometries
 
 WFS 3.0 Core only requires support for spatial queries using
 link:https://cdn.rawgit.com/opengeospatial/WFS_FES/3.0.0-draft.1/docs/17-069.html#_parameter_bbox[2D bounding boxes].
 
 [[req-query-2d-geometries]]
 Requirement "query-2D-geometries"::
-  The capability to filter features that are related to a point, curve or surface
+  The capability to filter features based on their relationship to a point, curve or surface
   geometry in a 2D coordinate reference system.
 
 `Intersects` is the most important relation, but in general the full set of
@@ -306,7 +310,8 @@ Requirement "query-3D-geometries"::
 ==== Querying different versions
 
 Using the `time` parameter, WFS 3.0 Core already supports access to features at
-a certain moment in time, but the default is currently always "no temporal filter".
+a certain moment or period in time, but currently the default is always
+"no temporal filter".
 
 For datasets where the features are versions of a real-world entity,
 valid for a given time period, the default response would return all versions.
@@ -314,13 +319,15 @@ It would be more helpful, to change the default behaviour for such datasets.
 
 [[req-query-current-data]]
 Requirement "query-current-data"::
-  The capability to select by default features that are valid "now" (for
+  The capability to select by default only features that are valid "now" (for
   datasets where the features are versions of a real-world entity, valid for
   a given time period).
 
 This has two aspects: being able to specify a different default value for `time`
-("now" instead of "no filter") and to be able to explicitly state "now" (and
-probably values for the indefinite past and future).
+("now" instead of "no filter") and to be able to explicitly state values for
+the indefinite past and future. The latter issue is already
+link:https://github.com/opengeospatial/WFS_FES/issues/155[under discussion]
+by the WFS 3.0 community.
 
 If a time period is used in `time` the response for such datasets could include
 multiple versions of the same real-world entity.
@@ -370,9 +377,8 @@ filtering, e.g. `bbox` or `time`.
 
 [[req-query-multiple-collections]]
 Requirement "query-multiple-collections"::
-  The capability to select by default features that are valid "now" (for
-  datasets where the features are versions of a real-world entity, valid for
-  a given time period).
+  The capability to select by default features from multiple collections in the
+  dataset in a single request.
 
 === Organising feature data, other representations
 
@@ -387,7 +393,12 @@ task.
 Requirement "query-additional-resource-types"::
   The capability to make feature data, including complex data, available in
   bundles that are optimised for specific applications, for example, for
-  visualisation in a web browser.
+  streaming and visualisation in a web browser.
+
+The key example in the context of our use cases is the partitioning of space
+(2D or 3D). Typically, partitions are organised in some hierarchical order
+to support display of the features in each partition at
+different levels of detail (or "zoom level" in a 2D map view).
 
 API extensions that support this requirement are likely not "WFS 3.0
 extensions" as they are not about features as the main resources.
@@ -398,4 +409,8 @@ architecture.
 
 [[req-additional-encodings]]
 Requirement "query-additional-encodings"::
-  The capability to make the data available in new encodings.
+  The capability to make the data available in additional encodings.
+
+Support for this is straightforward in the WFS 3.0 architecture (due to the
+use of HTTP and the architecture of the Web). Each encoding needs a media type,
+which should be link:https://www.iana.org/assignments/media-types/media-types.xhtml[registered with IANA]. 

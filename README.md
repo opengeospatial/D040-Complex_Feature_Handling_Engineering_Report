@@ -32,9 +32,11 @@ Recipients of this document are requested to submit, with their comments, notifi
 # Status
 
 This Engineering Report is work in progress. Chapter 1 ("Summary") and
-Chapter 5 ("Use cases") are fairly complete. Comments are welcome!
+Chapter 6 ("Requirements analysis") are fairly complete. Comments are welcome!
 
-The next step is the analysis of requirements and research for existing technologies
-that could be reused for managing and querying complex data in the OGC NextGen services.
+Chapter 7 ("Assessment of OGC standards and community specifications") has
+content, but needs work work as well as feedback and discussion.
+
+Chapter 8 ("Recommendations") will be added based on the results of the discussion.
 
 [Link to the current draft...](https://rawgit.com/opengeospatial/D040-Complex_Feature_Handling_Engineering_Report/master/18-021.html)
