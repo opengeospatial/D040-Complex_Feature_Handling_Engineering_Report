@@ -6,15 +6,21 @@ For the purposes of this report, the definitions specified in Clause 4 of the OW
 
 The following terms and definitions apply:
 
-
 OpenAPI definition | OpenAPI document::
   a document (or set of documents) that defines or describes an API and conforms to the OpenAPI Specification +
   [derived from <<OpenAPI,OpenAPI Specification>>]
 
 ===	Abbreviated terms
 
-* API	Application Programming Interface
-* GML Geography Markup Language
-* JSON Java Script Object Notation
-* WFS Web Feature Service
-* XML Extensible Markup Language
+API::
+	Application Programming Interface
+FES::
+  Filter Encoding Specification
+GML::
+ Geography Markup Language
+JSON::
+ Java Script Object Notation
+WFS::
+ Web Feature Service
+XML::
+ Extensible Markup Language
