@@ -8,7 +8,7 @@ The use case is split into several parts:
 * open a website to display a 3D map using 3D Portrayal Service and select a polygonal area / district
 * query 3D building geometry inside the polygonal area from a CityGML data store using WFS 3.0 as an input to the simulation
 * using 3D Portrayal Service and WFS 3.0 to query the simulation result and visualize it in a 3D scene by building Id, by address, and by polygonal area
-* exend the use case to the INSPIRE 3D building module in addition to CityGML
+* extend the use case to the INSPIRE 3D building module in addition to CityGML
 
 The following aspects are covered:
 

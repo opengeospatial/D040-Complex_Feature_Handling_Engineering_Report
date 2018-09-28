@@ -26,19 +26,6 @@ aspects:
 * Use of responses for display in a web browser
 * Accessing different versions (including historic representations) of features
 
-////
-To add a use case, copy `5-use-cases-TEMPLATE.adoc` and replace `TEMPLATE` by
-a mnemonic id for the use case. Add an include statement.
-////
-
 include::5-use-cases-cadastre.adoc[]
 
-//include::5-use-cases-select-associations.adoc[]
-
-//include::5-use-cases-versions.adoc[]
-
-//include::5-use-cases-se.adoc[]
-
-include::5-use-cases-heatingdemand-cp.adoc[]
-
-// include::5-use-cases-TEMPLATE.adoc[]
+include::5-use-cases-heatingdemand.adoc[]
