@@ -31,12 +31,9 @@ Recipients of this document are requested to submit, with their comments, notifi
 
 # Status
 
-This Engineering Report is work in progress. Chapter 1 ("Summary") and
-Chapter 6 ("Requirements analysis") are fairly complete. Comments are welcome!
-
-Chapter 7 ("Assessment of OGC standards and community specifications") has
-content, but has open to-do items and will need feedback and discussion.
-
-Chapter 8 ("Recommendations") will be added based on the results of chapter 7.
+This Engineering Report is a fairly complete draft, but still work in progress.
+Comments are welcome! In particular chapter 7 ("Assessment of OGC standards
+and community specifications") and chapter 8 ("Recommendations")
+need [feedback and discussion](#this-repository-is-public).
 
 [Link to the current draft...](https://rawgit.com/opengeospatial/D040-Complex_Feature_Handling_Engineering_Report/master/18-021.html)
