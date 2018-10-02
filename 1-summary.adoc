@@ -16,14 +16,17 @@ monolithic web services, but API building blocks, is important. The same API
 should be able to support requirements that currently require separate OGC
 web services, e.g. a WFS and a 3DPS server.
 
-The report will eventually propose how to extend the NextGen service architecture
+The report includes proposals how to extend the NextGen service architecture
 with API building blocks for complex data, complex queries and 3D portrayal.
 WFS 3.0, Part 1, is used as the starting point for the NextGen service architecture.
-The proposals will be based on existing requirements and use cases. They should
-be developer-friendly.
+The proposals are based on existing requirements and use cases as well as
+existing support for developers to simplify implementation.
 
-NOTE: TODO +
-Add key results later in the testbed in a concise form.
+The work has found no general issues with migrating current WFS, 3DPS, WMTS
+and WMS capabilities to the OGC NextGen architecture. On the contrary, the
+NextGen approach improves the consistency of the interface and removes
+redundancies (e.g., between the feature access in WFS and the feature info
+requests in the other standards).
 
 === Requirements & Research Motivation
 
@@ -32,7 +35,7 @@ interrogation and extraction of these. However there are more complex use
 cases that require 3D data and/or more complex data schemas to achieve a
 users desired outcome.
 
-This report will document real-world use cases and requirements that feature
+This report documents real-world use cases and requirements that feature
 servers will have to support in the future, besides the essential capabilities
 specified in Part 1 of the WFS 3.0 series. These will include the following:
 
@@ -47,22 +50,22 @@ properties, a single property only, etc.);
 * Use of responses for display in a web browser;
 * Accessing different versions (including historic representations) of features.
 
-The use cases will cover aspects like CityGML, CityGML ADEs, 3DPS, and WFS 2.0
+The use cases cover aspects like CityGML, CityGML ADEs, 3DPS, and WFS 2.0
 interactions, but use other complex data schemas as background, too.
 
-Based on the identified requirements, this report will address the following
+Based on the identified requirements, this report addresses the following
 aspects:
 
 * Assessment of what use cases, especially those that utilise 3D or more
 complex data schemas, would require more complex interactions than the
 current WFS 3.0, Part 1, draft would provide;
-* Assessment of current OGC standards and community standards on the basis
+* Assessment of current OGC standards and community specifications on the basis
 of both supporting the uses cases captured and alignment to NextGen service
-approaches, including a review around the interaction between 3DPS and WFS 2.0.
+approaches, including a review around the interaction between 3DPS and WFS 2.0;
 * Recommendations for the most appropriate way to support these use cases
-within the NextGen service architecture;
+within the NextGen service architecture.
 
-Developer requirements will be taken into account in the design. That is, the
+Developer requirements have be taken into account in the design. That is, the
 implementation of the proposed design should be as simple as possible (given the
 advanced, complex requirements). This includes research for available libraries
 that support implementations. The OGC community is not the only one implementing
@@ -70,23 +73,44 @@ rich queries on complex data.
 
 === Prior-After Comparison
 
-The current work on WFS 3.0 in the WFS/FES SWG has focused on simple features and interaction, interrogation and extraction of these. However there are more complex use cases that require 3D data and/or more complex data schemas to achieve a users desired outcome.
+The current work on WFS 3.0 in the WFS/FES SWG has focused on simple features
+and interaction, interrogation and extraction of these. However there are more
+complex use cases that require 3D data and/or more complex data schemas to
+achieve the results that a user is looking for.
 
-This work will propose extensions to the NextGen service architecture to support such use cases.
+This work propose extensions to the NextGen service architecture to support
+such use cases.
 
 Initial discussions about related topics are:
 
-* Placeholder issue in the WFS 3.0 repository for richer query capabilities: link:https://github.com/opengeospatial/WFS_FES/issues/79[WFS 3.0 Search extension]
+* Placeholder issue in the WFS 3.0 repository for richer query capabilities:
+link:https://github.com/opengeospatial/WFS_FES/issues/79[WFS 3.0 Search extension]
 * REST binding in the WFS 2.x and FES 2.x draft specifications: link:https://portal.opengeospatial.org/index.php?m=projects&a=view&project_id=390&tab=2&artifact_id=56200[Document folder in the OGC portal (only accessible to OGC WFS/FES SWG members)]
 
-Like the work in the WFS/FES SWG on WFS 3.0, the work on this report will be open to the public from the beginning in order to get feedback from developers as early as possible.
+Like the work in the WFS/FES SWG on WFS 3.0, the work on this report has been open
+to the public from the beginning in order to allow early feedback from developers
+already during the testbed.
 
-The formal review of the draft report before it will be submitted to the OGC Technical Committee for consideration and publication as an OGC Engineering Report will be by the WFS/FES SWG.
+The formal review of the draft report before it will be submitted to the OGC
+Technical Committee for consideration and publication as an OGC Engineering Report
+will be by the WFS/FES SWG.
 
 === Recommendations for Future Work
 
-NOTE: TODO +
-This section will be added later and discuss what aspects should be addressed next and which actions are necessary.
+See <<recommendations,the chapter "Recommendations">>. The OGC Innovation Program
+would be ideal to continue work on the recommendations 1 to 4 based on
+<<rec-6,recommendation 6 (validate and refine recommendations through implementation)>>:
+
+* <<rec-1,Recommendation 1: Specify WFS 3.0 extensions for improved fetching of feature data>>
+* <<rec-2,Recommendation 2: Migrate additional OGC web service standards to the NextGen architecture>>
+* <<rec-3,Recommendation 3: Investigate if/how GraphQL could be used to query a dataset>>
+* <<rec-4,Recommendation 4: Consider the use of CityJSON for 3D city models>>
+
+<<rec-5,Recommendation 5 (develop guidance for implementing additional search capabilities)>>
+could also be a candidate for the development of a Guide as part of a Testbed.
+
+<<rec-7,Recommendation 7 (register media types for encodings to be used in NextGen services)>>
+is future work for the bodies that govern the i3s, 3D Tiles and CityJSON specifications.
 
 ===	Document contributor contact points
 

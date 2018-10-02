@@ -553,7 +553,7 @@ This use case has been added to include a query that - while not overly complex 
 cannot be executed with most WFS implementations as it would require support for
 spatial joins.
 
-Including this use case does imply that WFS 3.0 should include an
+Including this use case does not imply that WFS 3.0 should include an
 extension that supports such a query. However, as spatial relations are an
 important aspect of spatial data, we should at least include it in our
 considerations, even if we recommend to include explicit spatial relations

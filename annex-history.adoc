@@ -12,4 +12,5 @@
 |June 22, 2018 |V. Coors, C. Portele |0.4 |5 |additional use cases and details added (work in progress)
 |June 28, 2018 |C. Portele |0.5 |5 |Update use cases, unify structure and style, add bibliography
 |September 4, 2018 |C. Portele |0.6 |6-7 |Initial versions of chapters 6 and 7
+|October 1, 2018 |C. Portele |0.7 |1,6-8 |additional content plus updates based on discussions between Clemens and Volker
 |====================

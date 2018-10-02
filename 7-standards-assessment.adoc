@@ -1,5 +1,5 @@
 [[standards]]
-== Assessment of OGC and community standards
+== Assessment of OGC standards and community specifications
 
 === General remarks
 
@@ -20,119 +20,350 @@ for XML (GML, GML Simple Features Profile Level 0 and 2) and JSON (GeoJSON,
 CityJSON) match the requirements regarding data structures identified in
 the previous chapter.
 
-CityJSON is, of course, limited to 3D city models, provides a fixed schema
+CityJSON is, as the name implies, limited to 3D city models, provides a fixed schema
 and is an implementation of the model that underpins CityGML in JSON.
 
 .Comparison of XML and JSON encodings
 [width="100%",cols="4,3,3,3,3,3",options="header"]
 |=========================================================
-|Requirement |GML |GML-SF0 |GML-SF2 |GeoJSON |CityJSON
+|Requirement |GML, CityGML |GML-SF0 |GML-SF2 |GeoJSON |CityJSON
 |multiple-values |Yes |No |Yes |Yes |Yes
 |nested-structures |Yes |No |Yes |Yes |Yes, where necessary
 |relationships |Yes |No |Yes |No |Yes
 |multiple-geometries |Yes |Yes |Yes |No |Yes
 |3D-geometries |Yes |No |No |No |Yes
-|shared-geometries |Yes |No |No |No |No?
+|shared-geometries |Yes |No |No |No |No, only direct positions
 |non-linear-interpolation |Yes |Arcs only |Arcs only |No |No
 |schema-validation |Yes |Yes |Yes |Yes, but uncommon |Yes
 |=========================================================
 
+An issue with CityJSON is that there is no media type for CityJSON and the
+generic `application/json` media type would have to be used, which may create
+ambiguities with other potential JSON encodings for features in the future.
+
+CityGML has no media type either, but CityGML is GML and the GML media type
+can be used.
 
 === API building blocks for queries
 
 Looking at extending the WFS 3.0 Core API with support for richer
-queries, there are two different approaches: Leveraging an existing
-approach used in other OGC standards with support for spatial queries,
-or leveraging an existing approach used by the mainstream Web community that
-is well-known to developers and well-supported.
+queries, there are three different approaches:
 
-Filter Encoding and CQL fall into the first category,
-GraphQL and Falcor into the second category.
+1. Use an existing approach used in other OGC standards with support
+for spatial queries,
+2. use an existing approach used by the mainstream Web community that
+is well-known to developers and well-supported,
+3. specify a new query mechanism that is simple to implement.
+
+Filter Encoding and CQL belong to the first category,
+GraphQL and Falcor to the second category and the current discussions
+in the development of the SpatioTemporal Asset Catalog (STAC) are in
+the third category.
 
 This could potentially be extended with additional options, including
-(Geo)SPARQL, Gremlin, XQuery, etc. However, graph databases, triple stores or
+(Geo)SPARQL, Gremlin, XQuery, etc. However, triple stores, graph databases or
 XML databases are not the typical database backends used when publishing
 spatial datasets for Web developers, so this analysis has focussed on the
 other options mentioned above.
 
-NOTE: I planned to also analyse the OpenSearch Geo/Time extension, but I
-do not really see how this could be a candidate. It is more tailored towards
+Another option that was mentioned as a candidate in discussion is OpenSearch including the
+link:http://www.opengeospatial.org/standards/opensearchgeo[OpenSearch Geo/Time extensions]. 
+After starting to analyse the OpenSearch Geo/Time extension this does
+not seem to be a real candidate. OpenSearch is more tailored towards
 full-text searches, overlaps with WFS 3.0 (paging, etc), is XML-based
 (OpenSearch descriptions, RSS/Atom as response formats) and the
-OpenSearch descriptions overlap with the OpenAPI definitions. I, therefore,
-removed the text about it again.
-
-NOTE: TODO, look at any filter extensions in STAC. In Fort Collins we discussed
-a query syntax encoded in JSON.
+OpenSearch descriptions overlap with the OpenAPI definitions. OpenSearch is,
+therefore, not discussed in more detail.
 
 To assess the options, the following aspects are considered:
 
-* the capabilities to query complex spatial datasets based on the
+* the capabilities to query spatial datasets based on the
 requirements identified in the previous chapter;
 * the suitability to support different encodings, in particular XML and JSON;
 * the support for popular database backends, mainly relational databases and
 document stores;
 * support by libraries in key programming languages.
 
+==== General considerations
+
+This link:https://github.com/opengeospatial/WFS_FES/issues/79[GitHub issue] has
+additional discussion that should be considered.
+
+During the discussions at the WFS 3.0 hackathon in March 2018 there was agreement
+that the path `/search/{endpoint}` should be reserved for offering richer queries
+on a dataset. Different search implementations could be published as
+separate search resources. I.e., a server could support multiple types of
+queries in parallel. For example, `/search/fes` could be an endpoint for
+WFS 2.0 ad-hoc queries with Filter Encoding 2.0 and `/search/graphql` could be
+an endpoint for GraphQL queries on the same data.
+
+In cases where only a query language is specified (e.g. WFS 2.0 ad-hoc queries
+with Filter Encoding 2.0, CQL, XQuery, etc.), but no rules exist how to execute
+queries via HTTP, there are three general options for the API design:
+
+* Use of HTTP GET requests where the query is included in a query parameter.
+* Use of HTTP POST requests where the query is included in a query parameter
+in the payload with a media type of `application/x-www-form-urlencoded`.
+* Use of HTTP POST requests with the query in the payload to create a new
+query resource on the server. The request would return the URI of the new
+query. Accessing the query URI with HTTP GET would return the result of the
+query. HTTP PUT and DELETE could be used to update or delete the query.
+
+The third option is quite heavy for queries that are not used repeatedly. For
+queries that are executed more than once, however, this approach has benefits,
+e.g. for caching. The approach would also support parameterised queries where
+the parameters could be passed as query parameters when accessing the query
+resource with a HTTP GET request (like stored queries in WFS 2.0).
+
 ==== WFS 2.0 ad-hoc queries and Filter Encoding 2.0
 
-The OGC Filter Encoding Standard (latest version: 2.0.2) is the standard
-filter language for ad-hoc queries in WFS 2.0. Together they support the query
-requirements identified in the previous chapter.
+The OGC Filter Encoding Standard 2.0 cite:[FES20] is the standard
+filter language for ad-hoc queries in WFS 2.0 cite:[WFS20]. Together they support
+the query requirements identified in the previous chapter.
 
 However, the specifications are closely tied to XML including the use of XPath,
 which makes them an unnatural match for servers that want to return JSON.
 
 Implementations exist, but the requirements identified in
-the previous chapter are supported to a limited extent in freely available
+the previous chapter are supported only to a limited extent in freely available
 libraries. Implementations typically support relational database backends.
 
-**Assessment: A candidate query language for WFS 3.0 implementations that
+**Conclusion: A candidate query language for WFS 3.0 implementations that
 also support WFS 2.0 and GML. Complex feature handling in WFS 3.0 will,
-of course, only be supported if the WFS 2.0 implementation supports the
-identified <<use_cases,use cases>>.**
+of course, only be supported, if the WFS 2.0 implementation already supports
+the identified <<use_cases,use cases>>.**
 
-Links:
-
-* link:https://docs.opengeospatial.org/is/09-025r2/09-025r2.html[OGC Web Feature Service standard 2.0, section 7.9]
-* link:https://docs.opengeospatial.org/is/09-026r2/09-026r2.html[OGC Filter Encoding standard 2.0]
-
+[[cql]]
 ==== CQL
 
 CQL is short for "OGC Common Query Language" and is defined in the
-OGC Catalogue Services Standard (version 2.0.2). It is a text-based
+OGC Catalogue Services Standard 2.0 cite:[CS20] in section 6.2.2.
+It is a text-based
 syntax similar to the SQL "Where" clause, i.e. on a similar level as
 Filter Encoding, but easier to write for most developers than the XML
 syntax of Filter Encoding.
 
-On the other hand, Filter Encoding does not support all identified
-query requirements. CQL does not have a well-defined semantics for
-querying properties with multiple values, does not support link traversal
-across relationships or 3D geometries.
+NOTE: The Catalog Service 3.0 also includes a syntax definition for CQL, but
+lacks any rules or requirements for it. This report therefore references
+version 2.0 of the standard.
+
+Implementations typically support relational database backends,
+CQL is less suited for document stores.
 
 As a text-based query language it is not strongly tied to XML, JSON or any
 other encoding.
 
+CQL does not support all identified
+query requirements. CQL does not have a well-defined semantics for
+querying properties with multiple values, does not support link traversal
+across relationships (query predicates on related features) or 3D geometries.
+
 Implementations exist, but the requirements identified in
-the previous chapter are supported to a limited extent in freely available
-libraries. Implementations typically support relational database backends,
-CQL is less suited for document stores.
+the previous chapter are only supported to a limited extent in freely available
+libraries. An example is limited support for "compound attributes", i.e.
+path expressions that might be used to query nested data structures.
 
-NOTE: TODO, add a detailed example based on one or more of the use cases.
+Beside the fact that implementations support only a subset of the language, CQL
+has a major limitation with respect to the requirements identified in the
+<<analysis,previous chapter>>: Attribute values are assumed to be literal.
+That is, CQL does not support values that are collections (maximum multiplicity > 1)
+or objects / data types.
 
-**Assessment: A candidate query language for an intermediate WFS 3.0
-query capability that goes beyond the limited support that WFS 3.0 offers,
-but is not intended as an exhaustive query capability.
-The lack of 3D support and the lack of support for document stores
-is an issue, too.**
+That is, either the use of CQL is restricted to feature data that meets these
+constraints or CQL would need to be extended to support feature data that have the
+following <<data_structures,data structure requirements>>:
+* "multiple-values"
+* "nested-structures"
+* "relationships"
 
-Link:
+NOTE: Queries using solid geometries or non-linear curve interpolations are not
+supported in CQL, but at least the <<use_cases, use cases>> did not identify
+this as an important requirement.
 
-* link:http://portal.opengeospatial.org/files/?artifact_id=20555[OGC Catalogue Service standard 2.0, section 6.2.2]
+For nested structures and relationships, probably the dot-notation the compound
+attribute names could be used, but for each encoding the mapping between the
+compound attribute names and the feature encoding would need to be specified.
+
+For predicates on attributes with multiple values, there are basically two options:
+
+* Add comparison operators that support collections and not just literal values.
+* Follow the same approach as Filter Encoding 2.0 with the
+link:http://docs.opengeospatial.org/is/09-026r2/09-026r2.html#50[matchAction]
+parameter (where the default is that an expression evaluates to `true`, if at least
+the expression evaluates to `true` for at least one of the attribute values).
+
+In addition, the specification for time period expressions in CQL should be
+amended to cover the cases discussed in the related
+link:https://github.com/opengeospatial/WFS_FES/issues/155[WFS 3.0 issue].
+
+CQL is currently "buried" in the Catalogue Service specification and the
+specification of the language is largely restricted to the definition of the
+grammar (with a number of inconsistencies and ambiguities in the definition).
+If CQL would be supported by a WFS extension, it should be extracted from
+the Catalogue Service standard and become a standard on its own, with a clear
+and unambiguous specification of the language and requirements for
+implementations.
+
+**Conclusion: A candidate query language for an intermediate WFS 3.0
+query capability that goes beyond the limited support that WFS 3.0 Core offers,
+but that may not address all requirements identified. The lack of implementation
+support for document stores is an issue that needs a broader discussion, too.**
+
+[[cql-other-req]]
+===== Supporting other requirements
+
+There are three other requirements that are out-of-scope for CQL and which would
+need to be covered by additional WFS 3.0 extensions:
+
+[[resolve]]
+* Requirement "embed-related-features": To add related features to the response,
+an another mechanism would have to be specified, independent of the CQL query.
+For example, a query parameter `resolve` could be specified with a list of
+feature-valued properties where the values should be included in the response,
+if the related features are in the same dataset. +
+This capability would be similar to the `resolvePath` attribute in WFS 2.0
+with `resolve=local`.
+
+[[properties]]
+* Requirement "return-subset": To return only some of the properties another
+query parameter, e.g. `properties`, could be used with a list of properties
+that should be returned. The mapping between the names of the properties in
+the query parameter and the feature encoding needs to be specified for each
+encoding. In GeoJSON, for example, `id` and `geometry` are not part of the
+properties JSON object, but should be supported, too. Similar in CityJSON where
+the address information, the geometry or links to child features are encoded
+separately from the attributes JSON object. +
+This capability would be similar to the `propertyName` query parameter in
+the WFS 2.0 KVP encoding.
+
+[[items]]
+* Requirement "query-multiple-collections": In addition to the `/collections/{collectionId}/items`
+endpoint for each sub-collection in a dataset, an additional `/items` endpoint
+could be added that provides access to features from all the sub-collections.
+A query parameter `collections` could be added to access only features from
+the listed collections in the response.
+
+In the `resolve` and `properties` parameters, the same notation should be used for properties
+of data types or related features as it is used the compound attribute
+names in CQL queries (see the discussion above).
+
+[[cql-examples]]
+===== Examples
+
+Let's assume
+
+* that CQL would be extended as described above,
+* that the query parameters `resolve` and `properties` would be supported as described above, and
+* that a CQL query would be expressed on an `items` resource in a query parameter `where`.
+
+NOTE: Since CQL does not define a full query, but a "where" clause on a feature collection, a separate `/search/cql` (or similar) endpoint is not necessary.
+
+The queries in the <<uc-cadastre, cadastral use cases>> could be expressed as follows, assuming a GeoJSON feature encoding.
+
+<<uc-select-association,Selection of protected sites>>:
+
+.Query 1
+----
+/collection/ProtectedSite_Water/items?
+where=contains.geometry INTERSECTS ENVELOPE(7.0244,7.1296,50.5351,51.4362)
+----
+
+.Query 2
+----
+/collection/ProtectedSite_Water/items?
+where=contains.geometry INTERSECTS ENVELOPE(7.0244,7.1296,50.5351,51.4362)&
+resolve=contains
+----
+
+<<uc-select-associations,Select the owners of cadastral parcels in an area>>:
+
+.Query
+----
+/collection/Persons/items?
+where=partOf.relatedTo.geometry INTERSECTS ENVELOPE(7.0348,7.0452,50.6252,50.7154) OR
+      partOf.related.relatedTo.geometry INTERSECTS ENVELOPE(7.0348,7.0452,50.6252,50.7154)
+----
+
+<<uc-versions,Select versions of cadastral parcels based on their temporal validity>>:
+
+.Query
+----
+/collection/CadastralParcels/items?
+where=lifespan.begin DURING 2017-07-01T00:00:00Z/2017-07-01T23:59:59Z
+----
+
+NOTE: The request could simply use `time=2017-07-01T00:00:00Z/2017-07-01T23:59:59Z`, too, which is already possible with WFS 3.0 Core.
+
+<<uc-se,Select cadastral parcels for rendering with a specific style>>:
+
+.Query
+----
+/collection/CadastralParcels/items?
+where=denominator IS NOT NULL AND
+      (altLegalStatus IS NULL OR altLegalStatus=false) AND
+      textOnMap.type = 'ZAE_NEN'
+----
+
+NOTE: This ssumes that the interpretation of `textOnMap.type = 'ZAE_NEN'` is that at least one such value exists.
+
+<<uc-select-buildingparts,Selection of building parts of a building>>:
+
+.Query
+----
+/collection/CadastralParcels/items/DENW45AL0000lxrJ?
+resolve=contains
+----
+
+NOTE: This requires that the topological relationship would be included in the feature data explicitly.
+
+The feature queries in the <<uc-3d,3D / heating demand use cases>> could be expressed as follows, assuming a CityJSON feature encoding.
+
+<<uc-byid,Using WFS to query the simulation result and visualize it in a 3D scene by building Id>>:
+
+.Query
+----
+/ny_dataset/collection/buildings/items/uuid_2824afd6-00e5-42ac-ab95-ec868595dc5a?
+properties=function,measuredHeight,heat
+----
+
+<<uc-byid2,Query a feature from a city model by id>>:
+
+.Query
+----
+/my-city-model/collections/buildings/items/TWINHOUSE1
+----
+
+<<uc-select-buildings,Select buildings in a 2D region from a city model>>:
+
+.Query
+----
+/my-city-model/collections/buildings/items?bbox=-74,40.7,-73.96,40.8
+----
+
+<<uc-nested-features-and-properties,Select buildings based on nested features or properties>>:
+
+.Query 1
+----
+/my-city-model/collections/buildings/items?
+where=geometry.lod2 INTERSECTS POLYGON(...)
+----
+
+NOTE: This assumes that the attribute `geometry.lod2` would map for a CityJSON encoding to the feature geometry with `lod: 2
+
+.Query 2
+----
+/my-city-model/collections/buildings/items?where=address.ThoroughfareName LIKE 'Unter den Linden%'
+----
+
+NOTE: This assumes that the attribute `address.ThoroughfareName` would map for a CityJSON encoding to the `ThoroughfareName` member in the `address` JSON object).
+
+The other queries from the use case are similar and are skipped here. In general, a pre-requisite is how attribute names map to the content of the CityJSON encoding.
+
+NOTE: The 3DPS requests from the use cases are addressed <<scenes,here>>.
 
 ==== Falcor
 
-Falcor is a data platform that powers the Netflix user interfaces.
+Falcor cite:[Falcor] is a data platform that powers the Netflix user interfaces.
 
 The starting point of Falcor is to assume that all data is a single
 (virtual) JSON object. This allows clients to work with the data
@@ -149,23 +380,19 @@ the virtual JSON object. An enhanced path notation is used to reference
 nodes within the virtual JSON object.
 
 Falcor has no schema of the data and assumes that the developer knows the
-data.
+data (see the quote above).
 
 It is mainly designed for use in JavaScript and has no support for
 geometries or spatial predicates.
 
-**Assessment: Falcor may be a candidate for a WFS 3.0 implementation that
+**Conclusion: Falcor may be a candidate for a WFS 3.0 implementation that
 only supports JSON and that is mainly accessed from JavaScript. However,
 support for spatial aspects would need to be specified and implemented first.
 It is thus not considered in more detail in this report.**
 
-Link:
-
-* link:https://netflix.github.io/falcor/[Falcor website]
-
 ==== GraphQL
 
-GraphQL is a declarative, string-based query language created by Facebook to
+GraphQL cite:[GraphQL] is a declarative, string-based query language created by Facebook to
 support fetching data for use in a user application from a server.
 
 NOTE: A similarity with Filter Encoding is the intent to be a
@@ -173,14 +400,14 @@ declarative language independent of the underlying database technology.
 
 One of the main drivers for GraphQL was the goal to provide an interface that
 allows mobile app developers to retrieve exactly the data that they need in
-a single query from a single endpoint. This is
+a single query from a single endpoint.
 This is based on the observation that in REST APIs one usually
 needs multiple requests to fetch the information and/or that the response
 often contains unnecessary information ("overfetching").
 
-I.e. support for GraphQL would basically be complementary to the current
-WFS 3.0 Web API. The blogpost "GraphQL: Everything You Need to Know" listed
-below includes a comparison of strengths and weaknesses of both approaches.
+I.e., support for GraphQL would basically be complementary to the current
+WFS 3.0 Web API. The blogpost "GraphQL: Everything You Need to Know" cite:[GraphQLPost]
+includes a comparison of strengths and weaknesses of both approaches.
 
 NOTE: A GraphQL endpoint could be implemented on
 top of the Web API, but likely with sub-optimal performance.
@@ -191,39 +418,92 @@ multiplicities, etc.
 
 Typically GraphQL schemas are
 tailored for the specific application needs. That is, GraphQL queries are in
-practice in a way more similar to the stored queries of WFS 2.0 than the
+practice in a way closer to the stored queries of WFS 2.0 than the
 generic ad-hoc queries of WFS / FES 2.0 - although with a much richer
 mechanism to specify parameters and projection clauses.
 
-One of the biggest advantages of GraphQL is that it seems quite mature and
-has a lively and growing ecosystem with good tools, support, etc.
+A significant plus for GraphQL is that it has a lively, and
+growing, ecosystem with good tools, support, etc.
 
-One issue, of course, is that currently there is no support for geometries or
+However, currently there is no support for geometries or
 spatial queries in GraphQL.
 
 GraphQL is not tied to JSON, but JSON seems to be by far the most commonly used
 encoding.
 
-NOTE: TODO, add a detailed example based on one of the use cases and analyse
-how/if it could be spatially-enabled without the need to discard the tooling.
+NOTE: TODO +
+Add an example based on one of the use cases and analyse.
 
-**Assessment: GraphQL is a promising candidate because of its popularity and
+**Conclusion: GraphQL is a promising candidate because of its popularity and
 its characteristics, in particular for usages that are close to end user
-applications. Spatial support may be an issue and needs to be explored in more detail, including the use of GeoJSON or CityJSON.**
+applications. Spatial support may be an issue and needs to be explored in more
+detail, including the use of GeoJSON or CityJSON.**
 
-Links:
+==== Queries in the SpatioTemporal Asset Catalog (STAC)
 
-* link:https://graphql.org/[GraphQL website]
-* link:https://medium.com/@weblab_tech/graphql-everything-you-need-to-know-58756ff253d8[GraphQL: Everything You Need to Know]
+The SpatioTemporal Asset Catalog (STAC) specification cite:[STAC] intends to
+standardise the way geospatial assets are exposed online and queried. The
+specification defines *spatiotemporal asset* as "any file that represents
+information about the earth captured in a certain space and time". Right now,
+the focus is on remotely-sensed imagery.
+
+Querying STAC is very similar to general feature querying and since the
+principles and technologies used are very similar, the WFS 3.0 hackathon in
+March 2018 cite:[WFS3hackathon] was co-located with a STAC
+sprint cite:[STAC-FtCollins]. During these meetings the API building blocks
+were aligned so that STAC implementations will conform to WFS 3.0 Core.
+
+STAC extends the Core with a `/search/stac` endpoint, which for now is restricted
+to bounding box and time interval searches like WFS 3.0 Core.
+
+Several ideas are discussed or explored for supporting more advanced queries:
+
+* The link:https://github.com/radiantearth/stac-spec/blob/master/roadmap.md#querying-and-filtering[STAC roadmap]
+mentions link:https://github.com/geotools/geotools/blob/master/modules/library/cql/ECQL.md[ECQL] - a variant of
+CQL ("a CQL Like language") implemented in GeoTools - and
+link:http://backand-docs.readthedocs.io/en/latest/apidocs/nosql_query_language/index.html[Backand NOSQL query language]
+as options.
+* In Fort Collins, a JSON encoding of a query filter was presented and discussed.
+This development continues, see these
+link:https://github.com/radiantearth/stac-spec/blob/dev/api-spec/extensions/query.fragment.yaml[OpenAPI fragments for a query extension].
+
+NOTE: Another STAC extension related to the <<use_cases in this document,use cases>> is a capability to link:https://github.com/radiantearth/stac-spec/blob/dev/api-spec/extensions/fields.fragment.yaml[shape the feature properties to be included in the response].
+
+**Conclusion: Before any decision is made for WFS 3.0 query extensions, the
+plans should be discussed with the STAC community to check for additional
+opportunities to align the specifications.**
+
+==== Summary
+
+The following table summarises in how far the candidates support the identified
+requirements.
+
+.Comparison of candidate query languages
+[width="100%",cols="4,3,3,3,3",options="header"]
+|=========================================================
+|Requirement |WFS 2.0 + FES |CQL |GraphQL |STAC JSON
+|query-properties-with-multiple-values |Yes |No |Yes |No
+|query-nested-properties |Yes, but limited support in implementations |Yes, but limited support in implementations |Yes |No
+|query-logical-operators |Yes |Yes |Yes |Yes
+|query-2D-geometries |Yes |Yes |No |Yes
+|query-buffers |Yes |Yes |No |No
+|query-3D-geometries |Yes |No |No |No
+|query-current-data |n/a |n/a |Yes, this can be implemented in the query definitions |n/a
+|embed-related-features |Yes |n/a, but see <<cql-other-req,here>>  |Yes |No
+|return-subset |Yes, but with limitations |n/a, but see <<cql-other-req,here>>  |Yes |Yes
+|query-multiple-collections |Yes |n/a, but see <<cql-other-req,here>>  |Yes |Yes
+|=========================================================
 
 === API building blocks for additional resource types
+
+==== Tiles (2D)
 
 For 2D data, a commonly used approach is to organise the feature data in tiles,
 in particular for visualisation in map-based client applications in a web
 browser. Tiles are
-provided for different zoom levels (scales) and the subset of features that are
-located in the bounding box of the tile and are included in a tile will depend
-on the zoom level (e.g. no buildings at a country scale).
+provided for different zoom levels (scales) and how the features that are
+located in the bounding box of a tile are included in the tile will depend
+on the zoom level (e.g. no buildings at a scale of 1:1.000.000).
 
 In parallel to OGC Testbed 14 another OGC Innovation Program initiative, the
 Vector Tiles Pilot, is investigating how Vector Tiles should be provided via
@@ -232,14 +512,129 @@ and as GeoJSON. Of course, the tiles could also be rendered as bitmap images, to
 if the server has styling information.
 
 In general, as tiles are different resources, they would be made available under
-a new resource path, e.g. `/collections/{collectionId}/tiles` as well as `/tiles`
-for tiles with feature data from multiple collections / with multiple layers.
+new resource paths. For example:
+
+* `/collections/{collectionId}/tiles/{tilingScheme}/{zoomLevel}/{row}/{column}`: Tiles with features of a single collection.
+* `/tiles/{tilingScheme}/{zoomLevel}/{row}/{column}`: Tiles with feature data from
+multiple collections / with multiple layers. Like in the case of the `/items` path
+proposed above, a query parameter `collections` should be added to access only
+features from a selected list of collections in the response.
+
+These paths (in addition to paths for the tiling scheme information) represent
+the capabilities of an OGC WMTS in the OGC NextGen architecture.
 
 In addition, Google Protocol Buffers following the Mapbox Vector Tile format
 could also be served from the `/collections/{collectionId}/items` path as an
-additional encoding.
+additional encoding. A pre-requisite is a media type for the encoding to support
+content negotiation.
 
-NOTE: TODO, how 3DPS with i3s and 3D Tiles could be made available in an OGC
-NextGen service architecture.
+[[scenes]]
+==== Scenes (3D)
 
-NOTE: TODO, aspects to consider: Caching. Processing on the server vs the client.
+A common approach to provide optimised access to 3D feature data for visualisation
+in a browser are "scenes". A scene provides 3D geometries with texture data and attribute
+information, organised as a scene graph and/or spatial index. Each node in the graph
+represents a spatial partition and data for display at a certain level of detail,
+depending on the distance from the viewpoint, etc.
+
+The OGC 3DPS standard cite:[_3DPS] provides access to scenes, usually using the
+OGC community specifications i3s cite:[i3s] and 3D Tiles cite:[_3DTiles].
+
+A difference to the 2D tiles case described in the previous section is that it is
+the client that requests tiles for display based on the knowledge of the tiling scheme.
+In the 3DPS case, the nodes in the scene graph are secondary resources, linked from
+the scene graph. That is, the client accesses a scene graph and then access the nodes
+linked from the graph.
+
+A possible implementation for fetching scenes of a dataset in the OGC NextGen
+architecture could be
+
+* `/collections/{collectionId}/scene`: A scene with features of a single collection.
+* `/scene`: A scene with feature data from multiple collections / with multiple layers.
+Again, a query parameter `collections` should be added to access only
+features from a selected list of collections in the response (in 3DPS 1.0: `layers`).
+
+NOTE: It is important to understand the difference to the `tiles` paths above.
+These represent enumerable resources (the tiles). The `scene`
+paths are different, they represent a single processing resource that derives a scene
+from the collection or dataset based on the requested characteristics. Therefore,
+plural is used for `tiles` and singluar for `scene`. +
+
+NOTE: Supporting WMS capabilities in the NextGen architecture could follow the
+same approach, i.e. to support `/collections/{collectionId}/map` and `/map`
+resources.
+
+The `scene` paths should support the usual WFS 3.0 query parameters:
+
+* `bbox` (in 3DPS 1.0: `boundingbox`),
+* `time` (in 3DPS 1.0: not supported),
+* `crs` (from the WFS 3.0 CRS extension, in 3DPS 1.0: `crs`)
+* `bbox-crs` (from the WFS 3.0 CRS extension, in 3DPS 1.0: part of `boundingbox`)
+* `properties` (proposed above, for scene encodings that support feature properties, in 3DPS 1.0: not supported)
+* `where` (proposed above, in 3DPS 1.0: not supported)
+
+The last two parameters would be up for discussion, but in general it should
+be helpful for clients, if feature selection is done consistently across
+the different resources in the API.
+
+In addition, the other parameters of the GetScene request (beside `request`,
+`version` and `format` which are no longer needed as this is handled
+differently) would be supported, too. For example, `lods` or `styles`.
+
+It is planned by HFT to implement an experimental 3D Portrayal Service scene
+resource following this approach based on the Testbed 13 showcase using the
+3D CityGML model of New York described <<uc-3d,here>>. The request
+
+----
+../3D_CityModel_manhattan/collections/buildings/scene?bbox=-74.0064,40.7178,-73.9739,40.7507
+----
+
+will deliver a 3D building model (as one layer of the 3D city model (3D-DLM))
+of Manhattan using 3D Tiles. It can be rendered in the Cesium globe.
+
+To include multiple layers (for example, buildings and vegetation), the request
+would be:
+
+----
+../3D_CityModel_manhattan/scene?collections=buildings,vegetation&bbox=-74.0064,40.7178,-73.9739,40.7507
+----
+
+The information that is currently included in 3DPS 1.0 capabilities would be
+included in the OpenAPI document and in extensions to the feature collection
+metadata resources like in WFS 3.0.
+
+[[media-types]]
+The selection of an encoding would follow the same approach as
+link:https://rawgit.com/opengeospatial/WFS_FES/master/docs/17-069.html#_encodings_2[in WFS 3.0].
+That is, every server will support content negotiation using media types to negotiate
+the format of the response. In addition, servers should support a mechanism to
+include the format information in the path to support hyperlinks.
+
+Media types for i3s and 3D Tiles are an open issue.
+
+For i3s `application/vnd.esri.i3s.json+gzip` is specified, but not registered with IANA yet.
+
+For 3D Tiles no specific media type has been specified yet and
+link:https://github.com/AnalyticalGraphicsInc/3d-tiles/tree/master/specification#file-extensions-and-mime-types[general media types are used]
+(in particular `application/json`). This should be changed as the use of the
+general media types is ambiguous.
+
+==== Other 3DPS requests
+
+In addition to scenes, the 3DPS 1.0 standard cite:[_3DPS] specifies additional
+requests that would need to be mapped, too. A detailed analysis is out-of-scope
+for this report, but from looking at the feature info requests we can see the
+benefits of the OGC NextGen architecture that allows to support the different
+resources derived from a dataset in a single API. Where 3DPS 1.0 has to define
+its own requests to access feature data, in the NextGen architecture these resources
+are often already provided by the API building blocks specified by WFS 3.0.
+
+`GetFeatureInfoByObjectId` in 3DPS 1.0, for example, is an operation that allows a client
+to retrieve information about features that are selected based on object identifiers.
+In the NextGen architecture this is simply the paths
+`/collections/{collectionId}/items/{featureId}` specified by WFS 3.0 Core.
+
+On the other hand `GetFeatureInfoByRay` introduces a new way of spatially selecting
+features based on a virtual ray. In the NextGen architecture this would
+be implemented in an extension to the WFS 3.0 `/collections/{collectionId}/items`
+resource where additional query parameters specify the ray.

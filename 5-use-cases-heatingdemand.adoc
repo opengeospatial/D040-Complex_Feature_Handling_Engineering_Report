@@ -1,3 +1,4 @@
+[[uc-3d]]
 === Building heating demand simulation and visualization
 
 ==== Description
@@ -56,6 +57,7 @@ In the existing implementation, 3D Tiles is used as content delivery format. See
 .3DPS getScene request to select an (bounding box) area of the New York data set
 image::images/Testbed13-fig35-3DPS-NY-2.png[align="center"]
 
+[[uc-byid]]
 ==== Using 3D Portrayal Service and WFS to query the simulation result and visualize it in a 3D scene by building Id
 
 In Testbed 13, the 3DPS getFeatureInfo request has been used to query heating demand (simulation result) per building from a server at HFT Stuttgart. See link:https://www.youtube.com/watch?v=AbyCQKH-PC4&index=17&list=PLQsQNjNIDU87So4QmiSCKFmE0fv567s3m&t=0s[video] on the Testbed 13 S3D Performance Experiment #2.
@@ -106,6 +108,7 @@ WFS 3.0 should include an extension that supports such a capability, too.
 .Manhattan dataset with simulated heat demand, provided by HFT Stuttgart, and color coded in to the building’s appearance. (from Testbed 13, S3D performance)
 image::images/Testbed13-fig35-3DPS-NY-3.png[align="center"]
 
+[[uc-byid2]]
 ==== Query a feature from a city model by id
 
 Most important in this use case is that solids are supported as feature geometries.
@@ -295,6 +298,7 @@ element could be used that is also used in the link:https://cdn.rawgit.com/openg
 
 Another option could be a WFS 3.0 that returns CityJSON.
 
+[[uc-select-buildings]]
 ==== Select buildings in a 2D region from a city model
 
 In this example, all buildings in a rectangular region are requested and
@@ -328,6 +332,7 @@ for example:
 
 http://www.example.com/my-city-model/collections/buildings/items?bbox=-74,40.7,-73.96,40.8
 
+[[uc-nested-features-and-properties]]
 ==== Select buildings based on nested features or properties
 
 These examples have been provided by Claus Nagel, virtualcitySYSTEMS. They cover

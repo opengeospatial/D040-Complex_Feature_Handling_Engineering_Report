@@ -1,83 +1,127 @@
 [[recommendations]]
 == Recommendations
 
-NOTE: TODO +
-This section will provide recommendations for the most appropriate way to support the
+This chapter builds on the analysis in the previous chapters and derives
+recommendations for the most appropriate way to support the
 use cases within the NextGen service architecture.
 
-Some initial, incomplete thoughts:
+NOTE: This is a draft version of the document and it is expected that the
+recommendations will change based on feedback and discussions until the OGC
+TC meeting in December 2018.
 
-* Support an intermediate cross-collection mechanism to fetch data (at `/search`).
-Candidate: CQL - or another simple, easy to implement syntax that is straightforward to map to queries on relational databases and document stores.
-* Investigate if/how GraphQL could be used to query a dataset (response formats: GeoJSON, CityJSON).
-* For 3D city models in JSON explore the use of CityJSON.
-* Provide guidance how implementations could support additional, more advanced
+[[rec-1]]
+=== Recommendation 1: Specify WFS 3.0 extensions for improved fetching of feature data
+
+This could be multiple documents or a single document with multiple conformance classes.
+
+1. One conformance class should support CQL queries on dataset and collection
+resources as outlined <<cql,here>>. The CQL should be restricted to the profile
+that is implemented in GeoTools and other libraries (e.g. no support for
+compound attributes, relationships, attributes with multiple values).
+Alternatively, another simple, easy to implement syntax that is straightforward
+to map to queries on relational databases and document stores could be
+implemented. The STAC JSON syntax could be an option.
+
+2. If CQL is supported, another conformance class should add support for the
+richer queries including the capabilities for the "complex feature handling"
+use cases discussed in this document (see <<cql-examples,these examples>>).
+
+3. Add a path `/items` in another conformance class to support fetching
+features from all the sub-collections in a dataset. A query parameter
+`collections` should be added to select features from a subset of the
+collections.
+
+4. In another conformance class, add a `resolve` query parameter to the
+feature collection and feature resources as outlined <<resolve,here>>. If
+the CQL queries support nested structures and relationships (see item 2 above),
+the `resolve` parameter should supported the extended property notation, too.
+
+5. In another conformance class, add a `properties` query parameter to the
+feature collection and feature resources as outlined <<properties,here>>. Note
+that additional conformance classes will need to be specified for encodings
+how to map property names to the content. This should be done for the GeoJSON
+and GML encodings specified in the WFS 3.0 Core. Again, if the CQL queries
+support nested structures and relationships (see item 2 above), the `properties`
+parameter should supported the extended property notation, too.
+
+[[rec-2]]
+=== Recommendation 2: Migrate additional OGC web service standards to the NextGen architecture
+
+The analysis has outlined how current 3DPS, WMTS and WMS that operate on feature data
+could be implemented in the NextGen architecture. Other activities in OGC Testbed 14
+(see, for example deliverable D021 "Secure Resource Oriented Geospatial Data
+Handling Engineering Report") as well as the OGC Vector Tiles Pilot have made
+experiments along the same lines.
+
+These activities should continue to validate the NextGen goal to support
+access to spatial data using consistent API building blocks.
+This is inline with the ongoing NextGen discussions in the OGC Architecture DWG and the
+OGC OWS Common SWG.
+
+[[rec-3]]
+=== Recommendation 3: Investigate if/how GraphQL could be used to query a dataset
+
+GraphQL is a highly popular query mechanism to fetch data with support for complex
+data structures. It is relatively straightforward to use and at the same time allows
+highly customizable queries that return exactly the data that the client wants.
+
+Its architecture is orthogonal to the NextGen architecture which is based on
+the architecture of the web. That is, support for GraphQL would be complementary
+to the WFS 3.0 / NextGen approach.
+
+It is recommended to explore how GraphQL endpoints could support complex feature
+handling use cases in more detail than it was possible in Testbed 14. This should
+include prototypes.
+
+Experiments should focus on JSON encodings.
+
+Open questions include:
+* To what extent can existing encodings like GeoJSON and CityJSON be used in
+GraphQL schemas?
+* How can GraphQL queries be extended to support spatial searches - without
+the need to discard the tooling?
+
+[[rec-4]]
+=== Recommendation 4: Consider the use of CityJSON for 3D city models
+
+Due to the current popularity of JSON (over XML), WFS 3.0 implementations
+should not only support an XML/GML-based encoding, but also a JSON-based encoding.
+As GeoJSON does not meet the needs of 3D city models, CityJSON is a primary
+starting point. CityJSON is not yet a standard, but
+link:https://github.com/w3c/strategy/issues/114[investigations are ongoing].
+
+[[rec-5]]
+=== Recommendation 5: Develop guidance for implementing additional search capabilities
+
+Provide guidance how implementations could support additional, more advanced
 query mechanisms that best fit their encoding(s) and datastore. These probably
-should not be promoted as standards as the details may be implementation
-dependent. Examples could be:
-** the use of XQuery on a document store that supports XML or a XML database;
-** the use of WFS 2.0 Query / FES 2.0 Filter in an implementation that supports
-WFS 2.0 in addition to WFS 3.0
-** the use of a bespoke query language with a straightforward mapping to the underlying datastore.
+should not be promoted as OGC standards as the details may be implementation
+dependent and too few implementations would support the same advanced
+capabilities.
 
-* 3DPS in NextGen is a TODO
-An experimental 3D Portrayal Service request using WFS 3.0 is implemented based on the Testbed 13 showcase using the 3D CityGML model of New York (see use case in chapter 4). The request
+Examples could be:
+* the use of XQuery on a document store that supports XML or a XML database;
+* the use of WFS 2.0 Query / FES 2.0 Filter in an implementation that supports
+WFS 2.0 in addition to WFS 3.0;
+* the use of (Geo)SPARQL in an implementation that uses a triple store;
+* the use of a bespoke query language with a straightforward mapping to the
+underlying datastore (for example, a WFS 3.0 that uses a MongoDB datastore
+probably would support a query mechanism that directly maps to the
+link:https://docs.mongodb.com/manual/tutorial/query-documents/[native MongoDB queries]).
 
-https://services.thisserverisnotavailableyet.de/t14/wfs3/3D_CityModel_manhattan/collections/buildings/scene/FORMAT=application/json
+[[rec-6]]
+=== Recommendation 6: Validate and refine recommendations through implementation
 
-will deliver a 3D buildiing model (as one layer of the 3D city model (3D-DLM)) of Manhattan using 3D tiles.  It can be rendered in the Cesium globe, as shown here (tbd).
+In general, the recommendations above have not been tested yet in implementations.
+Validation and refinement through implementation is, however, fundamental
+to the WFS 3.0 and NextGen process. All recommendations should thus be
+validated in multiple implementations before considering them for
+standardisation.
 
-** open issues
-*** MIME type
-It whould be good to have a more specific mime type for 3D Tiles. From the spec:
+[[rec-7]]
+=== Recommendation 7: Register media types for encodings to be used in NextGen services
 
-https://github.com/AnalyticalGraphicsInc/3d-tiles/tree/master/specification#file-extensions-and-mime-types
-3D Tiles uses the following file extensions and MIME types.
-
-    Tileset files use the .json extension and the application/json MIME type.
-    Tile content files use the file type and MIME format specific to their tile format specification.
-    Tileset style files use the .json extension and the application/json MIME type.
-
-Batched 3D Model tiles use the .b3dm extension and application/octet-stream MIME type.
-
-Explicit file extensions are optional. Valid implementations may ignore it and identify a content's format by the magic field in its header.
-
-todo: discuss this issue with Patrick.
-
-ESRI's I3S uses the mime type application/vnd.esri.i3s.json+gzip.
-
-*** layers
-
-The logic behind the request only supports one "layer" such as buildings. To include another layer such as vegetation, a new request has be be send:
-
-https://services.thisserverisnotavailableyet.de/t14/wfs3/3D_CityModel_manhattan/collections/vegetation/scene/FORMAT=application/json
-
-This will result in a second 3D tileset. However, I am not sure if Cesium supports multiple tile sets. 
-
-todo: test / discuss this issue with Patrick.
-
-Alternative 1: the server provides a scene that includes both building and vegetation. But the will limit the client / user to select the layers of interest.
-
-Alternative 2: select multiple layers in one request as doene in 3DPS 1.0. However, this "damages" the logic of the WFS 3.0 requests. 
-
-
-
-*** LoD
-
-An example for LoD selection whould be helpful.
-
-*** getCapabilities
-
-do we need to extend the WFS 3.0 get capabilities???
-
-** Info: similar query in 3DPS 1.0 (with additional bounding box):
-
-http://tb13.igd.fraunhofer.de:8082/3dps?
-SERVICE=3DPS&
-VERSION=1.0&
-REQUEST=GetScene&
-LAYERS=manhattan&
-FORMAT=text/html&
-CRS=EPSG:4326&
-BOUNDINGBOX=-74.00635826977239,40.71778771238832,-73.97393297660074,40.75070138933127
-
+The selection of the data format used in a response must support HTTP content
+negotiation. This requires that format can be identified using media types
+that should be registered with IANA. For example, media types should be registered
+for i3s, 3D Tiles and CityJSON.

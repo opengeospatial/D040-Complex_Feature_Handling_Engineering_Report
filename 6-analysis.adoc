@@ -28,6 +28,7 @@ complex feature handling that should be considered in this report, maybe we
 can still add them here, if these are relevant for the recommendations and
 we can reference a source for the requirement.
 
+[[data_structures]]
 === Data structures
 
 ==== Structured property values
@@ -413,4 +414,4 @@ Requirement "query-additional-encodings"::
 
 Support for this is straightforward in the WFS 3.0 architecture (due to the
 use of HTTP and the architecture of the Web). Each encoding needs a media type,
-which should be link:https://www.iana.org/assignments/media-types/media-types.xhtml[registered with IANA]. 
+which should be link:https://www.iana.org/assignments/media-types/media-types.xhtml[registered with IANA].
