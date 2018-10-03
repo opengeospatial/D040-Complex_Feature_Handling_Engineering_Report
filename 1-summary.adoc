@@ -105,7 +105,8 @@ See <<recommendations,the chapter "Recommendations">>. The OGC Innovation Progra
 would be ideal to continue work on the recommendations 1 to 4 based on
 <<rec-6,recommendation 6 (validate and refine recommendations through implementation)>>:
 
-* <<rec-1,Recommendation 1: Specify WFS 3.0 extensions for improved fetching of feature data>>
+* <<rec-1,Recommendation 1a: Specify WFS 3.0 extensions for improved fetching of feature data>>
+* <<rec-1,Recommendation 1b: Make CQL an OGC standard on its own>>
 * <<rec-2,Recommendation 2: Migrate additional OGC web service standards to the NextGen architecture>>
 * <<rec-3,Recommendation 3: Investigate if/how GraphQL could be used to query a dataset>>
 * <<rec-4,Recommendation 4: Consider the use of CityJSON for 3D city models>>

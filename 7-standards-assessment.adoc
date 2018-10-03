@@ -8,10 +8,10 @@ to the identified requirements and analyses options for addressing the
 requirements in an architecture for a next generation of OGC services
 ("OGC NextGen services") based on the approach taken by WFS 3.0.
 
-This chapter is organised in three parts. First, we summarise how the different
+This chapter is organized in three parts. First, we summarize how the different
 XML and JSON encodings match the requirements. Second, we look at different
 approaches to querying complex data and, third, we look at additional resource
-types and other ways to organise and encode the data.
+types and other ways to organize and encode the data.
 
 === Encodings
 
@@ -42,7 +42,10 @@ generic `application/json` media type would have to be used, which may create
 ambiguities with other potential JSON encodings for features in the future.
 
 CityGML has no media type either, but CityGML is GML and the GML media type
-can be used.
+can be used. However, if there are multiple GML encodings for the same dataset,
+it would be necessary to register and use separate media types for each of
+the GML encodings. I.e., OGC should consider to register a media type for
+CityGML.
 
 === API building blocks for queries
 
@@ -55,10 +58,10 @@ for spatial queries,
 is well-known to developers and well-supported,
 3. specify a new query mechanism that is simple to implement.
 
-Filter Encoding and CQL belong to the first category,
+Filter Encoding and Common Query Language (CQL) belong to the first category,
 GraphQL and Falcor to the second category and the current discussions
-in the development of the SpatioTemporal Asset Catalog (STAC) are in
-the third category.
+in the development of the SpatioTemporal Asset Catalog (STAC) cite:[STAC]
+are in the third category.
 
 This could potentially be extended with additional options, including
 (Geo)SPARQL, Gremlin, XQuery, etc. However, triple stores, graph databases or
@@ -68,7 +71,7 @@ other options mentioned above.
 
 Another option that was mentioned as a candidate in discussion is OpenSearch including the
 link:http://www.opengeospatial.org/standards/opensearchgeo[OpenSearch Geo/Time extensions]. 
-After starting to analyse the OpenSearch Geo/Time extension this does
+After starting to analyze the OpenSearch Geo/Time extension this does
 not seem to be a real candidate. OpenSearch is more tailored towards
 full-text searches, overlaps with WFS 3.0 (paging, etc), is XML-based
 (OpenSearch descriptions, RSS/Atom as response formats) and the
@@ -92,7 +95,7 @@ additional discussion that should be considered.
 During the discussions at the WFS 3.0 hackathon in March 2018 there was agreement
 that the path `/search/{endpoint}` should be reserved for offering richer queries
 on a dataset. Different search implementations could be published as
-separate search resources. I.e., a server could support multiple types of
+separate search resources. i.e., a server could support multiple types of
 queries in parallel. For example, `/search/fes` could be an endpoint for
 WFS 2.0 ad-hoc queries with Filter Encoding 2.0 and `/search/graphql` could be
 an endpoint for GraphQL queries on the same data.
@@ -111,7 +114,7 @@ query. HTTP PUT and DELETE could be used to update or delete the query.
 
 The third option is quite heavy for queries that are not used repeatedly. For
 queries that are executed more than once, however, this approach has benefits,
-e.g. for caching. The approach would also support parameterised queries where
+e.g. for caching. The approach would also support parameterized queries where
 the parameters could be passed as query parameters when accessing the query
 resource with a HTTP GET request (like stored queries in WFS 2.0).
 
@@ -172,6 +175,7 @@ or objects / data types.
 That is, either the use of CQL is restricted to feature data that meets these
 constraints or CQL would need to be extended to support feature data that have the
 following <<data_structures,data structure requirements>>:
+
 * "multiple-values"
 * "nested-structures"
 * "relationships"
@@ -217,7 +221,7 @@ need to be covered by additional WFS 3.0 extensions:
 
 [[resolve]]
 * Requirement "embed-related-features": To add related features to the response,
-an another mechanism would have to be specified, independent of the CQL query.
+another mechanism would have to be specified, independent of the CQL query.
 For example, a query parameter `resolve` could be specified with a list of
 feature-valued properties where the values should be included in the response,
 if the related features are in the same dataset. +
@@ -244,7 +248,7 @@ A query parameter `collections` could be added to access only features from
 the listed collections in the response.
 
 In the `resolve` and `properties` parameters, the same notation should be used for properties
-of data types or related features as it is used the compound attribute
+of data types or related features as it is used by the compound attribute
 names in CQL queries (see the discussion above).
 
 [[cql-examples]]
@@ -368,7 +372,7 @@ Falcor cite:[Falcor] is a data platform that powers the Netflix user interfaces.
 The starting point of Falcor is to assume that all data is a single
 (virtual) JSON object. This allows clients to work with the data
 using standard operations on JSON objects and support for Path expressions.
-In the words of Netflix: "If you know your data, you know your API."
+In the words of Netflix: "If you know your data, you know your API" cite:[WhatIsFalcor].
 
 In a way this would be comparable to using XQuery as a query language
 in WFS 2.0 where the dataset is basically a large GML feature collection.
@@ -405,7 +409,7 @@ This is based on the observation that in REST APIs one usually
 needs multiple requests to fetch the information and/or that the response
 often contains unnecessary information ("overfetching").
 
-I.e., support for GraphQL would basically be complementary to the current
+That is, support for GraphQL would basically be complementary to the current
 WFS 3.0 Web API. The blogpost "GraphQL: Everything You Need to Know" cite:[GraphQLPost]
 includes a comparison of strengths and weaknesses of both approaches.
 
@@ -416,7 +420,7 @@ Unlike Falcor, where the client has to know the data, GraphQL *requires* a
 schema of the data. GraphQL is strongly typed and supports nesting,
 multiplicities, etc.
 
-Typically GraphQL schemas are
+Typically, GraphQL schemas are
 tailored for the specific application needs. That is, GraphQL queries are in
 practice in a way closer to the stored queries of WFS 2.0 than the
 generic ad-hoc queries of WFS / FES 2.0 - although with a much richer
@@ -432,9 +436,9 @@ GraphQL is not tied to JSON, but JSON seems to be by far the most commonly used
 encoding.
 
 NOTE: TODO +
-Add an example based on one of the use cases and analyse.
+Add an example based on one of the use cases and analyze.
 
-**Conclusion: GraphQL is a promising candidate because of its popularity and
+**Conclusion: GraphQL is a promizing candidate because of its popularity and
 its characteristics, in particular for usages that are close to end user
 applications. Spatial support may be an issue and needs to be explored in more
 detail, including the use of GeoJSON or CityJSON.**
@@ -442,7 +446,7 @@ detail, including the use of GeoJSON or CityJSON.**
 ==== Queries in the SpatioTemporal Asset Catalog (STAC)
 
 The SpatioTemporal Asset Catalog (STAC) specification cite:[STAC] intends to
-standardise the way geospatial assets are exposed online and queried. The
+standardize the way geospatial assets are exposed online and queried. The
 specification defines *spatiotemporal asset* as "any file that represents
 information about the earth captured in a certain space and time". Right now,
 the focus is on remotely-sensed imagery.
@@ -475,7 +479,7 @@ opportunities to align the specifications.**
 
 ==== Summary
 
-The following table summarises in how far the candidates support the identified
+The following table summarizes in how far the candidates support the identified
 requirements.
 
 .Comparison of candidate query languages
@@ -498,8 +502,8 @@ requirements.
 
 ==== Tiles (2D)
 
-For 2D data, a commonly used approach is to organise the feature data in tiles,
-in particular for visualisation in map-based client applications in a web
+For 2D data, a commonly used approach is to organize the feature data in tiles,
+in particular for visualization in map-based client applications in a web
 browser. Tiles are
 provided for different zoom levels (scales) and how the features that are
 located in the bounding box of a tile are included in the tile will depend
@@ -531,9 +535,9 @@ content negotiation.
 [[scenes]]
 ==== Scenes (3D)
 
-A common approach to provide optimised access to 3D feature data for visualisation
+A common approach to provide optimized access to 3D feature data for visualization
 in a browser are "scenes". A scene provides 3D geometries with texture data and attribute
-information, organised as a scene graph and/or spatial index. Each node in the graph
+information, organized as a scene graph and/or spatial index. Each node in the graph
 represents a spatial partition and data for display at a certain level of detail,
 depending on the distance from the viewpoint, etc.
 

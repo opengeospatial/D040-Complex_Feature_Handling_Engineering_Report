@@ -54,20 +54,28 @@ ADE::
   Application Domain Extension
 API::
 	Application Programming Interface
+CQL::
+  Common Query Language
 CRS::
   Coordinate Reference System
 DCAT::
   Data Catalog Vocabulary
+DWG::
+  Domain Working Group
 FES::
   Filter Encoding Specification
 GML::
  Geography Markup Language
+HTML::
+  Hypertext Markup Language
+IANA::
+  Internet Assigned Numbers Authority
 JRC::
   Joint Research Centre of the European Commission
 JSON::
  Java Script Object Notation
 LoD::
-  Level of Detail 
+  Level of Detail
 NAS::
   Normbasierte Austauschschnittstelle (Standards-based Data Exchange Interface)
 OGC::
@@ -80,6 +88,8 @@ SE::
   Symbology Encoding
 SWG::
   Standards Working Group
+STAC::
+  SpatioTemporal Asset Catalog
 UTC::
   Coordinated Universal Time
 W3C::

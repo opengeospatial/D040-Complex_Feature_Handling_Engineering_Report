@@ -383,11 +383,11 @@ https://www.example.com/wfs?
   </fes:Filter>
 ```
 
-The result is shown as an image as the XML response itself is too verbose to
-show, and is not open data.
+The result is shown as an image as the Extensible Markup Language (XML)
+response itself is too verbose to show, and is not open data.
 
 [#img_VCS1,reftext='{figure-caption} {counter:figure-num}']
-.Get all buildings having one or more ground surfaces whose LoD2 geometry intersects with a given geometry (Ground Surface is a nested feature in CityGML)
+.Get all buildings having one or more ground surfaces whose LoD 2 geometry intersects with a given geometry (Ground Surface is a nested feature in CityGML)
 image::images/wfs_3_example1_VCS_result.png[align="center"]
 
 ===== Query 2: Select buildings along a road
@@ -421,7 +421,7 @@ https://www.example.com/wfs?
 
 ===== Query 3: Select trees within a buffer of an implicit geometry
 
-Get all trees that are given by an LoD3 template geometry and where this
+Get all trees that are given by an LoD 3 template geometry and where this
 geometry is within a distance to a given geometry. `core:ImplicitGeometry`
 is a complex data type.
 
@@ -468,7 +468,7 @@ image::images/wfs_3_example3_VCS_result.png[align="center"]
 
 Get all buildings that have a thermal zone which contains a thermal boundary
 whose `u` value is greater than a given value. This example uses the
-CityGML EnergyADE 1.0 extension which adds energy information to the CityGML
+CityGML Energy ADE 1.0 extension which adds energy information to the CityGML
 base model.
 
 The query involves three nested features: `energy:ThermalZone`,

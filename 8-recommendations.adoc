@@ -9,8 +9,8 @@ NOTE: This is a draft version of the document and it is expected that the
 recommendations will change based on feedback and discussions until the OGC
 TC meeting in December 2018.
 
-[[rec-1]]
-=== Recommendation 1: Specify WFS 3.0 extensions for improved fetching of feature data
+[[rec-1a]]
+=== Recommendation 1a: Specify WFS 3.0 extensions for improved fetching of feature data
 
 This could be multiple documents or a single document with multiple conformance classes.
 
@@ -42,7 +42,19 @@ that additional conformance classes will need to be specified for encodings
 how to map property names to the content. This should be done for the GeoJSON
 and GML encodings specified in the WFS 3.0 Core. Again, if the CQL queries
 support nested structures and relationships (see item 2 above), the `properties`
-parameter should supported the extended property notation, too.
+parameter should support the extended property notation, too.
+
+[[rec-1b]]
+=== Recommendation 1b: Make CQL an OGC standard on its own
+
+If CQL would be supported by a WFS extension as a result of the
+recommendation 1 above, it should be extracted from
+the Catalogue Service standard and become a standard on its own.
+
+The CQL standard should provide a clear and unambiguous specification of the
+query language and requirements for implementations. It also clarify how
+CQL provides API building blocks that can be reused by WFS 3.0 or other
+NextGen standards.
 
 [[rec-2]]
 === Recommendation 2: Migrate additional OGC web service standards to the NextGen architecture
@@ -55,8 +67,8 @@ experiments along the same lines.
 
 These activities should continue to validate the NextGen goal to support
 access to spatial data using consistent API building blocks.
-This is inline with the ongoing NextGen discussions in the OGC Architecture DWG and the
-OGC OWS Common SWG.
+This is inline with the ongoing NextGen discussions in the
+OGC Architecture Domain Working Group (DWG) and the OGC OWS Common SWG.
 
 [[rec-3]]
 === Recommendation 3: Investigate if/how GraphQL could be used to query a dataset
@@ -76,6 +88,7 @@ include prototypes.
 Experiments should focus on JSON encodings.
 
 Open questions include:
+
 * To what extent can existing encodings like GeoJSON and CityJSON be used in
 GraphQL schemas?
 * How can GraphQL queries be extended to support spatial searches - without
@@ -93,13 +106,14 @@ link:https://github.com/w3c/strategy/issues/114[investigations are ongoing].
 [[rec-5]]
 === Recommendation 5: Develop guidance for implementing additional search capabilities
 
-Provide guidance how implementations could support additional, more advanced
+Provide guidance on how implementations could support additional, more advanced
 query mechanisms that best fit their encoding(s) and datastore. These probably
 should not be promoted as OGC standards as the details may be implementation
 dependent and too few implementations would support the same advanced
 capabilities.
 
 Examples could be:
+
 * the use of XQuery on a document store that supports XML or a XML database;
 * the use of WFS 2.0 Query / FES 2.0 Filter in an implementation that supports
 WFS 2.0 in addition to WFS 3.0;
@@ -124,4 +138,4 @@ standardisation.
 The selection of the data format used in a response must support HTTP content
 negotiation. This requires that format can be identified using media types
 that should be registered with IANA. For example, media types should be registered
-for i3s, 3D Tiles and CityJSON.
+for i3s, 3D Tiles, CityJSON and perhaps also for CityGML.

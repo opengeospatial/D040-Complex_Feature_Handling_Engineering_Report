@@ -12,12 +12,12 @@ are not discussed.
 
 We split the analysis between requirements related to the data structures used in
 the data, the requirements related to querying such data and requirements for
-other approaches to organising the data.
+other approaches to organizing the data.
 
 In terms of encodings, this analysis documents the support for the requirements
 in the feature encodings supported by WFS 3.0 Core, i.e. GeoJSON and the GML
-Simple Feature Profile. Requirements related to a HTML representation of
-features or collections of them are not discussed.
+Simple Feature Profile. Requirements related to a Hypertext Markup Language
+(HTML) representation of features or collections of them are not discussed.
 
 NOTE: The identified requirements are based on the use cases documented in
 the <<use_cases,previous chapter>> and the
@@ -43,7 +43,7 @@ than "1".
 WFS 3.0 Core and the GeoJSON and GML Simple Feature Profile Level 2 conformance
 classes already support this requirement.
 
-GeoJSON does not place any restrictions on the contents of `properties`. I.e.,
+GeoJSON does not place any restrictions on the contents of `properties`, i.e.,
 the natural approach to encoding such properties in GeoJSON would be a JSON
 array.
 
@@ -61,7 +61,7 @@ another feature nor a literal value (like Integer or CharacterString).
 Again, WFS 3.0 Core and the GeoJSON / GML Simple Feature Profile Level 2 conformance
 classes already support this requirement.
 
-In GeoJSON the natural approach is to represent such values as a JSON object.
+In GeoJSON, the natural approach is to represent such values as a JSON object.
 
 In GML, the value of the property is an object element representing an instance of
 the data type.
@@ -137,9 +137,12 @@ of the GeoJSON feature above.
 }
 ----
 
-If application schemas according to ISO 19109 are used, ShapeChange can help
-to create link:https://shapechange.net/transformations/flattener/[flattened implementation schemas],
-i.e. where all feature properties have a literal value.
+If application schemas according to ISO 19109 are used, the ShapeChange cite:[ShapeChange]
+can help to create
+link:https://shapechange.net/transformations/flattener/[flattened implementation schemas],
+i.e. where all feature properties have a literal value. ShapeChange is a
+Java tool that takes application schemas constructed according to ISO 19109
+from a UML model and derives implementation representations.
 
 ==== Relationships / links
 
@@ -154,7 +157,7 @@ in the German cadastre application schema or in CityGML that have a URI as
 a value are such data types).
 
 The GML encoding in a WFS 3.0 Core supports such properties already using
-Xlinks (again, only in Simple Feature Profile Level 2, not in Level 0).
+Xlink references (again, only in Simple Feature Profile Level 2, not in Level 0).
 
 GeoJSON has no concept of links, but specifies extension points and no constraints
 on the content of "properties". The links could thus be implemented in multiple
@@ -172,13 +175,14 @@ and the link:https://www.w3.org/TR/sdw-bp/#bp-linking-2[W3C/OGC Spatial Data on 
 but they can use the same pattern in an encoding.
 
 The W3C/OGC Spatial Data on the Web Working Group discussed whether the most commonly
-used spatial relation types should be registered with IANA,
+used spatial relation types should be registered with Internet Assigned Numbers Authority (IANA),
 link:https://github.com/w3c/sdw/issues/215[but eventually deferred this]. Note that schema.org
 now has a link:https://pending.schema.org/GeospatialGeometry[pending change to support them].
 
 ==== Geometries
 
-WFS 3.0 Core is basically limited to 2D geometries in a 2D or 3D coordinate
+WFS 3.0 supports 3D coordinates but not 3D solids. WFS 3.0 Core is therefore
+currently limited to 2D geometries in a 2D or 3D coordinate
 reference system (elevation values may be included for each position). All
 curves and surface boundaries are restricted to linear interpolation (plus
 circular arc interpolation in the GML Simple Feature conformance classes).
@@ -197,7 +201,7 @@ property is used to determine the extent or all relevant geometries.
 GML, including the Simple Feature Profiles Levels 0 and 2, supports this, but
 GeoJSON does not.
 
-I.e., in cases where this capability is important, another JSON encoding has to
+That is, in cases where this capability is important, another JSON encoding has to
 be used or the features have to be split so that there is one feature per spatial
 geometry property.
 
@@ -316,7 +320,7 @@ a certain moment or period in time, but currently the default is always
 
 For datasets where the features are versions of a real-world entity,
 valid for a given time period, the default response would return all versions.
-It would be more helpful, to change the default behaviour for such datasets.
+It would be more helpful, to change the default behavior for such datasets.
 
 [[req-query-current-data]]
 Requirement "query-current-data"::
@@ -335,7 +339,7 @@ multiple versions of the same real-world entity.
 
 This is a requirement that would need to be supported in the Core.
 
-==== Optimising the query response
+==== Optimizing the query response
 
 Some of the use cases benefit from post-processing the feature or feature collection
 that has been selected.
@@ -381,27 +385,34 @@ Requirement "query-multiple-collections"::
   The capability to select by default features from multiple collections in the
   dataset in a single request.
 
-=== Organising feature data, other representations
+////
+NOTE from Gobe: This could be useful for
+link:https://en.wikipedia.org/wiki/Constructive_solid_geometry[3D Constructive Solid Geometry]
+as well (e.g. find all features that are inside air corridor A but outside
+the special activity airspace B).
+////
+
+=== Organizing feature data, other representations
 
 WFS 3.0 Core specifies the path `/collections/{collectionId}/items` to provide
 access to features on a by-feature basis.
 
-For visualising data in a map/scene viewer in a web browser, other approaches to
-organising the feature data and other encodings are often better suited for the
+For visualizing data in a map/scene viewer in a web browser, other approaches to
+organizing the feature data and other encodings are often better suited for the
 task.
 
 [[req-additional-resource-types]]
 Requirement "query-additional-resource-types"::
   The capability to make feature data, including complex data, available in
-  bundles that are optimised for specific applications, for example, for
-  streaming and visualisation in a web browser.
+  bundles that are optimized for specific applications, for example, for
+  streaming and visualization in a web browser.
 
 The key example in the context of our use cases is the partitioning of space
-(2D or 3D). Typically, partitions are organised in some hierarchical order
+(2D or 3D). Typically, partitions are organized in some hierarchical order
 to support display of the features in each partition at
 different levels of detail (or "zoom level" in a 2D map view).
 
-API extensions that support this requirement are likely not "WFS 3.0
+API extensions that support this requirement are likely not to be "WFS 3.0
 extensions" as they are not about features as the main resources.
 
 They would be API building blocks for other resource types, outside of the
