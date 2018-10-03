@@ -3,5 +3,7 @@
 
 The following normative documents are referenced in this document.
 
-* [[wfs30]] OGC: https://cdn.rawgit.com/opengeospatial/WFS_FES/3.0.0-draft.1/docs/17-069.html[OGC Web Feature Service 3.0: Part 1 - Core, Version 3.0.0-draft.1 (OGC 17-069)]
-* [[OpenAPI]] Open API Initiative: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md[OpenAPI Specification 3.0.1]
+*	[[wfs30]] link:https://cdn.rawgit.com/opengeospatial/WFS_FES/3.0.0-draft.1/docs/17-069.html[OGC 17-069, OGC Web Feature Service 3.0: Part 1 - Core, Version 3.0.0-draft.1]
+*	link:https://portal.opengeospatial.org/files/?artifact_id=47842[OGC 12-019, OGC City Geography Markup Language (CityGML) Encoding Standard]
+*	link:https://docs.opengeospatial.org/is/15-001r4/15-001r4.html"[OGC 15-001r4, OGC 3D Portrayal Service 1.0]
+*	[[OpenAPI]] link:https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md[OpenAPI Specification 3.0.1]

@@ -8,10 +8,10 @@ related information. It is using the
 link:http://www.adv-online.de/AAA-Modell/[AFIS-ALKIS-ATKIS application schema]
 of the
 link:http://www.adv-online.de/[Surveying Authorities in Germany].
-The GML application schema is the
-link:http://repository.gdi-de.org/schemas/adv/nas/6.0/aaa.xsd[NAS].
+The GML application schema is the so-called
+link:http://repository.gdi-de.org/schemas/adv/nas/6.0/aaa.xsd["Standards-based Data Exchange Interface" (NAS)].
 
-The application schema is optimised for maintaining the data by the Surveying
+The application schema is optimized for maintaining the data by the Surveying
 Authorities and reflects the legal requirements. As a result, the application
 schema contains many relationships between feature types as well as
 structured data types. The application schema includes information related
@@ -19,7 +19,7 @@ to portrayal of the data at map scales that are traditionally used for base
 maps, too. For example, information is included about text placement in
 specific maps.
 
-Since the cadastral law permits arcs in a boundary of a cadastral parcel,
+Since cadastral law permits arcs in a boundary of a cadastral parcel,
 Simple Feature geometries are not sufficient for storing the authoritative
 feature data.
 
@@ -161,7 +161,7 @@ The following aspects are covered by this use case:
 
 The dataset is the same as in the <<uc-select-association,previous use case>>.
 
-The example query use the following feature types. This is simplified, the actual
+The example query uses the following feature types. This is simplified, the actual
 schema and data is much more complex and reflects the legal requirements of the
 German land register.
 
@@ -263,7 +263,7 @@ Often, the history of a dataset is important. The example that we are using
 here is a cadastral parcel dataset, where it can be important to know the
 state of the parcels at a point in the past.
 
-There are two options how this is typically handled in application schemas.
+There are two options for how this is typically handled in application schemas.
 
 One approach is that the features are in fact feature versions. That is,
 different versions of the same feature / real-world entity are each represented
@@ -280,7 +280,7 @@ by mapping or cadastral agencies.
 The other approach is to model the feature properties as timestamped sequences
 of values. GML supports this approach with the Dynamic Features pattern. The downside
 of this approach is that clients and servers must support this specific pattern,
-which typically requires customised software. A domain that is using this approach
+which typically requires customized software. A domain that is using this approach
 is the aviation domain.
 
 The following aspects are covered by this use case:
@@ -300,17 +300,17 @@ to the `gml:id` attribute, otherwise the identifier of the real-world entity
 will be used.
 
 Each version has information about the lifespan of the version at hand.
-I.e., each version has a timestamp when this version
+i.e., each version has a timestamp when this version
 has been added to the dataset. If the version is still valid, there is no
 timestamp for the end of the version validity. If the version (or the real-world entity)
 is no longer valid in the dataset, a timestamp for the end is added.
 
-Each timestamp is given in UTC, the granularity is seconds.
+Each timestamp is given in Coordinated Universal Time (UTC), the granularity is seconds.
 
 If a new version is added due to a change in a property, the new version will have
 a start timestamp that is one second after the end timestamp of the previous version.
 
-The example query use the following feature type. The actual schema and data is
+The example query uses the following feature type. The actual schema and data is
 more complex and has been simplified to the relevant aspects for this use case.
 
 CadastralParcel (AX_Flurstueck)::
@@ -380,7 +380,7 @@ Note that the dataset accessible via the WFS only includes valid versions, becau
 WFS 2.0 does not include a simple mechanism to handle versions in queries and
 most users, especially those using a map-based GIS client, would be surprised to receive
 multiple features from the WFS representing the same real-world entity. All of those
-version would be drawn on a map at the same time.
+versions would be drawn on a map at the same time.
 
 There is an opportunity with WFS 3.0 to support datasets with versions natively.
 
@@ -400,7 +400,7 @@ in a server, for example, a WMS 1.3.
 
 For server-side rendering, the data will typically be rendered closer to the
 database and not via a WFS 2.0 interface - for performance reasons. For client-side
-rendering, the data will typically not use GML, but a format that is optimised for
+rendering, the data will typically not use GML, but a format that is optimized for
 the rendering purpose. Nevertheless, the use case is still relevant in the context
 of complex feature handling, for at least two reasons:
 
@@ -422,8 +422,8 @@ of predicate groups and combinations of logical operators
 
 The dataset is the same as in the <<uc-select-association,first use case>>.
 
-The example query uses the following feature types. The actual schema and data is
-more complex and has been simplified to the relevant aspects for this use case.
+The example query uses the following feature types. The actual schema and data are
+more complex and have been simplified to the relevant aspects for this use case.
 
 CadastralParcel (AX_Flurstueck)::
   A cadastral parcel.
@@ -457,10 +457,10 @@ Text "textOnMap *" -- "displays 1" CadastralParcel
 
 ===== Query
 
-Rich, standardised symbology rule sets exist for the cadastral datasets consisting of a
+Rich, standardized symbology rule sets exist for the cadastral datasets consisting of a
 large number of selection rules and feature styles.
 
-We will use rules RUL06410 and RUL06420 from this link:http://sg.geodatenzentrum.de/web_public/adv/sk/alkis/docAlkisFB/html/SYCALFB1xLAY00001xRST00001ById.html[portrayal catalogue]
+We will use rules RUL06410 and RUL06420 from the link:http://sg.geodatenzentrum.de/web_public/adv/sk/alkis/docAlkisFB/html/SYCALFB1xLAY00001xRST00001ById.html[ALKIS portrayal catalogue]
 as an example. The rules select all cadastral parcels that meet the following
 criteria (for display of the parcel number on the map):
 
@@ -469,7 +469,7 @@ an optional denominator ("Nenner"). The example rules only apply to parcels
 with a denominator. The value reference is `numerator`
 (`adv:flurstuecksnummer/adv:AX_Flurstuecksnummer/adv:nenner`).
 * In addition, all of the following conditions must be met:
-** Another organisation than the land register may be legally responsible for some
+** Another organization other than the land register may be legally responsible for some
 parcels. This is indicated in a boolean attribute for an alternative legal
 status ("abweichenderRechtszustand"). The example rules only apply to parcels
 for which the attribute is either missing or `false`. The value reference is
@@ -564,8 +564,8 @@ link:https://www.w3.org/TR/sdw-bp/#bp-linking-2[W3C/OGC Spatial Data on the Web 
 
 The AFIS-ALKIS-ATKIS application schema distinguishes between buildings and
 building parts, where a building part is a part of a building with different
-characteristics, for example, a different number of floors. The 2D footprint
-geometry of a building part is within the footprint geometry of the building.
+characteristics, for example, a different number of floors. The two-dimensional (2D)
+footprint geometry of a building part is within the footprint geometry of the building.
 
 NOTE: The CityGML Building and BuildingPart features were originally modelled
 after the cadastral model in Germany.

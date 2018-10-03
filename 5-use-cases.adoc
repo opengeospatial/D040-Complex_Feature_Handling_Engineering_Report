@@ -8,12 +8,13 @@ servers should support in the future, besides the essential capabilities
 specified in Part 1 of the WFS 3.0 series.
 
 All query examples are used in practice, either as queries submitted by a client, in
-stored queries of a WFS or in SLD/SE documents defining layers based on feature data.
+stored queries of a WFS or in Styled Layer Descriptor (SLD)/Symbology Encoding (SE)
+documents defining layers based on feature data.
 
-The use cases will cover aspects like CityGML, CityGML ADEs, 3DPS, and WFS 2.0
-interactions, but use other complex data schemas, too.
+The use cases cover aspects like CityGML, CityGML Application Domain Extensions (ADEs),
+3DPS, and WFS 2.0 interactions, but use other complex data schemas, too.
 
-For each use case example, the aspects are identified why the example has been
+We identify for each use case example why the example has been
 included in this report. There is at least one example for each of the following
 aspects:
 
