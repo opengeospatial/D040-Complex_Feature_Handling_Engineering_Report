@@ -8,8 +8,8 @@ modularizes WFS into building blocks for fine-grained access to spatial data
 that can be used in Application Programming Interfaces (APIs) for data.
 
 This document reviews the work on this next generation of OGC web services
-("NextGen services") from the perspective of supporting complex three-dimensional
-(3D) data or complex data schemas. The goal is to identify the best service solution
+("NextGen services" or "Next Generation APIs") from the perspective of supporting complex
+three-dimensional (3D) data or complex data schemas. The goal is to identify the best service solution
 for these particular needs, whether the results are WFS 3.0 extensions or other
 approaches. In this context the approach of the NextGen services is not of
 monolithic web services, but API building blocks. This is an important point.

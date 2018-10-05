@@ -14,5 +14,5 @@
 |September 4, 2018 |C. Portele |0.6 |6-7 |initial versions of chapters 6 and 7
 |October 1, 2018 |C. Portele |0.7 |1,6-8 |additional content plus updates based on discussions between Clemens and Volker
 |October 3, 2018 |C. Portele |0.8 |all |update after review by Gobe Hobana
-|October xx, 2018 |C. Portele | | |additional updates
+|October 5, 2018 |C. Portele |0.9 |title, 1, 8 |change title to include "Next Generation APIs", editorial updates
 |====================
