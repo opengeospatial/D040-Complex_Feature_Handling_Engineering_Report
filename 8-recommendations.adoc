@@ -112,6 +112,9 @@ should not be promoted as OGC standards as the details may be implementation
 dependent and too few implementations would support the same advanced
 capabilities.
 
+The <<_general_considerations,general considerations on the API design>>
+discussed in chapter 7 should be taken into account when developing the guidance.
+
 Examples could be:
 
 * the use of XQuery on a document store that supports XML or a XML database;
