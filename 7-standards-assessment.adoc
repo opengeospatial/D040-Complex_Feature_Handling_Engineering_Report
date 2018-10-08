@@ -104,8 +104,8 @@ In cases where only a query language is specified (e.g. WFS 2.0 ad-hoc queries
 with Filter Encoding 2.0, CQL, XQuery, etc.), but no rules exist how to execute
 queries via HTTP, there are three general options for the API design:
 
-* Use of HTTP GET requests where the query is included in a query parameter.
-* Use of HTTP POST requests where the query is included in a query parameter
+* Use of HTTP GET requests where the query is included in one or more query parameters.
+* Use of HTTP POST requests where the query is included in one or more query parameters
 in the payload with a media type of `application/x-www-form-urlencoded`.
 * Use of HTTP POST requests with the query in the payload to create a new
 query resource on the server. The request would return the URI of the new
@@ -435,13 +435,257 @@ spatial queries in GraphQL.
 GraphQL is not tied to JSON, but JSON seems to be by far the most commonly used
 encoding.
 
-NOTE: TODO +
-Add an example based on one of the use cases and analyze.
-
 **Conclusion: GraphQL is a promizing candidate because of its popularity and
 its characteristics, in particular for usages that are close to end user
 applications. Spatial support may be an issue and needs to be explored in more
 detail, including the use of GeoJSON or CityJSON.**
+
+[[graphql-example]]
+===== An example query
+
+We will use the data from <<uc-select-associations,one of our use cases>>
+to explore how feature queries could be supported using GraphQL.
+
+The first step is to define the schema of the relevant data. In general,
+we could take two different approaches:
+
+* define the schema so that the data returned by the queries contains valid GeoJSON
+consistent with the feature data provided by the WFS; or
+* define the schema so that it is tailored towards the query needs.
+
+The first approach is closer to WFS and simplifies the reuse of the query
+results in contexts where GeoJSON objects can be processed directly. The second approach
+is closer to pre-defined stored queries, with new data structures derived from
+the feature data.
+
+In this testbed we will explore only to the first approach (since in the second
+approach is is difficult to see what could be specified in a WFS-related standard).
+
+Here is how a GraphQL schema could look like for the features in the use
+case:
+
+.GraphQL schema for Person, Record and CadastralParcel features
+----
+interface GeoJSONObject {
+  id: ID!
+  type: GeoJSONType!
+}
+
+enum GeoJSONType {
+  Point
+  MultiPoint
+  LineString
+  MultiLineString
+  Polygon
+  MultiPolygon
+  GeometryCollection
+  Feature
+  FeatureCollection
+}
+
+type Person implements GeoJSONObject {
+  id: ID!
+  type: GeoJSONType!
+  properties: PersonProperties
+}
+
+type PersonProperties {
+  firstName: String
+  lastName: String
+  partOf: [Record]
+}
+
+type Record implements GeoJSONObject {
+  id: ID!
+  type: GeoJSONType!
+  properties: RecordProperties
+}
+
+type RecordProperties {
+  right: RightType
+  relatedTo: [CadastralParcel]!
+}
+
+enum RightType {
+  SomeRight
+  AnotherRight
+  YetAnotherRight
+}
+
+type CadastralParcel implements GeoJSONObject {
+  id: ID!
+  type: GeoJSONType!
+  geometry: GeoJSONMultiSurface
+  properties: CadastralParcelProperties
+}
+
+type GeoJSONMultiSurface {
+  type: GeoJSONType!
+  coordinates: [[[[Float]]]]
+}
+
+type CadastralParcelProperties {
+  parcelNumber: String
+  area(unit: AreaUnit = m2): Float
+  records: [Record]
+}
+
+enum AreaUnit {
+  m2
+  ft2
+}
+----
+
+Let's assume we have the following data instances:
+
+.Sample data
+----
+const persons = [
+  { type: "Feature", id: "1", properties: { firstName: "John", lastName: "Doe", partOf: [ "1" ] } },
+  { type: "Feature", id: "2", properties: { firstName: "Erika", lastName: "Mustermann", partOf: [ "2", "3", "4" ] } },
+];
+
+const records = [
+  { type: "Feature", id: "1", properties: { right: "SomeRight", relatedTo: [ "DENW19AL0000geMFFL" ] } },
+  { type: "Feature", id: "2", properties: { right: "SomeRight", relatedTo: [ "DENW19AL0000genyFL" ] } },
+  { type: "Feature", id: "3", properties: { right: "AnotherRight", relatedTo: [ "DENW19AL0000geqyFL" ] } },
+  { type: "Feature", id: "4", properties: { right: "YetAnotherRight", relatedTo: [ "DENW19AL0000geqyFL", "DENW19AL0000ger1FL" ] } }
+];
+
+const parcels = [
+  { type: "Feature", id: "DENW19AL0000geMFFL", properties: { number: "193", area: 1739.0 }, geometry: { "type" : "MultiPolygon", "coordinates" : [ [ [ [ 8.711910494386446, 51.49108376876667 ], [ 8.71229996279325, 51.491067136843 ], [ 8.71238480759279, 51.49164525475229 ], [ 8.712013831642468, 51.491666041604 ], [ 8.711993473544684, 51.4916028694182 ], [ 8.711960339932295, 51.49139558179017 ], [ 8.711953300233393, 51.49135154980474 ], [ 8.711910494386446, 51.49108376876667 ] ] ] ]} },
+  { type: "Feature", id: "DENW19AL0000genyFL", properties: { number: "174", area: 4533.0 }, geometry: { "type" : "MultiPolygon", "coordinates" : [ [ [ [ 8.697513007025446, 51.50144133282769 ], [ 8.697820179888327, 51.50128890506469 ], [ 8.699285444473853, 51.50252385737269 ], [ 8.698973376983412, 51.50259426261686 ], [ 8.698937901399875, 51.5026408567456 ], [ 8.698295428101916, 51.50210001561205 ], [ 8.697513007025446, 51.50144133282769 ] ] ] ] } },
+  { type: "Feature", id: "DENW19AL0000geqyFL", properties: { number: "74", area: 10175.0 }, geometry: { "type" : "MultiPolygon", "coordinates" : [ [ [ [ 8.686673298571343, 51.50079992000421 ], [ 8.68679160662328, 51.50074125004235 ], [ 8.687436267676059, 51.50042151431735 ], [ 8.688147581070762, 51.500903657307006 ], [ 8.688887649073012, 51.50140520447189 ], [ 8.688883177902552, 51.50143555777073 ], [ 8.688149161509205, 51.50179930330681 ], [ 8.68738593229976, 51.50128249372289 ], [ 8.686673298571343, 51.50079992000421 ] ] ] ] } },
+  { type: "Feature", id: "DENW19AL0000ger1FL", properties: { number: "103", area: 6894.0 }, geometry: { "type" : "MultiPolygon", "coordinates" : [ [ [ [ 8.688736032883249, 51.5036400173296 ], [ 8.689168817396284, 51.50342556070846 ], [ 8.689822053323931, 51.50386836226231 ], [ 8.690374046734465, 51.504242519669305 ], [ 8.690927010128721, 51.50461732440779 ], [ 8.690749468566104, 51.50470536227641 ], [ 8.690494250855838, 51.50483185947567 ], [ 8.689649601209783, 51.50425930806056 ], [ 8.688736032883249, 51.5036400173296 ] ] ] ] } }
+];
+----
+
+The following GraphQL query would return selected information about the parcels
+on which the person with id "2" has rights.
+
+.Sample GraphQL query
+----
+query ParcelsForPerson {
+  person(id: "2") {
+    properties {
+      firstName
+      lastName
+      partOf {
+        properties {
+          right
+          relatedTo {
+            id
+            properties {
+              area
+              number
+            }
+          }
+        }
+      }
+    }
+  }
+}
+----
+
+The query requests the following information in the result:
+
+* the first and last name of the person;
+* the right for each cadastral record that is associated with the person;
+* the parcels for each of the cadastral records (the identifier, the parcel number and the parcel area).
+
+All other properties, including the geometries are suppressed in the query
+result.
+
+.Query result
+----
+{
+  "data": {
+    "person": {
+      "properties": {
+        "firstName": "Erika",
+        "lastName": "Mustermann",
+        "partOf": [
+          {
+            "properties": {
+              "right": "SomeRight",
+              "relatedTo": [
+                {
+                  "id": "DENW19AL0000genyFL",
+                  "properties": {
+                    "area": 4533,
+                    "number": "174"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "properties": {
+              "right": "AnotherRight",
+              "relatedTo": [
+                {
+                  "id": "DENW19AL0000geqyFL",
+                  "properties": {
+                    "area": 10175,
+                    "number": "74"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "properties": {
+              "right": "YetAnotherRight",
+              "relatedTo": [
+                {
+                  "id": "DENW19AL0000geqyFL",
+                  "properties": {
+                    "area": 10175,
+                    "number": "74"
+                  }
+                },
+                {
+                  "id": "DENW19AL0000ger1FL",
+                  "properties": {
+                    "area": 6894,
+                    "number": "103"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}
+----
+
+The example has been set up in an Apollo GraphQL
+Launchpad and you can play with different queries: https://launchpad.graphql.com/07v1j3zzm5.
+
+From the example, we can derive some topics for discussion and further
+experimentation:
+
+* The use of the `properties` object in GeoJSON results in quite complex
+schemas and results. It would be more natural in the queries, if the
+properties would be members of the feature object instead of being nested
+in a sub-object.
+* To be a valid GeoJSON feature, the JSON object must have a `geometry` member,
+which may be `null`. It is not possible to simply drop the member
+from the result. As a consequence, the feature objects in the result above
+are not valid GeoJSON features.
+* GeoJSON-aware software probably does not expect nested GeoJSON features
+anyhow.
+
+It is, therefore, questionable, if there is value in using GeoJSON in the
+GraphQL schema. It seems quite likely that a tailored GraphQL schema for the
+specific query needs would be better suited. This requires more experiments
+and further work.
+
+With CityJSON as an encoding this should be even more of an issue due to
+the distributed way in which geometry and properties are encoded across the
+JSON document.
 
 ==== Queries in the SpatioTemporal Asset Catalog (STAC)
 

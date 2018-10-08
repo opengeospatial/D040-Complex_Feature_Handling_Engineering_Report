@@ -94,6 +94,18 @@ GraphQL schemas?
 * How can GraphQL queries be extended to support spatial searches - without
 the need to discard the tooling?
 
+In Testbed-14 an <<graphql-example,initial, simple experiment>> has been
+included that looked into the first of the two questions. The results
+seem to indicate that GraphQL schemas for querying feature data probably
+should not use GeoJSON/CityJSON, but tailored schemas for the specific
+query needs. If this conclusion is confirmed by additional, more substantial
+experiments, then supporting a GraphQL query endpoint for feature data
+should not be subject to standarization as a WFS extension.
+Instead guides or tutorials would be more appropriate and useful.
+
+What still could be subject to standarization is the second question. That is,
+how to consistently support spatial searches in GraphQL queries.
+
 [[rec-4]]
 === Recommendation 4: Consider the use of CityJSON for 3D city models
 
