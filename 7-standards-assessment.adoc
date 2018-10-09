@@ -352,7 +352,7 @@ properties=function,measuredHeight,heat
 where=geometry.lod2 INTERSECTS POLYGON(...)
 ----
 
-NOTE: This assumes that the attribute `geometry.lod2` would map for a CityJSON encoding to the feature geometry with `lod: 2
+NOTE: This assumes that the attribute `geometry.lod2` would map for a CityJSON encoding to the feature geometry with `lod: 2`
 
 .Query 2
 ----
@@ -459,7 +459,7 @@ is closer to pre-defined stored queries, with new data structures derived from
 the feature data.
 
 In this testbed we will explore only to the first approach (since in the second
-approach is is difficult to see what could be specified in a WFS-related standard).
+approach it is difficult to see what could be specified in a WFS-related standard).
 
 Here is how a GraphQL schema could look like for the features in the use
 case:
@@ -534,30 +534,37 @@ enum AreaUnit {
   m2
   ft2
 }
+
+# the schema allows the following queries:
+type Query {
+  parcels: [CadastralParcel]
+  person(id: String!): Person
+}
 ----
 
 Let's assume we have the following data instances:
 
 .Sample data
+[source,JSON]
 ----
-const persons = [
-  { type: "Feature", id: "1", properties: { firstName: "John", lastName: "Doe", partOf: [ "1" ] } },
-  { type: "Feature", id: "2", properties: { firstName: "Erika", lastName: "Mustermann", partOf: [ "2", "3", "4" ] } },
-];
-
-const records = [
-  { type: "Feature", id: "1", properties: { right: "SomeRight", relatedTo: [ "DENW19AL0000geMFFL" ] } },
-  { type: "Feature", id: "2", properties: { right: "SomeRight", relatedTo: [ "DENW19AL0000genyFL" ] } },
-  { type: "Feature", id: "3", properties: { right: "AnotherRight", relatedTo: [ "DENW19AL0000geqyFL" ] } },
-  { type: "Feature", id: "4", properties: { right: "YetAnotherRight", relatedTo: [ "DENW19AL0000geqyFL", "DENW19AL0000ger1FL" ] } }
-];
-
-const parcels = [
-  { type: "Feature", id: "DENW19AL0000geMFFL", properties: { number: "193", area: 1739.0 }, geometry: { "type" : "MultiPolygon", "coordinates" : [ [ [ [ 8.711910494386446, 51.49108376876667 ], [ 8.71229996279325, 51.491067136843 ], [ 8.71238480759279, 51.49164525475229 ], [ 8.712013831642468, 51.491666041604 ], [ 8.711993473544684, 51.4916028694182 ], [ 8.711960339932295, 51.49139558179017 ], [ 8.711953300233393, 51.49135154980474 ], [ 8.711910494386446, 51.49108376876667 ] ] ] ]} },
-  { type: "Feature", id: "DENW19AL0000genyFL", properties: { number: "174", area: 4533.0 }, geometry: { "type" : "MultiPolygon", "coordinates" : [ [ [ [ 8.697513007025446, 51.50144133282769 ], [ 8.697820179888327, 51.50128890506469 ], [ 8.699285444473853, 51.50252385737269 ], [ 8.698973376983412, 51.50259426261686 ], [ 8.698937901399875, 51.5026408567456 ], [ 8.698295428101916, 51.50210001561205 ], [ 8.697513007025446, 51.50144133282769 ] ] ] ] } },
-  { type: "Feature", id: "DENW19AL0000geqyFL", properties: { number: "74", area: 10175.0 }, geometry: { "type" : "MultiPolygon", "coordinates" : [ [ [ [ 8.686673298571343, 51.50079992000421 ], [ 8.68679160662328, 51.50074125004235 ], [ 8.687436267676059, 51.50042151431735 ], [ 8.688147581070762, 51.500903657307006 ], [ 8.688887649073012, 51.50140520447189 ], [ 8.688883177902552, 51.50143555777073 ], [ 8.688149161509205, 51.50179930330681 ], [ 8.68738593229976, 51.50128249372289 ], [ 8.686673298571343, 51.50079992000421 ] ] ] ] } },
-  { type: "Feature", id: "DENW19AL0000ger1FL", properties: { number: "103", area: 6894.0 }, geometry: { "type" : "MultiPolygon", "coordinates" : [ [ [ [ 8.688736032883249, 51.5036400173296 ], [ 8.689168817396284, 51.50342556070846 ], [ 8.689822053323931, 51.50386836226231 ], [ 8.690374046734465, 51.504242519669305 ], [ 8.690927010128721, 51.50461732440779 ], [ 8.690749468566104, 51.50470536227641 ], [ 8.690494250855838, 51.50483185947567 ], [ 8.689649601209783, 51.50425930806056 ], [ 8.688736032883249, 51.5036400173296 ] ] ] ] } }
-];
+{
+  "persons": [
+    { "type": "Feature", "id": "1", "properties": { "firstName": "John", "lastName": "Doe", "partOf": [ "1" ] } },
+    { "type": "Feature", "id": "2", "properties": { "firstName": "Erika", "lastName": "Mustermann", "partOf": [ "2", "3", "4" ] } },
+  ],
+  "records": [
+    { "type": "Feature", "id": "1", "properties": { "right": "SomeRight", "relatedTo": [ "DENW19AL0000geMFFL" ] } },
+    { "type": "Feature", "id": "2", "properties": { "right": "SomeRight", "relatedTo": [ "DENW19AL0000genyFL" ] } },
+    { "type": "Feature", "id": "3", "properties": { "right": "AnotherRight", "relatedTo": [ "DENW19AL0000geqyFL" ] } },
+    { "type": "Feature", "id": "4", "properties": { "right": "YetAnotherRight", "relatedTo": [ "DENW19AL0000geqyFL", "DENW19AL0000ger1FL" ] } }
+  ],
+  "parcels": [
+    { "type": "Feature", "id": "DENW19AL0000geMFFL", "properties": { "parcelNumber": "193", "area": 1739.0 }, "geometry": { "type" : "MultiPolygon", "coordinates" : [ [ [ [ 8.711910494386446, 51.49108376876667 ], [ 8.71229996279325, 51.491067136843 ], [ 8.71238480759279, 51.49164525475229 ], [ 8.712013831642468, 51.491666041604 ], [ 8.711993473544684, 51.4916028694182 ], [ 8.711960339932295, 51.49139558179017 ], [ 8.711953300233393, 51.49135154980474 ], [ 8.711910494386446, 51.49108376876667 ] ] ] ]} },
+    { "type": "Feature", "id": "DENW19AL0000genyFL", "properties": { "parcelNumber": "174", "area": 4533.0 }, "geometry": { "type" : "MultiPolygon", "coordinates" : [ [ [ [ 8.697513007025446, 51.50144133282769 ], [ 8.697820179888327, 51.50128890506469 ], [ 8.699285444473853, 51.50252385737269 ], [ 8.698973376983412, 51.50259426261686 ], [ 8.698937901399875, 51.5026408567456 ], [ 8.698295428101916, 51.50210001561205 ], [ 8.697513007025446, 51.50144133282769 ] ] ] ] } },
+    { "type": "Feature", "id": "DENW19AL0000geqyFL", "properties": { "parcelNumber": "74", "area": 10175.0 }, "geometry": { "type" : "MultiPolygon", "coordinates" : [ [ [ [ 8.686673298571343, 51.50079992000421 ], [ 8.68679160662328, 51.50074125004235 ], [ 8.687436267676059, 51.50042151431735 ], [ 8.688147581070762, 51.500903657307006 ], [ 8.688887649073012, 51.50140520447189 ], [ 8.688883177902552, 51.50143555777073 ], [ 8.688149161509205, 51.50179930330681 ], [ 8.68738593229976, 51.50128249372289 ], [ 8.686673298571343, 51.50079992000421 ] ] ] ] } },
+    { "type": "Feature", "id": "DENW19AL0000ger1FL", "properties": { "parcelNumber": "103", "area": 6894.0 }, "geometry": { "type" : "MultiPolygon", "coordinates" : [ [ [ [ 8.688736032883249, 51.5036400173296 ], [ 8.689168817396284, 51.50342556070846 ], [ 8.689822053323931, 51.50386836226231 ], [ 8.690374046734465, 51.504242519669305 ], [ 8.690927010128721, 51.50461732440779 ], [ 8.690749468566104, 51.50470536227641 ], [ 8.690494250855838, 51.50483185947567 ], [ 8.689649601209783, 51.50425930806056 ], [ 8.688736032883249, 51.5036400173296 ] ] ] ] } }
+  ]
+}
 ----
 
 The following GraphQL query would return selected information about the parcels
@@ -577,7 +584,7 @@ query ParcelsForPerson {
             id
             properties {
               area
-              number
+              parcelNumber
             }
           }
         }
@@ -597,6 +604,7 @@ All other properties, including the geometries are suppressed in the query
 result.
 
 .Query result
+[source,JSON]
 ----
 {
   "data": {
@@ -613,7 +621,7 @@ result.
                   "id": "DENW19AL0000genyFL",
                   "properties": {
                     "area": 4533,
-                    "number": "174"
+                    "parcelNumber": "174"
                   }
                 }
               ]
@@ -627,7 +635,7 @@ result.
                   "id": "DENW19AL0000geqyFL",
                   "properties": {
                     "area": 10175,
-                    "number": "74"
+                    "parcelNumber": "74"
                   }
                 }
               ]
@@ -641,14 +649,14 @@ result.
                   "id": "DENW19AL0000geqyFL",
                   "properties": {
                     "area": 10175,
-                    "number": "74"
+                    "parcelNumber": "74"
                   }
                 },
                 {
                   "id": "DENW19AL0000ger1FL",
                   "properties": {
                     "area": 6894,
-                    "number": "103"
+                    "parcelNumber": "103"
                   }
                 }
               ]
