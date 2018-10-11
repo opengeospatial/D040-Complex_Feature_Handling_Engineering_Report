@@ -200,6 +200,17 @@ In addition, the specification for time period expressions in CQL should be
 amended to cover the cases discussed in the related
 link:https://github.com/opengeospatial/WFS_FES/issues/155[WFS 3.0 issue].
 
+In order to support clients to construct queries, the feature properties
+that may be queried should be enumerated for each feature type. This could
+be included in the feature collection metadata or, which is probably
+preferable, it could be made available in an additional resource listing
+all queryable properties. For example at `/collections/{collectionId}/queryables`.
+The result could be a JSON object with a member for each property of the feature.
+The value of the member could be used to identify the data type. If the
+property value is a related object in the dataset, the queryables resource
+of that collection could be referenced. For nested objects, the compound
+attribute values could be used explicitly.
+
 CQL is currently "buried" in the Catalogue Service specification and the
 specification of the language is largely restricted to the definition of the
 grammar (with a number of inconsistencies and ambiguities in the definition).
@@ -257,10 +268,15 @@ names in CQL queries (see the discussion above).
 Let's assume
 
 * that CQL would be extended as described above,
-* that the query parameters `resolve` and `properties` would be supported as described above, and
-* that a CQL query would be expressed on an `items` resource in a query parameter `where`.
+* that the query parameters `resolve` and `properties` would be supported as described above,
+* that a CQL query would be expressed on an `items` resource in a query parameter `where` and
+* that an additional query parameter `where-lang` is used to support multiple languages for
+`where` predicates (the examples below use `cql` for simpler expressions without
+compound attributes etc. and `cql-extended` for expressions that require extensions
+beyond a CQL Core as described above).
 
-NOTE: Since CQL does not define a full query, but a "where" clause on a feature collection, a separate `/search/cql` (or similar) endpoint is not necessary.
+NOTE: Since CQL does not define a full query, but a "where" clause on a feature
+collection, a separate `/search/cql` (or similar) endpoint is not necessary.
 
 The queries in the <<uc-cadastre, cadastral use cases>> could be expressed as follows, assuming a GeoJSON feature encoding.
 
@@ -269,12 +285,14 @@ The queries in the <<uc-cadastre, cadastral use cases>> could be expressed as fo
 .Query 1
 ----
 /collection/ProtectedSite_Water/items?
+where-lang=cql-extended&
 where=contains.geometry INTERSECTS ENVELOPE(7.0244,7.1296,50.5351,51.4362)
 ----
 
 .Query 2
 ----
 /collection/ProtectedSite_Water/items?
+where-lang=cql-extended&
 where=contains.geometry INTERSECTS ENVELOPE(7.0244,7.1296,50.5351,51.4362)&
 resolve=contains
 ----
@@ -284,8 +302,48 @@ resolve=contains
 .Query
 ----
 /collection/Persons/items?
+where-lang=cql-extended&
 where=partOf.relatedTo.geometry INTERSECTS ENVELOPE(7.0348,7.0452,50.6252,50.7154) OR
       partOf.related.relatedTo.geometry INTERSECTS ENVELOPE(7.0348,7.0452,50.6252,50.7154)
+----
+
+The queryables at `/collection/{collectionId}/queryables` could be the following JSON
+objects:
+
+.Queryable properties of the features in the collection "Persons"
+[source,JSON]
+----
+{
+  "firstName": "String",
+  "lastName": "String",
+  "partOf": "http://example.com/cadastre/collection/Records/queryables",
+  "lifespan.begin": "DateTime",
+  "lifespan.end": "DateTime"
+}
+----
+
+.Queryable properties of the features in the collection "Records"
+[source,JSON]
+----
+{
+  "recordId": "String",
+  "right": "String",
+  "related": "http://example.com/cadastre/collection/Records/queryables",
+  "relatedTo": "http://example.com/cadastre/collection/CadastralParcels/queryables",
+  "lifespan.begin": "DateTime",
+  "lifespan.end": "DateTime"
+}
+----
+
+.Queryable properties of the features in the collection "CadastralParcels"
+[source,JSON]
+----
+{
+  "parcelId": "String",
+  "geometry": "Geometry",
+  "lifespan.begin": "DateTime",
+  "lifespan.end": "DateTime"
+}
 ----
 
 <<uc-versions,Select versions of cadastral parcels based on their temporal validity>>:
@@ -293,6 +351,7 @@ where=partOf.relatedTo.geometry INTERSECTS ENVELOPE(7.0348,7.0452,50.6252,50.715
 .Query
 ----
 /collection/CadastralParcels/items?
+where-lang=cql-extended&
 where=lifespan.begin DURING 2017-07-01T00:00:00Z/2017-07-01T23:59:59Z
 ----
 
@@ -303,6 +362,7 @@ NOTE: The request could simply use `time=2017-07-01T00:00:00Z/2017-07-01T23:59:5
 .Query
 ----
 /collection/CadastralParcels/items?
+where-lang=cql-extended&
 where=denominator IS NOT NULL AND
       (altLegalStatus IS NULL OR altLegalStatus=false) AND
       textOnMap.type = 'ZAE_NEN'
@@ -349,6 +409,7 @@ properties=function,measuredHeight,heat
 .Query 1
 ----
 /my-city-model/collections/buildings/items?
+where-lang=cql-extended&
 where=geometry.lod2 INTERSECTS POLYGON(...)
 ----
 
@@ -356,7 +417,9 @@ NOTE: This assumes that the attribute `geometry.lod2` would map for a CityJSON e
 
 .Query 2
 ----
-/my-city-model/collections/buildings/items?where=address.ThoroughfareName LIKE 'Unter den Linden%'
+/my-city-model/collections/buildings/items?
+where-lang=cql-extended&
+where=address.ThoroughfareName LIKE 'Unter den Linden%'
 ----
 
 NOTE: This assumes that the attribute `address.ThoroughfareName` would map for a CityJSON encoding to the `ThoroughfareName` member in the `address` JSON object).
