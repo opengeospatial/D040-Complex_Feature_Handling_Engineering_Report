@@ -105,8 +105,8 @@ See <<recommendations,the chapter "Recommendations">>. The OGC Innovation Progra
 would be ideal to continue work on the recommendations 1 to 4 based on
 <<rec-6,recommendation 6 (validate and refine recommendations through implementation)>>:
 
-* <<rec-1,Recommendation 1a: Specify WFS 3.0 extensions for improved fetching of feature data>>
-* <<rec-1,Recommendation 1b: Make CQL an OGC standard on its own>>
+* <<rec-1a,Recommendation 1a: Specify WFS 3.0 extensions for improved fetching of feature data>>
+* <<rec-1b,Recommendation 1b: Make CQL an OGC standard on its own>>
 * <<rec-2,Recommendation 2: Migrate additional OGC web service standards to the NextGen architecture>>
 * <<rec-3,Recommendation 3: Investigate if/how GraphQL could be used to query a dataset>>
 * <<rec-4,Recommendation 4: Consider the use of CityJSON for 3D city models>>
@@ -115,7 +115,81 @@ would be ideal to continue work on the recommendations 1 to 4 based on
 could also be a candidate for the development of a Guide as part of a Testbed.
 
 <<rec-7,Recommendation 7 (register media types for encodings to be used in NextGen services)>>
-is future work for the bodies that govern the i3s, 3D Tiles and CityJSON specifications.
+is future work for the organisations that govern the i3s, 3D Tiles and CityJSON specifications.
+
+The remainder of this section structures these recommendations in terms of potential
+future tasks, components, and engineering reports of future OGC Innovation Program
+initiatives.
+
+The topic of GraphQL for feature data could be a candidate for a
+dedicated code sprint / hackathon.
+
+==== Recommended Future Tasks
+
+===== Next Generation APIs
+
+link:https://github.com/opengeospatial/WFS_FES[OGC Web Feature Service (WFS) 3.0]
+is a revision of the
+link:http://www.opengeospatial.org/standards/wfs[WFS standard] that proposes a
+modernized service architecture, that follows the current Web architecture, has
+a focus on the developer experience, supports the link:https://www.openapis.org/[OpenAPI specification],
+and modularizes WFS into building blocks for fine-grained access to spatial data
+that can be used in Application Programming Interfaces (APIs) for data.
+
+OGC Testbed-14, the OGC Vector Tiles Pilot, the ongoing discussions in the OGC
+Architecture Board, the OGC Architecture DWG and the OWS Common SWG as well as
+various other activities outside of the OGC have advanced the architecture
+for the Next Generation of OGC standards for Web APIs significantly. The work
+in future OGC Innovation Program initiatives can build on these results to
+mature preliminary results and prepare them for standardization and to
+explore additional capabilties, resource types and encodings.
+
+In particular, the following sub-tasks are recommended:
+
+* Specify WFS 3.0 extensions for improved fetching of feature data
+* Migrate additional resource types used in current OGC web service standards to the Next Generation architecture
+* Investigate if/how GraphQL could be used to query a feature dataset
+* Consider the use of CityJSON as an additional WFS 3.0 encoding for 3D city models
+* Develop guidance for implementing advanced search capabilities in WFS 3.0 APIs
+
+In addition, if work on portrayal is planned, it should also be investigated
+how styling should be supported in the Next Generation architecture.
+
+==== Recommended Future Deliverables
+
+===== Recommended Future Components
+
+The following components are suggested to be deployed to test and demonstrate
+"complex feature handling" capabilities in APIs using the Next Generation
+architecture . Validation and refinement through implementation is fundamental
+for standards related to Next Generation API building blocks. All requirements
+should be validated in multiple implementations before considering them for
+standardisation.
+
+* Next Generation API server(s) with support for CQL Core predicates
+* Next Generation API server(s) with support for STAC JSON queries
+* Next Generation API server(s) with support for CQL Extensions predicates
+* Next Generation API server(s) with support for GraphQL
+* Next Generation API server(s) with support for 2D maps
+* Next Generation API server(s) with support for 3D scenes and views
+* Next Generation API client(s)
+
+As usual, the client(s) should support all tested capabilities.
+
+===== Recommended Future Engineering Reports (ER)
+
+These Engineering Reports would document the results of the component development
+and be written so that the result can be used in the OGC Standards Program as
+initial drafts for new standards. Exceptions are the Guide, which is about
+guidance, not conformance and potentially the GraphQL ER, which is more
+about experiments and documenting the results.
+
+* CQL Core standard (Draft) ER (see <<rec-1b,recommendation 1b>>)
+* CQL Extensions standard (Draft) ER (see item 2 in <<rec-1a,recommendation 1a>> and <<rec-1b,recommendation 1b>>)
+* Next Generation APIs: WFS 3.0 Extensions ER (see items 1, 3 and 4 in <<rec-1a,recommendation 1a>> and <<rec-4,recommendation 4>>)
+* Next Generation APIs: Additional Resource Types ER (see <<rec-2,recommendation 2>>)
+* Next Generation APIs: GraphQL ER (see <<rec-3,recommendation 3>>)
+* Next Generation APIs: Rich Queries Guide (see <<rec-5,recommendation 5>>)
 
 ===	Document contributor contact points
 
