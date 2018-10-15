@@ -44,6 +44,14 @@ and GML encodings specified in the WFS 3.0 Core. Again, if the CQL queries
 support nested structures and relationships (see item 2 above), the `properties`
 parameter should support the extended property notation, too.
 
+In addition, the Core should be amended to support
+<<_querying_different_versions,the capability to select, by default, only features that are valid "now">>.
+This is useful for datasets where the features are versions of a real-world entity, valid for a given time period.
+"By default" means, without an explicit `time` parameter. The default behaviour
+could be stated in the feature collection metadata, the default would be the
+current WFS 3.0 behaviour (all features that meet the explicit selection
+criteria).
+
 [[rec-1b]]
 === Recommendation 1b: Make CQL an OGC standard on its own
 
