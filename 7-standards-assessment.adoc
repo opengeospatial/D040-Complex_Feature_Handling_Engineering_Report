@@ -865,7 +865,7 @@ In the 3DPS case, the nodes in the scene graph are secondary resources, linked f
 the scene graph. That is, the client accesses a scene graph and then access the nodes
 linked from the graph.
 
-A possible implementation for fetching scenes of a dataset in the OGC NextGen
+A possible implementation for fetching scenes of a dataset in a NextGen
 architecture could be
 
 * `/collections/{collectionId}/scene`: A scene with features of a single collection.
@@ -943,7 +943,7 @@ general media types is ambiguous.
 In addition to scenes, the 3DPS 1.0 standard cite:[_3DPS] specifies additional
 requests that would need to be mapped, too. A detailed analysis is out-of-scope
 for this report, but from looking at the feature info requests we can see the
-benefits of the OGC NextGen architecture that allows to support the different
+benefits of the NextGen architecture that allows to support the different
 resources derived from a dataset in a single API. Where 3DPS 1.0 has to define
 its own requests to access feature data, in the NextGen architecture these resources
 are often already provided by the API building blocks specified by WFS 3.0.
