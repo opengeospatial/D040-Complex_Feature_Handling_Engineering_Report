@@ -416,7 +416,7 @@ API extensions that support this requirement are likely not to be "WFS 3.0
 extensions" as they are not about features as the main resources.
 
 They would be API building blocks for other resource types, outside of the
-WFS 3.0 series, but based on a common API approach and OGC NextGen service
+WFS 3.0 series, but based on a common API approach and a NextGen service
 architecture.
 
 [[req-additional-encodings]]

@@ -156,7 +156,7 @@ validated in multiple implementations before considering them for
 standardisation.
 
 [[rec-7]]
-=== Recommendation 7: Register media types for encodings to be used in NextGen services
+=== Recommendation 7: Register media types for encodings to be used in Web APIs
 
 The selection of the data format used in a response must support HTTP content
 negotiation. This requires that format can be identified using media types

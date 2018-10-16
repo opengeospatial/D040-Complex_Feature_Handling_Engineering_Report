@@ -6,7 +6,7 @@
 This section assesses current OGC and other specifications with respect
 to the identified requirements and analyses options for addressing the
 requirements in an architecture for a next generation of OGC services
-("OGC NextGen services") based on the approach taken by WFS 3.0.
+based on the approach taken by WFS 3.0.
 
 This chapter is organized in three parts. First, we summarize how the different
 XML and JSON encodings match the requirements. Second, we look at different
@@ -826,7 +826,7 @@ on the zoom level (e.g. no buildings at a scale of 1:1.000.000).
 
 In parallel to OGC Testbed 14 another OGC Innovation Program initiative, the
 Vector Tiles Pilot, is investigating how Vector Tiles should be provided via
-an OGC NextGen service API as Mapbox Vector Tiles (using Google Protocol Buffers)
+a NextGen service Web API as Mapbox Vector Tiles (using Google Protocol Buffers)
 and as GeoJSON. Of course, the tiles could also be rendered as bitmap images, too,
 if the server has styling information.
 
@@ -840,7 +840,7 @@ proposed above, a query parameter `collections` should be added to access only
 features from a selected list of collections in the response.
 
 These paths (in addition to paths for the tiling scheme information) represent
-the capabilities of an OGC WMTS in the OGC NextGen architecture.
+the capabilities of an OGC WMTS in a NextGen architecture.
 
 In addition, Google Protocol Buffers following the Mapbox Vector Tile format
 could also be served from the `/collections/{collectionId}/items` path as an

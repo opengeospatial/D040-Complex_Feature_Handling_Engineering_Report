@@ -408,7 +408,7 @@ of complex feature handling, for at least two reasons:
 feature selection mechanisms are the same as in WFS 2.0 - both use the Filter Encoding
 standard.
 * In this report, we are not limited to WFS only, but we want to consider other
-aspects that are relevant for future OGC NextGen services, too. As OGC NextGen services
+aspects that are relevant for spatial Web APIs, too. As NextGen services
 will have to be able to support API building blocks for providing maps, scenes,
 vector tiles, etc., the related query aspects need to be considered, too.
 
