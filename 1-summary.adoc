@@ -16,6 +16,9 @@ monolithic web services, but Web API building blocks. This is an important point
 The same API should be able to support requirements that currently require
 separate OGC web services, e.g. a WFS and a 3D Portrayal Service (3DPS).
 
+The purpose of this work is not to preempt other next-generation discussions
+taking place in OGC but rather to inform and complement that work.
+
 The report includes proposals on how to extend the NextGen service architecture
 with API building blocks for complex data, complex queries and 3D portrayal.
 WFS 3.0, Part 1, is used as the starting point for the NextGen service architecture.
