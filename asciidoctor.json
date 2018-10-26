@@ -1,0 +1,17 @@
+{
+        "0": {
+                "OGC_doc_number": "18-021",
+                "urn":"http://www.opengis.net/doc/PER/T14-D040",
+                "title":"OGC Testbed-14: Next Generation APIs: Complex Feature Handling Engineering Report (DRAFT)",
+                "path":"er.adoc",
+                "options": ["--trace"],
+                "a":[
+                        "data-uri",
+                        "dot=/usr/bin/dot"
+                ],
+                "r":[
+                        "asciidoctor-bibtex",
+                        "asciidoctor-diagram"
+                ]
+        }
+}
