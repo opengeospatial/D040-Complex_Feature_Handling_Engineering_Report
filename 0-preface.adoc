@@ -8,7 +8,7 @@
 
 *COPYRIGHT*
 
-Copyright © {copyrightYear} Open Geospatial Consortium.
+Copyright (c) {copyrightYear} Open Geospatial Consortium.
 To obtain additional rights of use, visit http://www.opengeospatial.org/
 
 
