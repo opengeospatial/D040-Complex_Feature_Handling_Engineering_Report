@@ -97,8 +97,10 @@ Experiments should focus on JSON encodings.
 
 Open questions include:
 
-* To what extent can existing encodings like GeoJSON and CityJSON be used in
+* To what extent should existing encodings like GeoJSON and CityJSON be used in
 GraphQL schemas?
+* Would there be any value in having a general mapping from an application schema
+to a GraphQL query schema?
 * How can GraphQL queries be extended to support spatial searches - without
 the need to discard the tooling?
 
@@ -111,8 +113,14 @@ experiments, then supporting a GraphQL query endpoint for feature data
 should not be subject to standarization as a WFS extension.
 Instead guides or tutorials would be more appropriate and useful.
 
-What still could be subject to standarization is the second question. That is,
-how to consistently support spatial searches in GraphQL queries.
+Or, alternatively, there could be value in specifying a general (default)
+mapping from an application schema to a GraphQL query schema. This could
+be used as a starting point, too, and be tailored towards the specific
+application needs of the deployment.
+
+In addition, the third question could be a potential subject of future
+standarization. That is, how to consistently support spatial searches in
+GraphQL queries.
 
 [[rec-4]]
 === Recommendation 4: Consider the use of CityJSON for 3D city models
@@ -132,9 +140,6 @@ should not be promoted as OGC standards as the details may be implementation
 dependent and too few implementations would support the same advanced
 capabilities.
 
-The <<_general_considerations,general considerations on the API design>>
-discussed in chapter 7 should be taken into account when developing the guidance.
-
 Examples could be:
 
 * the use of XQuery on a document store that supports XML or a XML database;
@@ -145,6 +150,17 @@ WFS 2.0 in addition to WFS 3.0;
 underlying datastore (for example, a WFS 3.0 that uses a MongoDB datastore
 probably would support a query mechanism that directly maps to the
 link:https://docs.mongodb.com/manual/tutorial/query-documents/[native MongoDB queries]).
+
+The <<_general_considerations,general considerations on the API design>>
+discussed in chapter 7 should be taken into account when developing the guidance.
+
+In particular for query languages that are close to the query mechanisms of the
+backend datastore, the security implications should be considered and servers
+should inspect a query thoroughly before executing it on the backend datastore
+(for example, the queries should be analysed for malicious content or to verify
+that they do not place an undesired burden on the server. It should not be
+forgotten that exposing rich query capabilities via a Web API is a potential
+security risk.
 
 [[rec-6]]
 === Recommendation 6: Validate and refine recommendations through implementation

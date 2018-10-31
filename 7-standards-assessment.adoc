@@ -211,6 +211,9 @@ property value is a related object in the dataset, the queryables resource
 of that collection could be referenced. For nested objects, the compound
 attribute values could be used explicitly.
 
+It should also be allowed to declare queryables that do not have to be, for
+example, a direct member of the `properties` object in a GeoJSON feature.
+
 CQL is currently "buried" in the Catalogue Service specification and the
 specification of the language is largely restricted to the definition of the
 grammar (with a number of inconsistencies and ambiguities in the definition).
