@@ -903,16 +903,30 @@ In addition, the other parameters of the GetScene request (beside `request`,
 `version` and `format` which are no longer needed as this is handled
 differently) would be supported, too. For example, `lods` or `styles`.
 
-It is planned by HFT to implement an experimental 3D Portrayal Service scene
+
+~~It is planned by HFT to implement an experimental 3D Portrayal Service scene
 resource following this approach based on the Testbed 13 showcase using the
-3D CityGML model of New York described <<uc-3d,here>>. The request
+3D CityGML model of New York described <<uc-3d,here>>. The request~~
+
+
+HFT has implemented an experimental 3D Portrayal Service scene
+resource following this approach based on the Testbed 13 showcase using the
+3D CityGML model of New York described <<uc-3d,here>>. The implementation is based on 
+openAPI and the REST API can be tested [here](http://steinbeis-3dps.eu:8080/tb14/API/index.html).  
+
+Alternatively, to use the call in your application make the following request by defining the correct **bbox** coordinates~~
 
 ----
-../3D_CityModel_manhattan/collections/buildings/scene?bbox=-74.0064,40.7178,-73.9739,40.7507
+~~~../3D_CityModel_manhattan/collections/buildings/scene?bbox=-74.0064,40.7178,-73.9739,40.7507~~
 ----
 
-will deliver a 3D building model (as one layer of the 3D city model (3D-DLM))
-of Manhattan using 3D Tiles. It can be rendered in the Cesium globe.
+----
+http://steinbeis-3dps.eu:8080/tb14/wfs3/3D_CityModel_manhattan/collections/buildings/scene?format=application%2Fjson&bbox=-74.0064%2C40.7178%2C-73.9739%2C40.7507
+----
+
+The aforementioned call will deliver a 3D building model (as one layer of the 3D city model (3D-DLM))
+of Manhattan using 3D Tiles. It can be rendered in the Cesium globe. A prototype implemetation can be accessed [here](http://81.169.187.7:8081/3DPS_App/)
+
 
 To include multiple layers (for example, buildings and vegetation), the request
 would be:
