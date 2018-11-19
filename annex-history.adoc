@@ -20,4 +20,5 @@
 |October 16, 2018 |C. Portele |0.12 |8.1 |add paragraph about the time parameter, update title
 |October 22, 2018 |C. Portele |0.13 |title, 1 |another title update
 |October 31, 2018 |C. Portele |0.14 |7, 8 |updates on recommendations 3 and 5, add clarification on queryables
+|November 19, 2018 |C. Portele |0.15 |7.4.2 |add reference to 3DPS prototype of HfT 
 |====================

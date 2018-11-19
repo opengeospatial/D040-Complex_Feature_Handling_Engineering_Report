@@ -941,6 +941,10 @@ link:https://github.com/AnalyticalGraphicsInc/3d-tiles/tree/master/specification
 (in particular `application/json`). This should be changed as the use of the
 general media types is ambiguous.
 
+The Hochschule für Technik Stuttgart has implemented a prototype
+of such an API as a facade on top of the 3DPS implementation from Testbed 13, which
+uses the New York dataset.
+
 ==== Other 3DPS requests
 
 In addition to scenes, the 3DPS 1.0 standard cite:[_3DPS] specifies additional
