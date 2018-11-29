@@ -904,12 +904,11 @@ In addition, the other parameters of the GetScene request (beside `request`,
 differently) would be supported, too. For example, `lods` or `styles`.
 
 
-
 Steinbeis Transfer Center at HFT Stuttgart (Steinbeis) has implemented an experimental 3D Portrayal Service scene
-resource following this approach based on the Testbed 13 showcase using the
+resource following the approach based on the Testbed 13 showcase using the
 3D CityGML model of New York described http://docs.opengeospatial.org/per/17-046.html[here]. The implementations is based on openAPI and the REST API can be tested http://steinbeis-3dps.eu:8080/tb14/API/index.html[http://steinbeis-3dps.eu:8080/tb14/API/index.html].  
 
-Alternatively, to use the call in your application make the following request by defining the correct **bbox** coordinates
+Alternatively, to use the REST API call in your application make the following request by defining the correct **bbox** coordinates
 
 
 ----
@@ -918,49 +917,51 @@ Alternatively, to use the call in your application make the following request by
 
 The aforementioned call will deliver a 3D building model (as one layer of the 3D city model (3D-DLM))
 of Manhattan using 3D Tiles. It can be rendered in the Cesium globe (See Fig 1). A prototype implemetation can be accessed (http://81.169.187.7:8081/3DPS_App/)
+
+
 [#img-App]
 .Cesium Globe 3D Tiles Manhattan 
 image::images/3dps6.png[3D]
 
-The current implementation supports two functionalities **Data Layer** and **3D Scene** (See Fig. 2). 
+The current OpenAPI implementation supports two functionalities **Data Layer** and **3D Scene** (See Fig. 2). 
 
 [#img-App2]
 .OpenAPI 
 image::images/3dps1.png[]
 
-The **data Layer** function is 
-used to retrieve the name of the available data layers. The implementation supports one layer only:  “3D_CityModel_manhattan” . However in case the service supports more then one data layer will be a list of supported data layers.
+The **data Layer** function is used to retrieve the name of the available data layers. The current implementation supports one layer only:  _“3D_CityModel_manhattan”_ . However, in case the service supports more then one data layer it will show a list of supported data layers.
+
 ----
 {“datalayer ”: “3D_CityModel_manhattan,3D_CityModel_geneva,3D_CityModel_stuttgart"}
 ----
-The REST API call can be tested by first clicking on the _Try it out_  button and then _execute_ button. 
+
+To test the REST API call, first clicking on the _Try it out_  button and then _execute_ button.
+
 [#img-App3]
 .OpenAPI Data Layer
 image::images/3dps2.png[]
 
-Since the call does not take any input you will see the output as shown in Fig 3. In addition, it also shows the curl request with all the necessary query parameters.
+Since this call does not take any input you will see the output as shown in Fig 3. In addition, it also shows the curl request with all the necessary query parameters.
 
-
-The **3D Scene** function takes three input. The first is the path parameter(layer) and the remaining two are query parameters(format,bbox) see Fig 4
+The **3D Scene** function on the other hand takes three input. The first is the path parameter(_layer_) and the remaining two are query parameters(_format_,_bbox_) see Fig 4
 
 [#img-App4]
 .OpenAPI 3D Scene
 image::images/3dps3.png[]
 
+A Successful execution will provide the a tilesetlink (see example below)
 
-Successful execution will provide the a tilesetlink (see example below)
 ----
 {"tilesetLink" ::"http://tb13.igd.fraunhofer.de:8083/3dps/datahoster/fc38b549-4989-4703-bb27-f5b4fd33fd90/manhattan/tileset.json"}
 ----
 
-This tilesetLink can be rendered in the Cesium globe. To show the feasibility of our approach we have developed a prototype see Fig 5. Please visit the following http://81.169.187.7:8081/3DPS_App/[ http://81.169.187.7:8081/3DPS_App/]. 
+This _tilesetLink_ can be rendered in the Cesium globe. To show the feasibility of our approach we have developed an intergrated  prototype see Fig 5. Please visit the following http://81.169.187.7:8081/3DPS_App/[ http://81.169.187.7:8081/3DPS_App/]. 
 
 [#img-App5]
 .3DPS APP
 image::images/3dps5.png[]
 
-
-You can also visit the you tube link https://www.youtube.com/watch?v=6EwlwAhtK7Q[https://www.youtube.com/watch?v=6EwlwAhtK7Q] to educate yourself how to use the platform.
+To educate yourself and get use the platform please visit the you tube link https://www.youtube.com/watch?v=6EwlwAhtK7Q[https://www.youtube.com/watch?v=6EwlwAhtK7Q].
 
 
 NOTE: Multiple Layers is not yet implemented
