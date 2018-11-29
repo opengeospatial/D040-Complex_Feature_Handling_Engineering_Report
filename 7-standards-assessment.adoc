@@ -904,16 +904,13 @@ In addition, the other parameters of the GetScene request (beside `request`,
 differently) would be supported, too. For example, `lods` or `styles`.
 
 
-~~It is planned by HFT to implement an experimental 3D Portrayal Service scene
-resource following this approach based on the Testbed 13 showcase using the
-3D CityGML model of New York described <<uc-3d,here>>. The request~~
-
 
 Steinbeis Transfer Center at HFT Stuttgart (Steinbeis) has implemented an experimental 3D Portrayal Service scene
 resource following this approach based on the Testbed 13 showcase using the
 3D CityGML model of New York described http://docs.opengeospatial.org/per/17-046.html[here]. The implementations is based on openAPI and the REST API can be tested http://steinbeis-3dps.eu:8080/tb14/API/index.html[http://steinbeis-3dps.eu:8080/tb14/API/index.html].  
 
-Alternatively, to use the call in your application make the following request by defining the correct **bbox** coordinates~~
+Alternatively, to use the call in your application make the following request by defining the correct **bbox** coordinates
+
 
 ----
  http://steinbeis-3dps.eu:8080/tb14/wfs3/3D_CityModel_manhattan/collections/buildings/scene?format=application/json&bbox=-73.99562241015136,40.72227595290325,-73.9799164993194,40.749273379993284
