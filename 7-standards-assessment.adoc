@@ -917,13 +917,15 @@ Alternatively, to use the call in your application make the following request by
 ----
 
 The aforementioned call will deliver a 3D building model (as one layer of the 3D city model (3D-DLM))
-of Manhattan using 3D Tiles. It can be rendered in the Cesium globe. A prototype implemetation can be accessed (http://81.169.187.7:8081/3DPS_App/)
+of Manhattan using 3D Tiles. It can be rendered in the Cesium globe (See Fig 1). A prototype implemetation can be accessed (http://81.169.187.7:8081/3DPS_App/)
 [#img-App]
-.Cesium globe 
+.Cesium Globe 3D Tiles Manhattan 
 image::images/3dps6.png[3D]
 
-The current implementation supports two functionalities **Data Layer** and **3D Scene** (See Fig. xxx). 
+The current implementation supports two functionalities **Data Layer** and **3D Scene** (See Fig. 2). 
 
+[#img-App2]
+.OpenAPI 
 image::images/3dps1.png[]
 
 The **data Layer** function is 
@@ -932,14 +934,17 @@ used to retrieve the name of the available data layers. The implementation suppo
 {“datalayer ”: “3D_CityModel_manhattan,3D_CityModel_geneva,3D_CityModel_stuttgart"}
 ----
 The REST API call can be tested by first clicking on the _Try it out_  button and then _execute_ button. 
-
+[#img-App2]
+.OpenAPI Data Layer
 image::images/3dps2.png[]
 
-Since the call does not take any input you will see the output as shown in Fig xxx. In addition, it also shows the curl request with all the necessary query parameters.
+Since the call does not take any input you will see the output as shown in Fig 3. In addition, it also shows the curl request with all the necessary query parameters.
 
 
-The **3D Scene** function takes three input. The first is the path parameter(layer) and the remaining two are query parameters(format,bbox) see Fig
+The **3D Scene** function takes three input. The first is the path parameter(layer) and the remaining two are query parameters(format,bbox) see Fig 4
 
+[#img-App2]
+.OpenAPI 3D Scene
 image::images/3dps3.png[]
 
 
