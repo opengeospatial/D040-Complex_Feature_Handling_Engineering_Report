@@ -921,7 +921,7 @@ http://steinbeis-3dps.eu:8080/tb14/wfs3/3D_CityModel_manhattan/collections/build
 
 The aforementioned call will deliver a 3D building model (as one layer of the 3D city model (3D-DLM))
 of Manhattan using 3D Tiles. It can be rendered in the Cesium globe. A prototype implemetation can be accessed (http://81.169.187.7:8081/3DPS_App/)
-images/3dps1.png
+image::images/3dps1.png
 
 
 
