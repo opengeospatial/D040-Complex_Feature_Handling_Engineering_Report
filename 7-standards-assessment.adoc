@@ -927,16 +927,18 @@ image::images/3dps6.png
 The current implementation supports two functionalities **Data Layer** and **3D Scene** (See Fig. xxx). 
 image::images/3dps1.png
 
-The data Layer function is 
-used to retrieve the name of the available data layers. The implementation supports one layer only:  “3D_CityModel_manhattan” . However in case the service supports more then one data layer will be a list of supported data layers (eg. {“datalayer ”: “3D_CityModel_manhattan,3D_CityModel_geneva,3D_CityModel_stuttgart"}. The REST API call can be tested by first clicking on the _Try it out_  button and then _execute_ button. 
+The **data Layer** function is 
+used to retrieve the name of the available data layers. The implementation supports one layer only:  “3D_CityModel_manhattan” . However in case the service supports more then one data layer will be a list of supported data layers.
+----
+{“datalayer ”: “3D_CityModel_manhattan,3D_CityModel_geneva,3D_CityModel_stuttgart"}
+----
+The REST API call can be tested by first clicking on the _Try it out_  button and then _execute_ button. 
 
 image::images/3dps2.png
 Since the call does not take any input you will see the output as shown in Fig xxx. In addition, it also shows the curl request with all the necessary query parameters.
 
 
-
-
-The 3D Scene function takes three input. The first is the path parameter(layer) and the remaining two are query parameters(format,bbox) see Fig
+The **3D Scene** function takes three input. The first is the path parameter(layer) and the remaining two are query parameters(format,bbox) see Fig
 
 image::images/3dps3.png
 
