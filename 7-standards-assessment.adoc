@@ -924,7 +924,7 @@ of Manhattan using 3D Tiles. It can be rendered in the Cesium globe. A prototype
 
 image::images/3dps6.png
 
-The current implementation supports two functionalities Data Layer and 3D Scene (See Fig. xxx). 
+The current implementation supports two functionalities **Data Layer** and **3D Scene** (See Fig. xxx). 
 image::images/3dps1.png
 
 The data Layer function is 
