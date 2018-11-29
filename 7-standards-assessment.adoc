@@ -948,7 +948,7 @@ Successful execution will provide the a tilesetlink (see example below)
 
 This tilesetLink can be rendered in the Cesium globe. To show the feasibility of our approach we have developed a prototype see Fig xxx. Please visit the following http://81.169.187.7:8081/3DPS_App/[ http://81.169.187.7:8081/3DPS_App/]. 
 
-You can also visit the you tube link https://www.youtube.com/watch?v=G_gpPgISNww [https://www.youtube.com/watch?v=G_gpPgISNww] to educate yourself how to use the platform.
+You can also visit the you tube link https://www.youtube.com/watch?v=G_gpPgISNww[https://www.youtube.com/watch?v=G_gpPgISNww] to educate yourself how to use the platform.
 
 
 To include multiple layers (for example, buildings and vegetation), the request
