@@ -945,7 +945,7 @@ image::images/3dps2.png[align="center"]
 
 Since this call does not take any input you will see the output as shown in <<img-App3>>. In addition, it also shows the curl request with all the necessary query parameters.
 
-The **3D Scene** function on the other hand takes three input. The first is the path parameter(_layer_) and the remaining two are query parameters(_format_,_bbox_) see <<img-App4>>
+The **3D Scene** function on the other hand takes three input parameters. The first is a path parameter (_layer_) and the remaining two are query parameters (_format_,_bbox_) see <<img-App4>>
 
 [#img-App4,reftext='{figure-caption} {counter:figure-num}']
 .OpenAPI 3D Scene
