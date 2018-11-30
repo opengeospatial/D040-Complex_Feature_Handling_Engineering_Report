@@ -916,14 +916,14 @@ Alternatively, to use the Web API call in your application, make the following r
 ----
 
 The aforementioned call will deliver a 3D building model (as one layer of the 3D city model (3D-DLM))
-of Manhattan using 3D Tiles. It can be rendered in the Cesium globe (See Fig 1). A prototype implemetation is available at http://81.169.187.7:8081/3DPS_App/.
+of Manhattan using 3D Tiles. It can be rendered in the Cesium globe (See <<img-App>>.). A prototype implemetation is available at http://81.169.187.7:8081/3DPS_App/.
 
 
 [#img-App,reftext='{figure-caption} {counter:figure-num}']
 .Cesium Globe 3D Tiles Manhattan 
 image::images/3dps6.png[align="center"]
 
-The current OpenAPI implementation supports two functionalities **Data Layer** and **3D Scene** (See Fig. 2). 
+The current OpenAPI implementation supports two functionalities **Data Layer** and **3D Scene** (See <<img-App2>>.). 
 
 [#img-App2,reftext='{figure-caption} {counter:figure-num}']
 .OpenAPI definition 
@@ -941,9 +941,9 @@ To test the Web API, first click on the _Try it out_  button and then the _Execu
 .OpenAPI Data Layer
 image::images/3dps2.png[align="center"]
 
-Since this call does not take any input you will see the output as shown in Fig 3. In addition, it also shows the curl request with all the necessary query parameters.
+Since this call does not take any input you will see the output as shown in <<img-App3>>. In addition, it also shows the curl request with all the necessary query parameters.
 
-The **3D Scene** function on the other hand takes three input. The first is the path parameter(_layer_) and the remaining two are query parameters(_format_,_bbox_) see Fig 4
+The **3D Scene** function on the other hand takes three input. The first is the path parameter(_layer_) and the remaining two are query parameters(_format_,_bbox_) see <<img-App4>>
 
 [#img-App4,reftext='{figure-caption} {counter:figure-num}']
 .OpenAPI 3D Scene
@@ -955,7 +955,7 @@ A Successful execution will provide the a tileset link (see example below)
 tilesetLink :http://tb13.igd.fraunhofer.de:8083/3dps/datahoster/fc38b549-4989-4703-bb27-f5b4fd33fd90/manhattan/tileset.json
 ----
 
-This _tilesetLink_ can be rendered in the Cesium globe. To show the feasibility of our approach we have developed an intergrated  prototype see Fig 5. Please visit the following http://81.169.187.7:8081/3DPS_App/[ http://81.169.187.7:8081/3DPS_App/]. 
+This _tilesetLink_ can be rendered in the Cesium globe. To show the feasibility of our approach we have developed an intergrated  prototype see <<img-App5>>. Please visit the following http://81.169.187.7:8081/3DPS_App/[ http://81.169.187.7:8081/3DPS_App/]. 
 
 [#img-App5,reftext='{figure-caption} {counter:figure-num}']
 .3DPS APP
@@ -964,7 +964,7 @@ image::images/3dps5.png[align="center"]
 To educate yourself and get use the platform please visit the you tube link https://www.youtube.com/watch?v=6EwlwAhtK7Q[https://www.youtube.com/watch?v=6EwlwAhtK7Q].
 
 
-+NOTE: Multiple layers are not implemented in the prototype.
+NOTE: Multiple layers are not implemented in the prototype.
 
 To include multiple layers (for example, buildings and vegetation), the request
 would be:
