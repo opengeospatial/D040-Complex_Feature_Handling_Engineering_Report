@@ -951,7 +951,7 @@ The **3D Scene** function on the other hand takes three input. The first is the 
 .OpenAPI 3D Scene
 image::images/3dps3.png[align="center"]
 
-A Successful execution will provide the a tileset link (see example below)
+A Successful execution will provide the tileset link (see example below)
 
 ----
 tilesetLink :http://tb13.igd.fraunhofer.de:8083/3dps/datahoster/fc38b549-4989-4703-bb27-f5b4fd33fd90/manhattan/tileset.json
