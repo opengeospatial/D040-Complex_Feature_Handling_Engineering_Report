@@ -935,6 +935,8 @@ The **data Layer** function is used to retrieve the name of the available data l
 {“datalayer ”: “3D_CityModel_manhattan,3D_CityModel_geneva,3D_CityModel_stuttgart"}
 ----
 
+NOTE: A simplified approach in taken in the prototype.
+
 To test the Web API, first click on the _Try it out_  button and then the _Execute_ button.
 
 [#img-App3,reftext='{figure-caption} {counter:figure-num}']
