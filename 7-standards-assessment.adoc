@@ -931,7 +931,7 @@ The **data Layer** resource is used to retrieve the name of the available data l
 NOTE: **data Layer** will be changed to **dataset** in the next update.
 
 ----
-{“datalayer ”: “3D_CityModel_manhattan,3D_CityModel_geneva,3D_CityModel_stuttgart"}
+{ "datalayer": "3D_CityModel_manhattan,3D_CityModel_geneva,3D_CityModel_stuttgart" }
 ----
 
 NOTE: A simplified approach in taken in the prototype.
@@ -953,7 +953,7 @@ image::images/3dps3.png[align="center"]
 A successful execution will provide the tileset link (see example below).
 
 ----
-tilesetLink :http://tb13.igd.fraunhofer.de:8083/3dps/datahoster/fc38b549-4989-4703-bb27-f5b4fd33fd90/manhattan/tileset.json
+"tilesetLink": "http://tb13.igd.fraunhofer.de:8083/3dps/datahoster/fc38b549-4989-4703-bb27-f5b4fd33fd90/manhattan/tileset.json"
 ----
 
 NOTE: A simplified approach in taken in the prototype.
