@@ -22,4 +22,5 @@
 |October 31, 2018 |C. Portele |0.14 |7, 8 |updates on recommendations 3 and 5, add clarification on queryables
 |November 19, 2018 |C. Portele |0.15 |7.4.2 |add reference to 3DPS prototype of HfT
 |December 1, 2018 |P. Rodrigues, C. Portele |0.16 |7.4.2 |add detail about the 3DPS prototype
+|December 13, 2018 |C. Portele |0.17 |5.2.5, 7.4.1 |use "tiled vector data" instead of "vector tiles"
 |====================

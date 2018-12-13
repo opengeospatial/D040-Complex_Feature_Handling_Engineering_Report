@@ -828,7 +828,7 @@ located in the bounding box of a tile are included in the tile will depend
 on the zoom level (e.g. no buildings at a scale of 1:1.000.000).
 
 In parallel to OGC Testbed 14 another OGC Innovation Program initiative, the
-Vector Tiles Pilot, is investigating how Vector Tiles should be provided via
+Vector Tiles Pilot, is investigating how tiled vector data should be provided via
 a NextGen service Web API as Mapbox Vector Tiles (using Google Protocol Buffers)
 and as GeoJSON. Of course, the tiles could also be rendered as bitmap images, too,
 if the server has styling information.
