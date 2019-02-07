@@ -316,7 +316,7 @@ more complex and has been simplified to the relevant aspects for this use case.
 CadastralParcel (AX_Flurstueck)::
   A cadastral parcel.
 
-[#img_PS,reftext='{figure-caption} {counter:figure-num}']
+[#img_PST,reftext='{figure-caption} {counter:figure-num}']
 .UML class diagram for features in use case "Select versions of cadastral parcels based on their temporal validity"
 [plantuml, images/CadastralParcel, png, align="center"]
 ....
@@ -431,7 +431,7 @@ CadastralParcel (AX_Flurstueck)::
 Text (AP_PTO)::
   A map text for display on a map for a feature.
 
-[#img_PS,reftext='{figure-caption} {counter:figure-num}']
+[#img_PSS,reftext='{figure-caption} {counter:figure-num}']
 .UML class diagram for features in use case "Select cadastral parcels for rendering with a specific style"
 [plantuml, images/SE, png, align="center"]
 ....
