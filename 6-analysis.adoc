@@ -368,7 +368,7 @@ in the WFS 3.0 development):
 * link:https://github.com/opengeospatial/WFS_FES/issues/16[without the geometry],
 * or any subset of the feature properties, including a single property.
 
-WFS 2.0 supports this capability using a
+WFS 2.0 supports this capability using 
 link:http://docs.opengeospatial.org/is/09-025r2/09-025r2.html#96[so-called projection clauses]
 as well as using the
 link:http://docs.opengeospatial.org/is/09-025r2/09-025r2.html#155[GetPropertyValue operation].

@@ -6,23 +6,21 @@ For the purposes of this report, the definitions specified in Clause 4 of the OW
 
 The following terms and definitions apply:
 
-dataset::
-  collection of data, published or curated by a single agent, and available for access or download in one or more formats +
-  [W3C Data Catalog Vocabulary (DCAT)]
+* dataset
 
-NOTE: The use of 'collection' in the definition from DCAT is broader than
-the use of the term in WFS 3.0. See the definition of
-<<feature_collection,'feature collection'>>.
+ collection of data, published or curated by a single agent, and available for access or download in one or more formats [W3C Data Catalog Vocabulary (DCAT)]
 
-distribution::
-  represents an accessible form of a *dataset* +
-  [W3C Data Catalog Vocabulary (DCAT)]
+NOTE: The use of 'collection' in the definition from DCAT is broader than the use of the term in WFS 3.0. See the definition of <<feature_collection,'feature collection'>>.
+
+* distribution
+
+ represents an accessible form of a dataset [W3C Data Catalog Vocabulary (DCAT)]
 
 NOTE: Examples are: a downloadable file, an RSS feed or a web service that provides the data.
 
-feature::
-  abstraction of real world phenomena +
-  [ISO 19101-1:2014]
+* feature
+
+ abstraction of real world phenomena [ISO 19101-1:2014]
 
 NOTE: If you are unfamiliar with the term 'feature', the explanations in
 the W3C/OGC Spatial Data on the Web Best Practice document cite:[SDWBP]
@@ -30,75 +28,47 @@ may help, in particular the section on
 link:https://www.w3.org/TR/sdw-bp/#spatial-things-features-and-geometry[Spatial Things, Features and Geometry].
 
 [[_feature_collection]]
-feature collection; collection::
-  a set of *features* from a *dataset* +
-  [<<wfs30,OGC Web Feature Service 3.0: Part 1 - Core>>]
+* feature collection | collection
 
-NOTE: In WFS 3.0, 'collection' is used as a synonym for 'feature
-collection'. This is done to make, for example, URI path expressions shorter
-and easier to understand for those that are not geo-experts.
+ a set of features from a dataset [OGC Web Feature Service 3.0: Part 1 - Core]
 
-OpenAPI definition | OpenAPI document::
-  a document (or set of documents) that defines or describes an API and conforms to the OpenAPI Specification +
-  [derived from <<OpenAPI,OpenAPI Specification>>]
+NOTE: In WFS 3.0, 'collection' is used as a synonym for 'feature collection'. This is done to make, for example, URI path expressions shorter and easier to understand for those that are not geo-experts.
+
+* OpenAPI definition | OpenAPI document
+
+ a document (or set of documents) that defines or describes an API and conforms to the OpenAPI Specification [derived from the OpenAPI Specification]
+
+
 
 ===	Abbreviated terms
 
-2D::
-  two-dimensional
-3D::
-  three-dimensional
-3DPS::
-  3D Portrayal Service
-ADE::
-  Application Domain Extension
-API::
-	Application Programming Interface
-CQL::
-  Common Query Language
-CRS::
-  Coordinate Reference System
-DCAT::
-  Data Catalog Vocabulary
-DWG::
-  Domain Working Group
-FES::
-  Filter Encoding Specification
-GML::
- Geography Markup Language
-HTML::
-  Hypertext Markup Language
-IANA::
-  Internet Assigned Numbers Authority
-JRC::
-  Joint Research Centre of the European Commission
-JSON::
- Java Script Object Notation
-LoD::
-  Level of Detail
-NAS::
-  Normbasierte Austauschschnittstelle (Standards-based Data Exchange Interface)
-OGC::
-  Open Geospatial Consortium
-REST::
-  Representational State Transfer
-SLD::
-  Styled Layer Descriptor
-SE::
-  Symbology Encoding
-SWG::
-  Standards Working Group
-STAC::
-  SpatioTemporal Asset Catalog
-UTC::
-  Coordinated Universal Time
-W3C::
-  World Wide Web Consortium
-WFS::
- Web Feature Service
-WMS::
-  Web Map Service
-WMTS::
-  Web Map Tile Service
-XML::
- Extensible Markup Language
+* COM	Component Object Model
+* 2D two-dimensional
+* 3D three-dimensional
+* 3DPS 3D Portrayal Service
+* ADE Application Domain Extension
+* API Application Programming Interface
+* CQL Common Query Language
+* CRS Coordinate Reference System
+* DCAT Data Catalog Vocabulary
+* DWG Domain Working Group
+* FES Filter Encoding Specification
+* GML Geography Markup Language
+* HTML Hypertext Markup Language
+* IANA Internet Assigned Numbers Authority
+* JRC Joint Research Centre of the European Commission
+* JSON Java Script Object Notation
+* LoD Level of Detail
+* NAS Normbasierte Austauschschnittstelle (Standards-based Data Exchange Interface)
+* OGC Open Geospatial Consortium
+* REST Representational State Transfer
+* SLD Styled Layer Descriptor
+* SE Symbology Encoding
+* SWG Standards Working Group
+* STAC SpatioTemporal Asset Catalog
+* UTC Coordinated Universal Time
+* W3C World Wide Web Consortium
+* WFS Web Feature Service
+* WMS Web Map Service
+* WMTS Web Map Tile Service
+* XML Extensible Markup Language

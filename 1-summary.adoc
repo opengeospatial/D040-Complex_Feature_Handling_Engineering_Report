@@ -5,7 +5,7 @@ link:http://www.opengeospatial.org/standards/wfs[WFS standard] that proposes a
 modernized service architecture, that follows the current Web architecture, has
 a focus on the developer experience, supports the link:https://www.openapis.org/[OpenAPI specification], and
 modularizes WFS into building blocks for fine-grained access to spatial data
-that can be used in Application Programming Interfaces (APIs) for data.
+that can be used by an Application Programming Interface (API) for data.
 
 This document reviews the work that proposes a next generation of OGC web services
 ("NextGen services" or "Next Generation APIs") from the perspective of supporting complex
@@ -45,7 +45,7 @@ specified in Part 1 of the WFS 3.0 series. These will include the following:
 
 * Querying / filtering features based on properties of related or nested objects
 or structured data types, including cases where more than one level of
-relationships/nesting is used;
+relationship/nesting is used;
 * Querying / filtering features based on expressions built from complex predicates
 consisting of predicate groups and combinations of logical operators;
 * Querying feature data and returning only parts of the features (selected
@@ -55,7 +55,7 @@ Reference System (CRS);
 * Use of responses for display in a web browser;
 * Accessing different versions (including historic representations) of features.
 
-The use cases cover aspects like CityGML, CityGML ADEs, 3DPS, and WFS 2.0
+The use cases cover aspects like CityGML, CityGML Application Domain Extensions (ADEs), 3DPS, and WFS 2.0
 interactions, but use other complex data schemas as background, too.
 
 Based on the identified requirements, this report addresses the following
@@ -78,13 +78,13 @@ rich queries on complex data.
 
 === Prior-After Comparison
 
-The current work on WFS 3.0 in the WFS/FES Standards Working Group (SWG) has
+The current work on WFS 3.0 in the Web Feature Service/Filter Encoding Specification (WFS/FES) Standards Working Group (SWG) has
 focused on simple features and interaction, interrogation and extraction
 of these. However, there are more
 complex use cases that require 3D data and/or more complex data schemas to
 achieve the results that a user is looking for.
 
-This work propose extensions to the NextGen service architecture to support
+This work proposes extensions to the NextGen service architecture to support
 such use cases.
 
 Initial discussions about related topics are:
@@ -94,7 +94,7 @@ link:https://github.com/opengeospatial/WFS_FES/issues/79[WFS 3.0 Search extensio
 * Representational State Transfer (REST) binding in the WFS 2.x and Filter
 Encoding Standard (FES) 2.x draft specifications: link:https://portal.opengeospatial.org/index.php?m=projects&a=view&project_id=390&tab=2&artifact_id=56200[Document folder in the OGC portal (only accessible to OGC WFS/FES SWG members)]
 
-Like the work in the WFS/FES SWG on WFS 3.0, the work on this report has been open
+Like the work in the WFS/FES SWG on WFS 3.0, the work presented by this report has been open
 to the public from the beginning in order to allow early feedback from developers
 already during the testbed.
 
@@ -137,7 +137,7 @@ link:http://www.opengeospatial.org/standards/wfs[WFS standard] that proposes a
 modernized service architecture, that follows the current Web architecture, has
 a focus on the developer experience, supports the link:https://www.openapis.org/[OpenAPI specification],
 and modularizes WFS into building blocks for fine-grained access to spatial data
-that can be used in Application Programming Interfaces (APIs) for data.
+that can be used in APIs for data.
 
 OGC Testbed-14, the OGC Vector Tiles Pilot, the ongoing discussions in the OGC
 Architecture Board, the OGC Architecture DWG and the OWS Common SWG as well as

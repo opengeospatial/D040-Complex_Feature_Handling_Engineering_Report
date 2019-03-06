@@ -5,10 +5,6 @@ This chapter builds on the analysis in the previous chapters and derives
 recommendations for the most appropriate way to support the
 use cases within the NextGen service architecture.
 
-NOTE: This is a draft version of the document and it is expected that the
-recommendations will change based on feedback and discussions until the OGC
-TC meeting in December 2018.
-
 [[rec-1a]]
 === Recommendation 1a: Specify WFS 3.0 extensions for improved fetching of feature data
 
@@ -47,7 +43,7 @@ parameter should support the extended property notation, too.
 In addition, the Core should be amended to support
 <<_querying_different_versions,the capability to select, by default, only features that are valid "now">>.
 This is useful for datasets where the features are versions of a real-world entity, valid for a given time period.
-"By default" means, without an explicit `time` parameter. The default behaviour
+"By default" means, without an explicit `time` parameter. The default behavior
 could be stated in the feature collection metadata, the default would be the
 current WFS 3.0 behaviour (all features that meet the explicit selection
 criteria).

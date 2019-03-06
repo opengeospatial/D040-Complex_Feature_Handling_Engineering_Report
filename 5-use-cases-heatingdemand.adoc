@@ -21,7 +21,7 @@ The following aspects are covered:
 
 ==== Data
 
-* Open data 3D city model New York as used in Testbed-13 S3D performance. CityGML LoD 1/2 Building Model, no Textures
+* Open data 3D city model of New York as used in Testbed-13 S3D performance. CityGML LoD 1/2 Building Model, no Textures
 http://www1.nyc.gov/site/doitt/initiatives/3d-building.page; heating demand simulation is available (monthly energy balance) for Manhattan as "as is" simulation (simulated with SimStadt Software, HFT Stuttgart).
 * Open data 3D model of Essen as used in the Energy and Location Pilot of the the Joint Research Centre (JRC) of the European Commission. CityGML LoD 1/2 Building Model, no Textures; heating demand simulation is available (monthly energy balance) as "as is" simulation, medium refurbishment scenario, advanced refurbishment scenario (simulated with SimStadt Software, HFT Stuttgart).
 * Open data 3D model of Essen, a test area converted from CityGML to INSPIRE building model using HALE Studio.
@@ -40,16 +40,8 @@ The following aspects are covered by this use case:
 
 A 3DPS getScene request example from the New York showcase:
 
-link:http://tb13.igd.fraunhofer.de:8082/3dps?SERVICE=3DPS&VERSION=1.0&REQUEST=GetScene&LAYERS=manhattan&FORMAT=text/html&CRS=EPSG:4326&BOUNDINGBOX=-74.00635826977239,40.71778771238832,-73.97393297660074,40.75070138933127[http://tb13.igd.fraunhofer.de:8082/3dps? +
-  SERVICE=3DPS& +
-  VERSION=1.0& +
-  REQUEST=GetScene& +
-  LAYERS=manhattan& +
-  FORMAT=text/html& +
-  CRS=EPSG:4326& +
-  BOUNDINGBOX=-74.00635826977239,40.71778771238832,-73.97393297660074,40.75070138933127]
 
-CAUTION: The link appears to be broken.
+http://tb13.igd.fraunhofer.de:8082/3dps?SERVICE=3DPS&VERSION=1.0&REQUEST=GetScene&LAYERS=manhattan&FORMAT=text/html&CRS=EPSG:4326&BOUNDINGBOX=-74.00635826977239,40.71778771238832,-73.97393297660074,40.75070138933127
 
 In the existing implementation, 3D Tiles is used as content delivery format. See OGC Testbed-13 – 3D Tiles and I3S Interoperability and Performance Engineering Report cite:[Coors2018], link:http://docs.opengeospatial.org/per/17-046.html#Experiment2[experiment 2] for further details.
 
@@ -77,12 +69,7 @@ The following aspects are covered by this use case:
 
 A 3DPS getFeatureInfo request example from the New York showcase:
 
-link:http://81.169.187.7:3100/api/v2/endpoint?service=3DPS&version=1.0&request=GetFeatureInfoByObjectId&objectid=uuid_2824afd6-00e5-42ac-ab95-ec868595dc5a&dataset=ny_dataset[http://81.169.187.7:3100/api/v2/endpoint? +
-  SERVICE=3DPS& +
-  VERSION=1.0& +
-  REQUEST=GetFeatureInfoByObjectId& +
-  OBJECTID=uuid_2824afd6-00e5-42ac-ab95-ec868595dc5a& +
-  DATASET=ny_dataset]
+http://81.169.187.7:3100/api/v2/endpoint?service=3DPS&version=1.0&request=GetFeatureInfoByObjectId&objectid=uuid_2824afd6-00e5-42ac-ab95-ec868595dc5a&dataset=ny_dataset
 
 As this is requesting feature properties, such a request could also be directed
 to a WFS 2.0 with the building model. The building would be selected based on its
@@ -457,12 +444,13 @@ https://www.example.com/wfs?
 The result is shown as an image as the XML response itself is too verbose to
 show, and is not open data.
 
-CAUTION: The image does not fit to the query as buildings are shown, not trees;
-this needs to be updated.
 
 [#img_VCS3,reftext='{figure-caption} {counter:figure-num}']
-.get all buildings within a given distance of a point
-image::images/wfs_3_example3_VCS_result.png[align="center"]
+.get all vegetation within a given distance of a point
+image::images/vegetation.png[align="center"]
+
+//The image below did not match the example.
+//image::images/wfs_3_example3_VCS_result.png[align="center"]
 
 ===== Query 4: Select buildings based on ADE information
 

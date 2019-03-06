@@ -4,7 +4,7 @@
 ==== Description
 
 The dataset used in this section is about cadastral parcels and
-related information. It is using the
+related information. It uses the
 link:http://www.adv-online.de/AAA-Modell/[AFIS-ALKIS-ATKIS application schema]
 of the
 link:http://www.adv-online.de/[Surveying Authorities in Germany].
@@ -274,7 +274,7 @@ a specific version of the feature.
 
 The advantage of this approach is that no specific temporal support is required
 in clients processing the data. This pattern is therefore frequently used with
-data that is used in map-based GIS clients, for example, with dataset provided
+data that is used in map-based GIS clients, for example, with datasets provided
 by mapping or cadastral agencies.
 
 The other approach is to model the feature properties as timestamped sequences
