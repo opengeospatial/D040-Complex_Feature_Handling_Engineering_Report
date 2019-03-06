@@ -37,7 +37,7 @@
 // The title here should match the title on the first page.
 // *****************************************************************************
 
-:title: OGC Testbed-14 Next Generation APIs: Complex Feature Handling Engineering Report (DRAFT)
+:title: OGC Testbed-14 Next Generation APIs: Complex Feature Handling Engineering Report
 
 // *****************************************************************************
 // Document identifier, with format "OGC YY-nnn" (e.g., OGC 17-067).
@@ -51,7 +51,7 @@
 // Date posted to OGC Portal>Pending Documents, with format: yyyy-mm-dd.
 // *****************************************************************************
 
-:submissionDate: YYYY-MM-DD
+:submissionDate: 2018-11-19
 
 // *****************************************************************************
 // Names of all editors, comma-separated (e.g., John Doe, Sue Smith)
@@ -73,10 +73,10 @@
 // *****************************************************************************
 // Editors please do not alter the administrative front matter below.
 // *****************************************************************************
-:publicationDate: YYYY-MM-DD
-:approvalDate: YYYY-MM-DD
+:publicationDate: 2019-03-06
+:approvalDate: 2018-12-13
 :referenceURLID: D040
-:copyrightYear: 2018
+:copyrightYear: 2019
 //
 :titletext: {title}
 :doctype: book
